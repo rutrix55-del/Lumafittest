@@ -1,0 +1,18 @@
+# Paid product source — NEVER in git or in any public deploy.
+# Buyers get these from the private R2 bucket via /api/download.
+product/
+course/
+
+# Staging/build artifacts
+_deploy/
+dist/
+node_modules/
+*.zip
+
+# Internal docs & scripts — not secret, but they must not be served
+# as public pages on the live site (any repo file becomes a URL on Pages).
+LAUNCH.md
+STRIPE-SETUP.md
+DELIVERY-SETUP.md
+deploy.ps1
+test/
