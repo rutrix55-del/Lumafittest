@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="LumaFit">
+  <defs>
+    <!-- Brand peach to gold gradient (peach #FF9B7D to gold #F5C67A) -->
+    <linearGradient id="lf-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF9B7D"/>
+      <stop offset="1" stop-color="#F5C67A"/>
+    </linearGradient>
+    <!-- Soft white glow highlight, echoes the site .logo-dot -->
+    <radialGradient id="lf-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Rounded square, ~22% radius (14/64) -->
+  <rect x="0" y="0" width="64" height="64" rx="14" ry="14" fill="url(#lf-grad)"/>
+  <!-- Soft glow dot / highlight -->
+  <circle cx="40" cy="24" r="18" fill="url(#lf-glow)"/>
+  <circle cx="40" cy="24" r="6.5" fill="#FFFFFF" fill-opacity="0.95"/>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="LumaFit — Glow from within.">
+  <defs>
+    <!-- Warm cream base (bg #FDF8F3) -->
+    <linearGradient id="og-base" x1="0" y1="0" x2="0" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FDF8F3"/>
+      <stop offset="1" stop-color="#F4EBE0"/>
+    </linearGradient>
+    <!-- Soft peach radial glow (top-left), like the site bg -->
+    <radialGradient id="og-peach" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(180 60) scale(620)">
+      <stop offset="0" stop-color="#FFE5D4" stop-opacity="0.95"/>
+      <stop offset="0.6" stop-color="#FF9B7D" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#FF9B7D" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Soft mint radial glow (bottom-right), like the site bg -->
+    <radialGradient id="og-mint" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(1080 600) scale(640)">
+      <stop offset="0" stop-color="#D9EFDF" stop-opacity="0.95"/>
+      <stop offset="0.6" stop-color="#A8D8B2" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#A8D8B2" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Logo-dot gradient (peach to gold) -->
+    <linearGradient id="og-dot" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF9B7D"/>
+      <stop offset="1" stop-color="#F5C67A"/>
+    </linearGradient>
+    <!-- Wordmark accent gradient (peach-deep to gold), matches hero em -->
+    <linearGradient id="og-word" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F47A5B"/>
+      <stop offset="1" stop-color="#F5C67A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background layers -->
+  <rect width="1200" height="630" fill="url(#og-base)"/>
+  <rect width="1200" height="630" fill="url(#og-peach)"/>
+  <rect width="1200" height="630" fill="url(#og-mint)"/>
+
+  <!-- Content within safe margins (~96px) -->
+  <!-- Brand lockup: logo dot + small italic wordmark eyebrow -->
+  <g transform="translate(100 132)">
+    <circle cx="13" cy="6" r="13" fill="url(#og-dot)"/>
+    <text x="40" y="16" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-style="italic"
+      font-weight="700" font-size="34" fill="#1A1410">LumaFit</text>
+  </g>
+
+  <!-- Large wordmark -->
+  <text x="100" y="320" font-family="Fraunces, Georgia, 'Times New Roman', serif"
+    font-weight="700" font-size="148" letter-spacing="-4" fill="#1A1410">Luma<tspan fill="url(#og-word)" font-style="italic">Fit</tspan></text>
+
+  <!-- Tagline -->
+  <text x="104" y="398" font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
+    font-weight="600" font-size="44" letter-spacing="-0.5" fill="#5A5048">Clear skin. Clean diet. Confident you.</text>
+
+  <!-- Secondary line -->
+  <text x="104" y="452" font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
+    font-weight="500" font-size="29" fill="#8A7F75">The $15 glow-up guide &#183; built for ages 13&#8211;30</text>
+
+  <!-- Subtle pill accent, lower area, within safe margin -->
+  <g transform="translate(104 510)">
+    <rect x="0" y="0" width="296" height="56" rx="28" fill="#FFFFFF" fill-opacity="0.66"/>
+    <circle cx="34" cy="28" r="7" fill="#5FB274"/>
+    <text x="56" y="36" font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
+      font-weight="600" font-size="23" fill="#5A5048">Glow from within.</text>
+  </g>
+</svg>

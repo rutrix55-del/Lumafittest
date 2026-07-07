@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LumaFit Refund &amp; Withdrawal Policy — our 30-day money-back guarantee and your EU 14-day right of withdrawal.">
+    <meta name="robots" content="index, follow">
+    <title>Refund &amp; Withdrawal — LumaFit</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Legal page layout (scoped, self-contained) ---------- */
+        .legal-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(253, 248, 243, 0.82);
+            border-bottom: 1px solid var(--line);
+        }
+        .legal-bar-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .legal-bar .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; }
+        .legal-back {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink-soft);
+            transition: color 0.2s ease;
+        }
+        .legal-back:hover { color: var(--ink); }
+
+        .legal-article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 56px 24px 40px;
+        }
+        .legal-eyebrow {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--peach-deep);
+            margin-bottom: 16px;
+        }
+        .legal-article h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.2rem, 6vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+        }
+        .legal-updated {
+            font-size: 0.9rem;
+            color: var(--ink-mute);
+            margin-bottom: 8px;
+        }
+        .legal-intro {
+            font-size: 1.05rem;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            margin: 24px 0 8px;
+        }
+        .legal-article h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 44px 0 14px;
+            scroll-margin-top: 90px;
+        }
+        .legal-article h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 24px 0 8px;
+        }
+        .legal-article p { color: var(--ink-soft); line-height: 1.75; margin-bottom: 16px; }
+        .legal-article ol { margin: 0 0 16px; padding-left: 22px; }
+        .legal-article ol li { color: var(--ink-soft); line-height: 1.7; margin-bottom: 12px; padding-left: 4px; }
+        .legal-article ul { list-style: none; margin: 0 0 16px; padding: 0; }
+        .legal-article ul li {
+            position: relative;
+            padding-left: 26px;
+            margin-bottom: 12px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+        .legal-article ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--peach), var(--mint-deep));
+        }
+        .legal-article strong { color: var(--ink); font-weight: 700; }
+        .legal-article a:not(.legal-back) { color: var(--peach-deep); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+        .legal-article a:not(.legal-back):hover { color: var(--ink); }
+
+        .legal-callout {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--mint-deep);
+            border-radius: var(--radius-sm);
+            padding: 20px 24px;
+            margin: 24px 0;
+            box-shadow: var(--shadow-sm);
+        }
+        .legal-callout.peach { border-left-color: var(--peach-deep); }
+        .legal-callout p { margin-bottom: 0; }
+        .legal-callout p + p { margin-top: 12px; }
+
+        mark.ph {
+            background: rgba(245, 198, 122, 0.32);
+            color: var(--ink);
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .legal-footer {
+            border-top: 1px solid var(--line);
+            margin-top: 24px;
+            padding: 40px 24px 56px;
+        }
+        .legal-footer-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .legal-footer-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.05rem; }
+        .legal-footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; font-size: 0.9rem; }
+        .legal-footer-links a { color: var(--ink-soft); transition: color 0.2s ease; }
+        .legal-footer-links a:hover,
+        .legal-footer-links a:focus-visible { color: var(--coral-deeper); }
+        .legal-footer-note { font-size: 0.82rem; color: var(--ink-mute); max-width: 540px; line-height: 1.6; }
+
+        @media (max-width: 440px) {
+            .legal-bar-inner { padding: 14px 20px; }
+            .legal-article { padding: 40px 20px 32px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated gradient background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
+    <!-- Top bar -->
+    <header class="legal-bar">
+        <div class="legal-bar-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dot"></span>
+                <span class="logo-text">LumaFit</span>
+            </a>
+            <a href="index.html" class="legal-back">← Back to home</a>
+        </div>
+    </header>
+
+    <!-- Article -->
+    <main class="legal-article">
+        <div class="legal-eyebrow">Legal</div>
+        <h1>Refund &amp; Withdrawal Policy</h1>
+        <p class="legal-updated">Last updated: <mark class="ph">[DATE]</mark></p>
+
+        <p class="legal-intro">
+            We want you to feel good about your purchase. This page covers two separate things: our
+            voluntary <strong>30-day money-back guarantee</strong>, and your <strong>statutory 14-day right of withdrawal</strong>
+            as an EU consumer. They sit side by side — whichever gives you more is the one that applies.
+        </p>
+
+        <h2>1. Our 30-day money-back guarantee</h2>
+        <p>
+            LumaFit comes with a voluntary, no-questions-asked <strong>30-day money-back guarantee</strong>. If you're not
+            happy with the guide for any reason, just ask within 30 days of purchase and we'll refund what you paid.
+        </p>
+        <div class="legal-callout">
+            <p>
+                <strong>And you keep the files.</strong> We won't ask you to delete or return the PDF or bonuses — they're yours.
+            </p>
+        </div>
+        <p><strong>How to request a refund:</strong></p>
+        <ol>
+            <li>Email <a href="mailto:edgars@ideajetlab.com">edgars@ideajetlab.com</a> <mark class="ph">[SUPPORT EMAIL]</mark> within 30 days of your purchase.</li>
+            <li>Include the email address you used at checkout and your order or receipt number, if you have it.</li>
+            <li>That's it — no forms, no explanation required.</li>
+        </ol>
+
+        <h2>2. Your EU 14-day right of withdrawal</h2>
+        <p>
+            Separately from our guarantee, EU consumer law gives you a statutory <strong>14-day right of withdrawal</strong>
+            on most purchases. For <strong>digital content delivered instantly</strong> (like LumaFit), there is an important rule:
+        </p>
+        <div class="legal-callout peach">
+            <p>
+                This 14-day withdrawal right is <strong>waived once you give your express consent to immediate delivery</strong>
+                of the digital content <strong>and acknowledge that you lose your right of withdrawal</strong> by doing so.
+            </p>
+            <p>
+                At checkout you'll be asked to tick a box confirming both — that you want immediate access and that you understand
+                you give up the 14-day withdrawal right. If you tick it and download the guide, the statutory withdrawal right no
+                longer applies.
+            </p>
+        </div>
+        <p>
+            If you do <strong>not</strong> give that consent (for example, you ask us to hold delivery), your 14-day right of
+            withdrawal remains, and you can cancel within 14 days for a full refund. Either way, our voluntary 30-day guarantee
+            above still stands, so in practice you're covered for longer.
+        </p>
+
+        <h2>3. How refunds are processed</h2>
+        <ul>
+            <li>Approved refunds are issued through <strong>Stripe</strong>, the payment processor you used at checkout, back to your original payment method.</li>
+            <li>Money is returned to your original payment method.</li>
+            <li>It typically takes a few business days for the refund to appear, depending on your bank or card provider.</li>
+            <li>Where a Merchant of Record platform handled your sale, the refund may be processed by that platform on our behalf.</li>
+        </ul>
+
+        <h2>4. Questions</h2>
+        <p>
+            Anything unclear, or having trouble with your download? Email
+            <a href="mailto:edgars@ideajetlab.com">edgars@ideajetlab.com</a> <mark class="ph">[SUPPORT EMAIL]</mark>
+            and we'll help. See also our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.
+        </p>
+
+        <div class="legal-callout">
+            <p>
+                <strong>A note on this page:</strong> this is general information, not legal advice. Before launch,
+                have this policy and your checkout consent wording reviewed by a qualified professional familiar with EU and
+                Latvian consumer law.
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="legal-footer">
+        <div class="legal-footer-inner">
+            <div class="legal-footer-brand">
+                <span class="logo-dot"></span>
+                <span class="logo-text">LumaFit</span>
+            </div>
+            <nav class="legal-footer-links">
+                <a href="index.html" data-cascade>Home</a>
+                <a href="terms.html" data-cascade>Terms of Service</a>
+                <a href="privacy.html" data-cascade>Privacy Policy</a>
+            </nav>
+            <p class="legal-footer-note">© 2026 LumaFit. Glow from within. Educational content, not medical advice.</p>
+        </div>
+    </footer>
+    <script src="js/shader-bg.js"></script>
+    <script src="js/cascade.js"></script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LumaFit Terms of Service — who we are, what you're buying, your license, and the rules of use.">
+    <meta name="robots" content="index, follow">
+    <title>Terms of Service — LumaFit</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Legal page layout (scoped, self-contained) ---------- */
+        .legal-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(253, 248, 243, 0.82);
+            border-bottom: 1px solid var(--line);
+        }
+        .legal-bar-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+        }
+        .legal-bar .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; }
+        .legal-back {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink-soft);
+            transition: color 0.2s ease;
+        }
+        .legal-back:hover { color: var(--ink); }
+
+        .legal-article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 56px 24px 40px;
+        }
+        .legal-eyebrow {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--peach-deep);
+            margin-bottom: 16px;
+        }
+        .legal-article h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.2rem, 6vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+        }
+        .legal-updated {
+            font-size: 0.9rem;
+            color: var(--ink-mute);
+            margin-bottom: 8px;
+        }
+        .legal-intro {
+            font-size: 1.05rem;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            margin: 24px 0 8px;
+        }
+        .legal-article h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 44px 0 14px;
+            scroll-margin-top: 90px;
+        }
+        .legal-article h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 24px 0 8px;
+        }
+        .legal-article p { color: var(--ink-soft); line-height: 1.75; margin-bottom: 16px; }
+        .legal-article ul { list-style: none; margin: 0 0 16px; padding: 0; }
+        .legal-article ul li {
+            position: relative;
+            padding-left: 26px;
+            margin-bottom: 12px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+        .legal-article ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--peach), var(--mint-deep));
+        }
+        .legal-article strong { color: var(--ink); font-weight: 700; }
+        .legal-article a:not(.legal-back) { color: var(--peach-deep); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+        .legal-article a:not(.legal-back):hover { color: var(--ink); }
+
+        .legal-callout {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--peach-deep);
+            border-radius: var(--radius-sm);
+            padding: 20px 24px;
+            margin: 24px 0;
+            box-shadow: var(--shadow-sm);
+        }
+        .legal-callout p { margin-bottom: 0; }
+        .legal-callout p + p { margin-top: 12px; }
+
+        mark.ph {
+            background: rgba(245, 198, 122, 0.32);
+            color: var(--ink);
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .legal-footer {
+            border-top: 1px solid var(--line);
+            margin-top: 24px;
+            padding: 40px 24px 56px;
+        }
+        .legal-footer-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .legal-footer-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.05rem; }
+        .legal-footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; font-size: 0.9rem; }
+        .legal-footer-links a { color: var(--ink-soft); transition: color 0.2s ease; }
+        .legal-footer-links a:hover,
+        .legal-footer-links a:focus-visible { color: var(--coral-deeper); }
+        .legal-footer-note { font-size: 0.82rem; color: var(--ink-mute); max-width: 540px; line-height: 1.6; }
+
+        @media (max-width: 440px) {
+            .legal-bar-inner { padding: 14px 20px; }
+            .legal-article { padding: 40px 20px 32px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated gradient background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
+    <!-- Top bar -->
+    <header class="legal-bar">
+        <div class="legal-bar-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dot"></span>
+                <span class="logo-text">LumaFit</span>
+            </a>
+            <a href="index.html" class="legal-back">← Back to home</a>
+        </div>
+    </header>
+
+    <!-- Article -->
+    <main class="legal-article">
+        <div class="legal-eyebrow">Legal</div>
+        <h1>Terms of Service</h1>
+        <p class="legal-updated">Last updated: <mark class="ph">[DATE]</mark></p>
+
+        <p class="legal-intro">
+            These Terms govern your purchase and use of LumaFit, a digital self-improvement guide.
+            By buying or downloading LumaFit, you agree to the Terms below. Please read them — they are
+            written in plain language on purpose.
+        </p>
+
+        <h2>1. Who we are</h2>
+        <p>
+            LumaFit is created and sold by <mark class="ph">[LEGAL NAME]</mark>, a solo operator based in Latvia (European Union).
+        </p>
+        <ul>
+            <li><strong>Trader / seller:</strong> <mark class="ph">[LEGAL NAME]</mark></li>
+            <li><strong>Address:</strong> <mark class="ph">[REGISTERED ADDRESS, Latvia]</mark></li>
+            <li><strong>Contact email:</strong> <a href="mailto:edgars@ideajetlab.com">edgars@ideajetlab.com</a> <mark class="ph">[SUPPORT EMAIL]</mark></li>
+            <li><strong>Website:</strong> <a href="https://lumafit.org">lumafit.org</a></li>
+        </ul>
+
+        <h2>2. What you're buying</h2>
+        <p>
+            LumaFit is a digital product: a downloadable guide (currently a PDF of roughly 42 pages) plus any
+            included bonuses, such as a printable 30-day tracker and food list. The launch price is
+            <strong>$15</strong> (regular price $29) as a one-time payment. The product is delivered electronically
+            after checkout — there is no physical item shipped.
+        </p>
+
+        <h2>3. Your license to use LumaFit</h2>
+        <p>When you purchase LumaFit, we grant you a personal, non-exclusive, non-transferable license to:</p>
+        <ul>
+            <li>Download and read the guide and its bonuses for your own personal use.</li>
+            <li>Print a copy for your own personal use.</li>
+        </ul>
+        <p>You may <strong>not</strong>:</p>
+        <ul>
+            <li>Resell, sublicense, rent, or otherwise commercially distribute the guide or any part of it.</li>
+            <li>Share, upload, or publicly post the files, your download link, or the content for others to access.</li>
+            <li>Reproduce or republish the content as your own.</li>
+        </ul>
+        <p>
+            The content, design, and text of LumaFit remain the intellectual property of
+            <mark class="ph">[LEGAL NAME]</mark>.
+        </p>
+
+        <h2>4. Educational content, not medical advice</h2>
+        <div class="legal-callout">
+            <p>
+                <strong>LumaFit is educational content, not medical, dermatological, nutritional, or professional advice.</strong>
+                It is intended for general information only. It does not replace guidance from a qualified doctor,
+                dermatologist, dietitian, or other professional, and no doctor–patient or professional relationship is created.
+            </p>
+            <p>
+                Always consult a qualified professional before making changes to your diet, skincare, exercise,
+                or health routine — especially if you have a medical condition, allergies, are pregnant, or take medication.
+                You use the information at your own discretion and risk.
+            </p>
+        </div>
+
+        <h2>5. Age requirement</h2>
+        <p>
+            The content of LumaFit is written to be appropriate for ages 13–30. However, to <strong>purchase</strong> LumaFit
+            you must be <strong>18 years or older</strong>, or be a parent or legal guardian buying it for a minor in your care.
+            By completing checkout you confirm that this is the case.
+        </p>
+
+        <h2>6. Updates and access</h2>
+        <p>
+            Where the site mentions "lifetime access to updates," this means: after purchase, you will receive any
+            future improvements or revisions to the guide <strong>free of charge for at least 12 months, and thereafter for
+            the supported life of the product</strong> — that is, for as long as LumaFit continues to be actively offered and maintained.
+            "Lifetime" does not mean the product will be sold or maintained forever, and access may end if the product
+            is permanently discontinued. Your downloaded copy remains yours to keep.
+        </p>
+
+        <h2>7. Acceptable use</h2>
+        <ul>
+            <li>Use the product lawfully and for its intended personal purpose.</li>
+            <li>Do not attempt to disrupt, attack, or gain unauthorized access to the website or delivery systems.</li>
+            <li>Do not remove copyright notices or misrepresent the source of the content.</li>
+        </ul>
+
+        <h2>8. Limitation of liability</h2>
+        <p>
+            LumaFit is provided "as is." To the fullest extent permitted by applicable law, we are not liable for any
+            indirect, incidental, or consequential loss arising from your use of, or inability to use, the product or its
+            information. Nothing in these Terms excludes or limits any rights you have as a consumer that cannot be excluded
+            under the law of your country — including your <a href="refund.html">statutory and voluntary refund rights</a>.
+        </p>
+
+        <h2>9. Governing law</h2>
+        <p>
+            These Terms are governed by the laws of Latvia and applicable European Union law. Mandatory consumer-protection
+            rules of your country of residence in the EU continue to apply where they offer you greater protection.
+        </p>
+
+        <h2>10. Changes to these Terms</h2>
+        <p>
+            We may update these Terms from time to time. The "Last updated" date above will reflect the latest version.
+            Changes apply to purchases made after they are posted.
+        </p>
+
+        <h2>11. Contact</h2>
+        <p>
+            Questions about these Terms? Email <a href="mailto:edgars@ideajetlab.com">edgars@ideajetlab.com</a>
+            <mark class="ph">[SUPPORT EMAIL]</mark>. We're a small operation and aim to reply within a few business days.
+        </p>
+
+        <div class="legal-callout">
+            <p>
+                <strong>A note on this page:</strong> this is general information, not legal advice. Before launch,
+                have these Terms reviewed by a qualified professional familiar with EU and Latvian consumer law.
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="legal-footer">
+        <div class="legal-footer-inner">
+            <div class="legal-footer-brand">
+                <span class="logo-dot"></span>
+                <span class="logo-text">LumaFit</span>
+            </div>
+            <nav class="legal-footer-links">
+                <a href="index.html" data-cascade>Home</a>
+                <a href="privacy.html" data-cascade>Privacy Policy</a>
+                <a href="refund.html" data-cascade>Refund &amp; Withdrawal</a>
+            </nav>
+            <p class="legal-footer-note">© 2026 LumaFit. Glow from within. Educational content, not medical advice.</p>
+        </div>
+    </footer>
+    <script src="js/shader-bg.js"></script>
+    <script src="js/cascade.js"></script>
+</body>
+</html>

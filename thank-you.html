@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <meta name="description" content="Your LumaFit download — thank you for your order.">
+    <title>You're in — LumaFit</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Thank-you page scoped layout ---------- */
+        .ty-main {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 64px 24px 96px;
+        }
+
+        .ty-wrap {
+            width: 100%;
+            max-width: 720px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .ty-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+        }
+
+        .ty-check {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--mint), var(--mint-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 30px rgba(95, 178, 116, 0.35);
+            animation: ty-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        }
+
+        .ty-check svg {
+            width: 38px;
+            height: 38px;
+            stroke: #fff;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes ty-pop {
+            0% { transform: scale(0.4); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .ty-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.2rem, 6vw, 3.4rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin-bottom: 18px;
+        }
+
+        .ty-title em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--peach-deep), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .ty-lead {
+            font-size: clamp(1.02rem, 2vw, 1.18rem);
+            color: var(--ink-soft);
+            max-width: 540px;
+            margin: 0 auto 14px;
+            line-height: 1.55;
+        }
+
+        .ty-order {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--ink-mute);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 100px;
+            padding: 8px 16px;
+            margin-top: 6px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .ty-order strong { color: var(--ink-soft); font-weight: 600; }
+
+        /* Downloads card */
+        .ty-downloads {
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFF6EE 100%);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 40px 36px;
+            margin: 44px 0 28px;
+            text-align: left;
+        }
+
+        .ty-downloads h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .ty-downloads-sub {
+            text-align: center;
+            font-size: 0.92rem;
+            color: var(--ink-mute);
+            margin-bottom: 28px;
+        }
+
+        .ty-dl-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .ty-dl {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 20px;
+            border-radius: var(--radius-md);
+            background: var(--card);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .ty-dl:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(244, 122, 91, 0.35);
+        }
+
+        .ty-dl-ico {
+            flex-shrink: 0;
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, rgba(255, 155, 125, 0.18), rgba(245, 198, 122, 0.22));
+        }
+
+        .ty-dl-body { flex: 1; min-width: 0; }
+
+        .ty-dl-body strong {
+            display: block;
+            font-family: 'Fraunces', serif;
+            font-size: 1.08rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .ty-dl-body span {
+            font-size: 0.86rem;
+            color: var(--ink-mute);
+        }
+
+        .ty-dl-action {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 18px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #fff;
+            background: linear-gradient(135deg, var(--ink) 0%, #2A2018 100%);
+            box-shadow: 0 6px 18px rgba(26, 20, 16, 0.18);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ty-dl:hover .ty-dl-action {
+            transform: translateY(-1px);
+            box-shadow: 0 9px 24px rgba(26, 20, 16, 0.26);
+        }
+
+        .ty-dl-action svg {
+            width: 15px; height: 15px;
+            stroke: #fff; stroke-width: 2.4; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        /* Notes / callouts */
+        .ty-note {
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            background: rgba(168, 216, 178, 0.16);
+            border: 1px solid rgba(95, 178, 116, 0.22);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            line-height: 1.55;
+        }
+
+        .ty-start {
+            margin-top: 28px;
+            text-align: left;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 24px 26px;
+        }
+
+        .ty-start .eyebrow { margin-bottom: 10px; }
+
+        .ty-start h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+
+        .ty-start p { color: var(--ink-soft); font-size: 0.97rem; }
+        .ty-start p + p { margin-top: 8px; }
+
+        .ty-support {
+            margin-top: 32px;
+            font-size: 0.92rem;
+            color: var(--ink-mute);
+            line-height: 1.6;
+        }
+
+        .ty-support a {
+            color: var(--peach-deep);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(244, 122, 91, 0.3);
+        }
+
+        .ty-support a:hover { border-bottom-color: var(--peach-deep); }
+
+        .ty-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+
+        .ty-back:hover { color: var(--ink); }
+
+        @media (max-width: 560px) {
+            .ty-downloads { padding: 32px 22px; }
+            .ty-dl { flex-wrap: wrap; gap: 12px; }
+            .ty-dl-action { width: 100%; justify-content: center; }
+            .ty-main { padding: 48px 18px 72px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated gradient background (matches index.html for continuity) -->
+    <div class="bg-gradient"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
+    <main class="ty-main">
+        <div class="ty-wrap">
+            <a href="index.html" class="ty-logo">
+                <span class="logo-dot"></span>
+                <span class="logo-text">LumaFit</span>
+            </a>
+
+            <div class="ty-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+
+            <h1 class="ty-title">You're in — welcome to <em>LumaFit.</em></h1>
+            <p class="ty-lead">
+                Your order is confirmed and your glow-up starts now. Your guide, tracker, and
+                Skin&nbsp;Reset food list are on their way to the inbox you used at checkout.
+            </p>
+            <span class="ty-order" id="tyOrder" hidden>Order reference: <strong id="tyOrderRef"></strong></span>
+
+            <!-- Delivery: files are emailed (no public download links on this page) -->
+            <section class="ty-downloads" aria-labelledby="ty-dl-heading">
+                <h2 id="ty-dl-heading">Check your inbox</h2>
+                <p class="ty-downloads-sub">Your download links are on the way — usually within a few minutes.</p>
+
+                <div class="ty-dl-list">
+                    <div class="ty-dl" style="cursor:default;">
+                        <span class="ty-dl-ico" aria-hidden="true" style="color:var(--coral-deep);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                        </span>
+                        <span class="ty-dl-body">
+                            <strong>One email, everything inside</strong>
+                            <span>The 42-page guide, the 30-day tracker, and the Skin Reset food list — yours to keep forever.</span>
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <p class="ty-note">
+                Don't see it? Check your spam or promotions folder. Still nothing after a few minutes —
+                email <a href="mailto:edgars@ideajetlab.com">edgars@ideajetlab.com</a> with your order
+                reference (or the email you used at checkout) and we'll send your files straight over.
+            </p>
+
+            <!-- Start here -->
+            <section class="ty-start">
+                <div class="eyebrow">Start here</div>
+                <h3>Begin with the Skin Reset Food List</h3>
+                <p>
+                    The fastest visible win is your skin. Open the <strong>Skin Reset Food List</strong> first,
+                    make a couple of the easy swaps this week, then read <strong>Chapter 1 of the guide</strong>
+                    to set up your 30 days.
+                </p>
+                <p>Keep the 30-Day Tracker somewhere you'll see it daily and tick off one small thing at a time.</p>
+            </section>
+
+            <!-- Support -->
+            <p class="ty-support">
+                Need a hand or a download not working? Email
+                <a href="mailto:edgars@ideajetlab.com">edgars@ideajetlab.com</a>
+                <!-- [confirm support email] — a branded address (e.g. support@lumafit...) is preferable once a domain exists -->
+                and include your order reference above. We usually reply within a day.
+            </p>
+
+            <a href="index.html" class="ty-back">← Back to LumaFit</a>
+        </div>
+    </main>
+    <script src="js/shader-bg.js"></script>
+    <script>
+        // Stripe Payment Links append ?session_id={CHECKOUT_SESSION_ID} to the
+        // success URL. Show it as the buyer's order reference (read-only, safe).
+        (function () {
+            try {
+                var sid = new URLSearchParams(location.search).get('session_id');
+                if (!sid) return;
+                var ref = document.getElementById('tyOrderRef');
+                var wrap = document.getElementById('tyOrder');
+                if (ref && wrap) { ref.textContent = sid; wrap.hidden = false; }
+            } catch (e) { /* no-op */ }
+        })();
+    </script>
+</body>
+</html>
