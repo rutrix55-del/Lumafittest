@@ -424,6 +424,291 @@ button { font-family: inherit; border: none; cursor: pointer; }
     color: transparent;
 }
 
+/* A word poured out of the liquid shader (js/liquid-text.js). The gradient
+   above stays underneath as the fallback for no-WebGL / no-JS. */
+.liquid-word {
+    position: relative;
+    display: inline-block;
+}
+
+.liquid-word .liquid-canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    /* the resting filter carries the same function list as the hover state
+       below — matching lists are what lets the glow interpolate smoothly */
+    filter:
+        saturate(1) brightness(1)
+        drop-shadow(0 0 0 rgba(224, 50, 122, 0))
+        drop-shadow(0 0 0 rgba(124, 58, 237, 0));
+    transition: filter 0.5s ease;
+}
+
+.liquid-word.is-liquid:hover .liquid-canvas {
+    filter:
+        saturate(1.12) brightness(1.05)
+        drop-shadow(0 0 13px rgba(224, 50, 122, 0.45))
+        drop-shadow(0 0 30px rgba(124, 58, 237, 0.28));
+}
+
+/* once the shader is clipped to the glyphs, drop the gradient so the two
+   can't fringe against each other on the antialiased edges */
+.liquid-word.is-liquid {
+    background: none;
+}
+
+/* =========================================================================
+   Compare reveal — before/after slider (js/compare-reveal.js)
+   ========================================================================= */
+.compare-reveal {
+    position: relative;
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-soft);
+    cursor: ew-resize;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y; /* keep vertical scrolling on touch */
+}
+
+.cr-side {
+    position: absolute;
+    inset: 0;
+}
+
+/* photo variant — portrait crops, so the frame goes portrait too */
+.compare-reveal.cr-photos {
+    aspect-ratio: 4 / 5;
+    max-width: 470px;
+    background: var(--bg-soft);
+}
+
+.cr-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+.cr-before {
+    will-change: clip-path;
+}
+
+.cr-panel {
+    height: 100%;
+    width: 100%;
+    /* generous top padding so content clears the corner chips */
+    padding: clamp(58px, 7vw, 88px) clamp(26px, 4.4vw, 52px) clamp(26px, 4.4vw, 52px);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.cr-panel-before {
+    background: linear-gradient(150deg, #F3EBE3 0%, #E8DED4 100%);
+    color: var(--ink-soft);
+}
+
+/* The two sides overlap exactly, so their content must live in opposite
+   halves — otherwise the clipped "before" layer sits straight on top of the
+   "after" copy and hides it. Left panel reads left, right panel reads right. */
+.cr-panel-after {
+    background: var(--grad-brand-deep);
+    color: #fff;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.cr-panel-after .cr-steps {
+    align-items: flex-end;
+}
+
+/* Each side owns half the frame, so its content must never cross the middle
+   — otherwise it collides with the other panel's copy at the divider. */
+.cr-panel > * {
+    /* 50% would sit flush against the divider; the shortfall is the gutter */
+    max-width: min(47%, 360px);
+}
+
+.cr-count {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 10px 0 clamp(14px, 2.4vw, 24px);
+    white-space: nowrap;
+}
+
+.cr-count span {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    opacity: 0.75;
+    margin-left: 6px;
+}
+
+/* the clutter side: many small muted chips */
+.cr-clutter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.cr-clutter li {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 100px;
+    color: var(--ink-mute);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(24, 18, 16, 0.08);
+    white-space: nowrap;
+}
+
+/* the routine side: four clean numbered steps */
+.cr-steps {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(7px, 1.2vw, 12px);
+}
+
+.cr-steps li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+    font-weight: 600;
+    padding: clamp(7px, 1.1vw, 11px) 16px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.17);
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    white-space: nowrap;
+}
+
+.cr-num {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    opacity: 0.72;
+}
+
+.cr-foot {
+    margin-top: auto;
+    padding-top: 16px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+/* corner chips */
+.cr-chip {
+    position: absolute;
+    top: 16px;
+    z-index: 8;
+    padding: 6px 13px;
+    border-radius: 100px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--glass-strong);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+.cr-chip-left { left: 16px; }
+.cr-chip-right { right: 16px; }
+
+/* the rule carries no semantics — the interactive handle lives inside it,
+   so it must not be aria-hidden */
+.cr-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+    width: 2px;
+    margin-left: -1px;
+    pointer-events: none;
+    will-change: left;
+    background: linear-gradient(180deg, var(--coral), var(--pink-deep) 55%, var(--violet));
+}
+
+.cr-handle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 50%;
+    pointer-events: auto;
+    cursor: ew-resize;
+    color: var(--pink-deep);
+    background: var(--glass-strong);
+    border: 2px solid var(--pink-deep);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow:
+        0 0 0 6px rgba(224, 50, 122, 0.14),
+        0 8px 24px rgba(40, 24, 16, 0.18);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cr-handle:hover {
+    box-shadow:
+        0 0 0 9px rgba(224, 50, 122, 0.16),
+        0 10px 28px rgba(40, 24, 16, 0.22);
+}
+
+.cr-handle:focus-visible {
+    outline: 3px solid var(--violet-deep);
+    outline-offset: 3px;
+}
+
+.compare-note {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--ink-mute);
+}
+
+@media (max-width: 720px) {
+    .compare-reveal { aspect-ratio: 4 / 5; }
+    .cr-panel { padding: 46px 15px 18px; }
+    .cr-chip { font-size: 0.58rem; padding: 4px 9px; letter-spacing: 0.08em; top: 10px; }
+    .cr-chip-left { left: 10px; }
+    .cr-chip-right { right: 10px; }
+    .cr-count { font-size: 1.9rem; margin: 6px 0 12px; }
+    .cr-count span { font-size: 0.72rem; margin-left: 4px; }
+    .cr-clutter { gap: 5px; }
+    .cr-clutter li { font-size: 0.64rem; padding: 3px 8px; }
+    .cr-steps { gap: 6px; }
+    .cr-steps li { font-size: 0.76rem; gap: 7px; padding: 6px 10px; }
+    .cr-num { font-size: 0.58rem; }
+    .cr-foot { font-size: 0.68rem; padding-top: 10px; }
+    .cr-handle { width: 38px; height: 38px; }
+}
+
 .hero-sub {
     font-size: clamp(1.05rem, 2vw, 1.28rem);
     color: var(--ink-soft);
@@ -450,110 +735,424 @@ button { font-family: inherit; border: none; cursor: pointer; }
 
 .dot-sep { color: var(--ink-mute); opacity: 0.5; }
 
-/* Hero product mockup — a CSS-rendered "guide cover" to make the product
-   tangible and lift perceived value. */
+/* =========================================================================
+   Hero product mockup — the guide as an actual book.
+   Two planes in one 3D scene: the branded front cover, and page one angled
+   out from behind it so the buyer can read what they're actually getting.
+   All internal sizing is in container units (cqi, 1% of .ebook-wrap's width)
+   so the page keeps true book proportions at every viewport.
+   ========================================================================= */
 .hero-visual {
     display: flex;
     justify-content: center;
     margin-bottom: 72px;
-    perspective: 1400px;
 }
 
-.guide-cover {
+.ebook-wrap {
     position: relative;
-    width: min(320px, 76vw);
-    aspect-ratio: 3 / 4;
-    border-radius: 20px;
-    padding: 30px 26px;
-    color: #fff;
-    text-align: left;
-    background: var(--grad-brand-deep);
-    box-shadow:
-        var(--shadow-lg),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset -10px 0 24px rgba(0, 0, 0, 0.18);
-    transform: rotateY(-16deg) rotateX(5deg) rotate(-2deg);
-    transform-style: preserve-3d;
-    animation: cover-float 7s ease-in-out infinite;
-    overflow: hidden;
+    width: min(524px, 92vw);
+    container-type: inline-size;
 }
 
-.guide-cover::after {
+.ebook {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 100 / 68.8;
+    perspective: 1700px;
+    animation: ebook-float 7s ease-in-out infinite;
+}
+
+@keyframes ebook-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-13px); }
+}
+
+/* soft contact shadow — widens with the book as it opens */
+.ebook::after {
     content: '';
     position: absolute;
+    left: 48%; right: 5%;
+    bottom: -2.4cqi;
+    height: 5cqi;
+    border-radius: 50%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(40, 24, 16, 0.36), transparent 72%);
+    filter: blur(5px);
+    pointer-events: none;
+    transition: left 1.15s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.ebook.is-open::after { left: 5%; }
+
+.ebook-tilt {
+    position: absolute;
     inset: 0;
-    background: radial-gradient(70% 50% at 80% 0%, rgba(255, 255, 255, 0.35), transparent 60%);
+    transform: rotateX(15deg) rotateZ(-1.1deg);
+    transform-origin: 50% 100%;
+    transform-style: preserve-3d;
+}
+
+/* The page block. Closed, only the right half exists; opening grows it
+   leftward from the spine, which stays put at the centre. */
+.ebook-board {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 50cqi;
+    padding: 1.4cqi 1.4cqi 2.6cqi;
+    border-radius: 0.6cqi 1.4cqi 1.4cqi 0.6cqi;
+    background: var(--grad-brand-deep);
+    box-shadow:
+        0 36px 64px -20px rgba(40, 24, 16, 0.48),
+        0 6px 16px -6px rgba(40, 24, 16, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.38);
+    overflow: hidden;
+    /* held a hair behind the flap so the two never z-fight while coplanar */
+    transform: translateZ(-1px);
+    transition: width 1.15s cubic-bezier(0.22, 0.9, 0.24, 1),
+                border-radius 1.15s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.ebook.is-open .ebook-board {
+    width: 100cqi;
+    border-radius: 1.4cqi;
+}
+
+/* The spread keeps its full open width at all times; the board reveals it. */
+.ebook-spread {
+    position: absolute;
+    top: 1.4cqi;
+    right: 1.4cqi;
+    bottom: 2.6cqi;
+    width: calc(100cqi - 2.8cqi);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 0.7cqi;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(60, 42, 30, 0.12);
+}
+
+/* the fore-edge — the stack of pages you see along the bottom */
+.ebook-spread::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2.3cqi;
+    z-index: 3;
+    background:
+        repeating-linear-gradient(180deg,
+            rgba(126, 100, 74, 0.34) 0 0.5px,
+            rgba(255, 253, 248, 0) 0.5px 1.6px),
+        linear-gradient(180deg, #FBF4E9 0%, #EADCC8 55%, #D8C6AC 100%);
+    box-shadow: inset 0 2px 5px rgba(80, 60, 40, 0.22);
     pointer-events: none;
 }
 
-/* spine highlight */
-.guide-cover::before {
+/* the gutter — where the two pages fall away into the spine */
+.ebook-spread::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; bottom: 0;
-    width: 14px;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.22), transparent);
+    top: 0; bottom: 0; left: 50%;
+    width: 11cqi;
+    z-index: 4;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(60, 42, 30, 0.06) 22%,
+        rgba(60, 42, 30, 0.26) 42%,
+        rgba(44, 30, 20, 0.46) 50%,
+        rgba(60, 42, 30, 0.26) 58%,
+        rgba(60, 42, 30, 0.06) 78%,
+        transparent 100%);
+    pointer-events: none;
 }
 
-@keyframes cover-float {
-    0%, 100% { transform: rotateY(-16deg) rotateX(5deg) rotate(-2deg) translateY(0); }
-    50% { transform: rotateY(-12deg) rotateX(4deg) rotate(-2deg) translateY(-14px); }
+.ebook-page {
+    display: flex;
+    flex-direction: column;
+    padding: 5cqi 4.8cqi;
+    color: #4A403A;
+    text-align: left;
 }
 
-.guide-cover .gc-kicker {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
+/* each page bows slightly toward the gutter */
+.ebook-page-left {
+    position: relative;
+    background: linear-gradient(90deg, #FFFDFA 0%, #FCF7F0 68%, #EFE4D5 100%);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.ebook-page-right {
+    background: linear-gradient(270deg, #FFFDFA 0%, #FCF7F0 68%, #EFE4D5 100%);
+}
+
+/* ---------- Title page (left) ---------- */
+.title-rule {
+    width: 26%;
+    height: 2px;
+    margin: 3.4cqi 0;
+    background: var(--grad-brand);
+    border-radius: 2px;
+}
+
+.title-foot {
+    position: absolute;
+    bottom: 5cqi;
+    font-size: 1.7cqi;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    opacity: 0.85;
+    color: #A89684;
 }
 
-.guide-cover .gc-dot {
-    display: inline-block;
-    width: 11px; height: 11px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 14px rgba(255, 255, 255, 0.8);
-    margin-bottom: 18px;
+/* ---------- Page one (right) ---------- */
+.leaf-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5cqi;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #A89684;
+    padding-bottom: 1.3cqi;
+    margin-bottom: 3cqi;
+    border-bottom: 1px solid rgba(24, 18, 16, 0.10);
 }
 
-.guide-cover .gc-title {
+.leaf-eyebrow {
+    font-size: 1.55cqi;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--coral-deep);
+    margin-bottom: 1.1cqi;
+}
+
+.leaf-title {
     font-family: 'Fraunces', serif;
     font-weight: 700;
-    font-size: 2.5rem;
+    font-size: 4.9cqi;
     line-height: 1.02;
-    letter-spacing: -0.02em;
-    margin: 10px 0 6px;
+    letter-spacing: -0.025em;
+    color: #241B16;
+    margin-bottom: 2.4cqi;
 }
 
-.guide-cover .gc-title em { font-style: italic; }
-
-.guide-cover .gc-sub {
-    font-size: 0.92rem;
-    opacity: 0.92;
-    max-width: 80%;
+.leaf-body {
+    font-size: 2.05cqi;
+    line-height: 1.62;
+    text-align: justify;
+    hyphens: auto;
 }
 
-.guide-cover .gc-foot {
+.leaf-drop {
+    float: left;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 5.4cqi;
+    line-height: 0.82;
+    padding: 0.4cqi 1cqi 0 0;
+    color: var(--coral-deep);
+}
+
+.leaf-note {
+    margin-top: 2.8cqi;
+    font-size: 1.85cqi;
+    line-height: 1.5;
+    padding: 1.9cqi 2.2cqi;
+    border-left: 0.6cqi solid var(--mint);
+    background: rgba(95, 224, 176, 0.14);
+    border-radius: 0 3px 3px 0;
+}
+
+.leaf-note strong {
+    display: block;
+    font-size: 1.5cqi;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--mint-deep);
+    margin-bottom: 0.3cqi;
+}
+
+/* ---------- The front cover, hinged on the spine ---------- */
+.ebook-flap {
     position: absolute;
-    left: 26px; right: 26px; bottom: 26px;
+    top: 1.4cqi;
+    /* stops short of the fore-edge so the page block shows in both states */
+    bottom: 4.9cqi;
+    left: 50cqi;
+    width: calc(50cqi - 1.4cqi);
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    transition: transform 1.25s cubic-bezier(0.38, 0.64, 0.18, 1);
+}
+
+.ebook.is-open .ebook-flap { transform: rotateY(-180deg); }
+
+.flap-face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 0.5cqi 1.1cqi 1.1cqi 0.5cqi;
+}
+
+/* outside of the cover — the branded board */
+.flap-front {
+    background: var(--grad-brand-deep);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.42),
+        0 18px 34px -14px rgba(40, 24, 16, 0.40);
+}
+
+/* inside of the cover — the title page */
+.flap-back {
+    transform: rotateY(180deg);
+    border-radius: 1.1cqi 0.5cqi 0.5cqi 1.1cqi;
+    background: #FFFDFA;
+}
+
+.flap-back .ebook-page {
+    position: absolute;
+    inset: 0;
+}
+
+.cover-art {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 5.4cqi 4.8cqi;
+    color: #fff;
+    text-align: left;
+}
+
+/* the bound edge, turning away from the light */
+.cover-art::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 3.4cqi;
+    background: linear-gradient(90deg,
+        rgba(0, 0, 0, 0.32) 0%,
+        rgba(0, 0, 0, 0.13) 46%,
+        rgba(255, 255, 255, 0.12) 80%,
+        transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* laminate sheen */
+.cover-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(62% 42% at 76% 3%, rgba(255, 255, 255, 0.34), transparent 62%),
+        linear-gradient(104deg, transparent 42%, rgba(255, 255, 255, 0.12) 50%, transparent 58%);
+    pointer-events: none;
+}
+
+.cover-art .gc-dot {
+    display: block;
+    width: 2.7cqi; height: 2.7cqi;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 3cqi rgba(255, 255, 255, 0.85);
+    margin-bottom: 3.6cqi;
+}
+
+.cover-art .gc-kicker {
+    font-size: 1.6cqi;
+    font-weight: 700;
+    letter-spacing: 0.19em;
+    text-transform: uppercase;
+    opacity: 0.88;
+}
+
+.cover-art .gc-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 8.4cqi;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    margin: 1.8cqi 0 1.4cqi;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.24), 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.cover-art .gc-title em { font-style: italic; }
+
+.cover-art .gc-sub {
+    font-size: 2.1cqi;
+    line-height: 1.45;
+    opacity: 0.93;
+    max-width: 88%;
+}
+
+.cover-art .gc-foot {
+    margin-top: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 0.74rem;
+    font-size: 1.7cqi;
     font-weight: 600;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.32);
+    padding-top: 2.4cqi;
+    position: relative;
+    z-index: 3;
 }
 
-.guide-cover .gc-badge {
-    background: rgba(255, 255, 255, 0.22);
+.cover-art .gc-badge {
+    background: rgba(255, 255, 255, 0.24);
     border-radius: 100px;
-    padding: 4px 12px;
-    backdrop-filter: blur(6px);
+    padding: 0.8cqi 2.2cqi;
 }
 
-/* floating accent pills around the cover */
+/* ---------- Title page type ---------- */
+.ebook-page .gc-dot {
+    display: block;
+    width: 2.4cqi; height: 2.4cqi;
+    border-radius: 50%;
+    background: var(--grad-brand);
+    box-shadow: 0 0 2.8cqi rgba(224, 50, 122, 0.45);
+    margin-bottom: 3.2cqi;
+}
+
+.ebook-page .gc-kicker {
+    font-size: 1.55cqi;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #A89684;
+}
+
+.ebook-page .gc-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 7.2cqi;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #241B16;
+    margin-top: 1.5cqi;
+}
+
+.ebook-page .gc-title em {
+    font-style: italic;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.ebook-page .gc-sub {
+    font-size: 2cqi;
+    line-height: 1.75;
+    color: #6E6058;
+}
+
+/* floating accent pills, anchored to the book itself */
 .float-pill {
     position: absolute;
     display: inline-flex;
@@ -569,12 +1168,12 @@ button { font-family: inherit; border: none; cursor: pointer; }
     color: var(--ink);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    animation: cover-float 6s ease-in-out infinite;
+    animation: ebook-float 6s ease-in-out infinite;
 }
 
 .float-pill svg { width: 16px; height: 16px; }
-.float-pill-1 { top: 8%; left: -2%; animation-delay: -2s; }
-.float-pill-2 { bottom: 14%; right: -4%; animation-delay: -4s; }
+.float-pill-1 { top: -9%; left: -11%; animation-delay: -2s; }
+.float-pill-2 { bottom: -7%; right: -9%; animation-delay: -4s; }
 .float-pill .fp-ico { color: var(--mint-deep); display: inline-flex; }
 .float-pill-2 .fp-ico { color: var(--pink-deep); }
 
@@ -1241,7 +1840,6 @@ button { font-family: inherit; border: none; cursor: pointer; }
     .nav-inner { padding: 10px 10px 10px 18px; }
     .logo { font-size: 1.05rem; }
     .btn-xl { padding: 18px 24px; font-size: 1rem; }
-    .guide-cover .gc-title { font-size: 2.1rem; }
 }
 
 /* ---------- Reduced motion ---------- */
@@ -1253,5 +1851,4 @@ button { font-family: inherit; border: none; cursor: pointer; }
         scroll-behavior: auto !important;
     }
     .reveal { opacity: 1; transform: none; }
-    .guide-cover { transform: rotateY(-12deg) rotateX(4deg) rotate(-2deg); }
 }

@@ -16,3 +16,7 @@ STRIPE-SETUP.md
 DELIVERY-SETUP.md
 deploy.ps1
 test/
+
+# Local tooling & recovery leftovers — never tracked, never served.
+.claude/
+_archive/

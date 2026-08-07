@@ -50,7 +50,7 @@
                 Built for ages 13 – 30
             </div>
             <h1 class="hero-title">
-                Glow from <em>within.</em>
+                Glow from <em class="liquid-word">within.</em>
             </h1>
             <p class="hero-sub">
                 Clear skin. Clean diet. Confident you.<br>
@@ -68,30 +68,81 @@
                 </div>
             </div>
 
-            <!-- Product mockup -->
+            <!-- Product mockup — the guide as a real book, page one showing
+                 from behind the cover so the buyer sees what they're getting. -->
             <div class="hero-visual">
-                <div class="guide-cover" role="img" aria-label="The LumaFit guide cover">
-                    <span class="gc-dot"></span>
-                    <div class="gc-kicker">The Guide · Ages 13–30</div>
-                    <div class="gc-title">Luma<em>Fit</em></div>
-                    <p class="gc-sub">Clear skin. Clean diet. Confident you.</p>
-                    <div class="gc-foot">
-                        <span>Glow from within</span>
-                        <span class="gc-badge">42 pages</span>
-                    </div>
-                </div>
+                <div class="ebook-wrap">
+                    <div class="ebook" id="ebook" role="img"
+                         aria-label="The LumaFit guide: a 42-page book that opens to its title page and Chapter One — The Skin Reset.">
+                        <div class="ebook-tilt">
 
-                <div class="float-pill float-pill-1">
-                    <span class="fp-ico" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    </span>
-                    Instant PDF
-                </div>
-                <div class="float-pill float-pill-2">
-                    <span class="fp-ico" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </span>
-                    Built for real life
+                            <!-- The page block, uncovered as the front cover swings open -->
+                            <div class="ebook-board">
+                                <div class="ebook-spread">
+                                    <article class="ebook-page ebook-page-left"></article>
+
+                                    <!-- Page one -->
+                                    <article class="ebook-page ebook-page-right">
+                                        <div class="leaf-head">
+                                            <span>The Skin Reset</span>
+                                            <span>7</span>
+                                        </div>
+                                        <div class="leaf-eyebrow">Chapter one</div>
+                                        <h3 class="leaf-title">The Skin Reset</h3>
+                                        <p class="leaf-body">
+                                            <span class="leaf-drop">Y</span>our skin reacts to what's on
+                                            your plate far more than to what you spend on serums. Seven
+                                            everyday foods do most of the damage — and none of them are
+                                            exotic. Take one out each day this week.
+                                        </p>
+                                        <div class="leaf-note">
+                                            <strong>Day 1 swap</strong>
+                                            Skim milk → unsweetened oat.
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+
+                            <!-- The front cover, hinged on the spine -->
+                            <div class="ebook-flap">
+                                <div class="flap-face flap-front">
+                                    <div class="cover-art">
+                                        <span class="gc-dot"></span>
+                                        <div class="gc-kicker">The Guide · Ages 13–30</div>
+                                        <div class="gc-title">Luma<em>Fit</em></div>
+                                        <p class="gc-sub">Clear skin. Clean diet. Confident you.</p>
+                                        <div class="gc-foot">
+                                            <span>Glow from within</span>
+                                            <span class="gc-badge">42 pages</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flap-face flap-back">
+                                    <article class="ebook-page ebook-page-left">
+                                        <span class="gc-dot"></span>
+                                        <div class="gc-kicker">The Guide · Ages 13–30</div>
+                                        <div class="gc-title">Luma<em>Fit</em></div>
+                                        <span class="title-rule"></span>
+                                        <p class="gc-sub">Clear skin.<br>Clean diet.<br>Confident you.</p>
+                                        <div class="title-foot">42 pages · Glow from within</div>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="float-pill float-pill-1">
+                        <span class="fp-ico" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </span>
+                        Instant PDF
+                    </div>
+                    <div class="float-pill float-pill-2">
+                        <span class="fp-ico" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </span>
+                        Built for real life
+                    </div>
                 </div>
             </div>
 
@@ -144,6 +195,40 @@
             </div>
             <p class="problem-lead">
                 You don't need another $90 moisturizer. You need a <strong>simple system.</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- Before / after — the routine you've been sold vs the one in the guide.
+         Deliberately not a customer transformation: LumaFit hasn't launched,
+         so there are no results to show yet. Swap in a real, consented
+         before/after here the moment you have one. -->
+    <section class="section compare">
+        <div class="container">
+            <div class="section-head">
+                <div class="eyebrow">The difference</div>
+                <h2 class="section-title">Now it's your turn.</h2>
+                <p class="section-lead">
+                    Drag the slider to see what the Skin Reset is built to tackle.
+                </p>
+            </div>
+
+            <div class="compare-reveal cr-photos" data-labels="Before|After" data-position="50">
+                <!-- after: fills the frame -->
+                <div class="cr-side cr-after">
+                    <img class="cr-photo" src="assets/compare-after.jpg" width="800" height="1000"
+                         draggable="false" alt="Illustration of clear skin">
+                </div>
+
+                <!-- before: clipped from the left edge to the divider -->
+                <div class="cr-side cr-before">
+                    <img class="cr-photo" src="assets/compare-before.jpg" width="800" height="1000"
+                         draggable="false" alt="Illustration of skin with visible breakouts">
+                </div>
+            </div>
+
+            <p class="compare-note">
+                Now its your turn to see the results.
             </p>
         </div>
     </section>
@@ -336,13 +421,15 @@
                 <a href="terms.html" data-cascade>Terms</a>
                 <a href="privacy.html" data-cascade>Privacy</a>
                 <a href="refund.html" data-cascade>Refunds</a>
-                <a href="mailto:edgars@ideajetlab.com" data-cascade>Contact</a>
+                <a href="mailto:lumafitreal@gmail.com" data-cascade>Contact</a>
             </nav>
             <p class="footer-disc">LumaFit is educational content, not medical advice. Consult a professional for personal concerns.</p>
         </div>
     </footer>
 
     <script src="js/shader-bg.js"></script>
+    <script src="js/liquid-text.js"></script>
+    <script src="js/compare-reveal.js"></script>
     <script src="js/cascade.js"></script>
     <script src="js/hover-button.js"></script>
     <script src="js/nav-cursor.js"></script>

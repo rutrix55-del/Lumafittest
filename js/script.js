@@ -34,6 +34,26 @@ if (!reduceMotion) {
     revealTargets.forEach(el => io.observe(el));
 }
 
+// The hero guide arrives closed and opens itself once it's properly in view.
+const ebook = document.getElementById('ebook');
+if (ebook) {
+    const openBook = () => ebook.classList.add('is-open');
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        openBook();
+    } else {
+        const bookIO = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                bookIO.unobserve(entry.target);
+                // hold the cover shut for a beat so the opening reads as a beat
+                setTimeout(openBook, 240);
+            });
+        }, { threshold: 0.55 });
+        bookIO.observe(ebook);
+    }
+}
+
 // Count-up for hero stats (once, when they scroll into view)
 const statNums = document.querySelectorAll('.stat-num');
 if (statNums.length && !reduceMotion) {
@@ -73,7 +93,10 @@ if (statNums.length && !reduceMotion) {
 // A Payment Link URL is public and safe to ship in client JS. NEVER put a
 // Stripe SECRET key (sk_live_… / sk_test_…) anywhere in this file.
 const CHECKOUT_READY = true;
-const CHECKOUT_URL = 'https://buy.stripe.com/test_14A5kDbHx0hAcme8Pv5Ne00'; // e.g. https://buy.stripe.com/test_abc123
+// Live Payment Link (live mode — no `test_`). Verify with one real purchase on
+// the live domain before announcing; that is the only check that proves the
+// link, the success redirect and the delivery email all work end to end.
+const CHECKOUT_URL = 'https://buy.stripe.com/14A5kDbHx0hAcme8Pv5Ne00';
 
 const buyBtn = document.getElementById('buyBtn');
 const ageConfirm = document.getElementById('ageConfirm');
@@ -88,9 +111,26 @@ function syncBuyState() {
 if (ageConfirm) ageConfirm.addEventListener('change', syncBuyState);
 syncBuyState();
 
-// Guard so a half-finished config (CHECKOUT_READY flipped but URL still the
-// placeholder) can never send a buyer to a dead link.
-const checkoutLive = CHECKOUT_READY && /^https:\/\//.test(CHECKOUT_URL) && !/REPLACE_ME/.test(CHECKOUT_URL);
+// Guard so a half-finished config can never send a buyer somewhere they can't
+// pay. A live Payment Link is https://buy.stripe.com/<id>; Stripe's TEST links
+// carry a `test_` prefix on that id. Shipping a test link is the failure that
+// actually happened here, so the URL has to prove itself rather than being
+// trusted because CHECKOUT_READY was flipped.
+//
+// Note: if you ever move Payment Links onto a custom domain, widen the host
+// pattern below or the guard will (correctly) refuse to recognise it.
+const STRIPE_LIVE_LINK = /^https:\/\/buy\.stripe\.com\/(?!test_)[A-Za-z0-9]+(?:\?[^\s]*)?$/;
+const checkoutLive = CHECKOUT_READY && STRIPE_LIVE_LINK.test(CHECKOUT_URL);
+
+if (CHECKOUT_READY && !checkoutLive) {
+    // Loud on purpose: this is the state where the Buy button looks armed but
+    // isn't, so it should never pass a deploy unnoticed.
+    console.warn(
+        '[LumaFit] Checkout is NOT live: CHECKOUT_URL is not a live Stripe Payment Link.\n' +
+        '  got: ' + CHECKOUT_URL + '\n' +
+        '  expected: https://buy.stripe.com/<id>  (a `test_` prefix means test mode)'
+    );
+}
 
 if (buyBtn) {
     buyBtn.addEventListener('click', () => {
