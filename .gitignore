@@ -20,3 +20,8 @@ test/
 # Local tooling & recovery leftovers — never tracked, never served.
 .claude/
 _archive/
+
+# Local Pages Functions secrets (Resend key, webhook + download secrets).
+# NEVER commit — these are the keys to the paid files and the mail account.
+.dev.vars
+.wrangler/
