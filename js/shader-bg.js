@@ -23,6 +23,16 @@
     cream: "#FBF8F5",
   };
 
+  // Which background wins. Only one may mount — two full-viewport WebGL
+  // contexts would fight over the same z-index and double the GPU cost.
+  // Keep DEFAULT_BG in sync with js/gradient-wave.js.
+  var DEFAULT_BG = "wave";
+
+  function wantsWave() {
+    var m = /[?&]bg=([a-z]+)/i.exec(window.location.search);
+    return (m ? m[1].toLowerCase() : DEFAULT_BG) === "wave";
+  }
+
   var prefersReduced = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -114,6 +124,8 @@
   }
 
   function init() {
+    if (wantsWave()) return; // ?bg=wave -> js/gradient-wave.js mounts instead
+
     var canvas = document.createElement("canvas");
     canvas.id = "shader-bg";
     canvas.setAttribute("aria-hidden", "true");

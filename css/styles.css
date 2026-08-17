@@ -264,7 +264,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
     border-radius: 100px;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: transform 0.2s ease, box-shadow 0.3s ease, filter 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.3s ease, filter 0.2s ease, opacity 0.28s ease;
     white-space: nowrap;
     position: relative;
 }
@@ -709,12 +709,28 @@ button { font-family: inherit; border: none; cursor: pointer; }
     .cr-handle { width: 38px; height: 38px; }
 }
 
-.hero-sub {
-    font-size: clamp(1.05rem, 2vw, 1.28rem);
-    color: var(--ink-soft);
+/* The mantra: the three-beat line people actually repeat. Weight, size and
+   full-strength ink separate it from the explanation below, and the negative
+   tracking is what stops Inter reading as a default UI font. */
+.hero-mantra {
+    font-size: clamp(1.22rem, 2.6vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.28;
+    color: var(--ink);
     max-width: 600px;
+    margin: 0 auto 14px;
+    text-wrap: balance;
+}
+
+/* The explanation: deliberately quieter and set to a narrower measure, so the
+   block tapers and the eye lands on the mantra first. */
+.hero-sub {
+    font-size: clamp(0.98rem, 1.7vw, 1.06rem);
+    color: var(--ink-mute);
+    max-width: 528px;
     margin: 0 auto 38px;
-    line-height: 1.55;
+    line-height: 1.6;
 }
 
 .hero-cta {
@@ -1272,6 +1288,68 @@ button { font-family: inherit; border: none; cursor: pointer; }
     box-shadow: var(--shadow-md);
 }
 
+/* ---------- Glowing border (vanilla port of the React GlowingEffect) --------
+   A brand-gradient ring is masked down to the card's border band, then rotated
+   to face the pointer by js/glow-cards.js. Colours are the LumaFit spectrum
+   (coral → gold → violet → pink) rather than the original's pink/gold/green.
+
+   Only on fine-pointer devices: the effect is pointer-driven, so on touch it
+   would either never fire or stick on. There, cards keep their glass look.
+   -------------------------------------------------------------------------- */
+[data-glow] {
+    position: relative;
+    --glow-bw: 3px;      /* ring thickness */
+    --glow-spread: 40;   /* half-width of the lit arc, in degrees */
+    --glow-start: 0;     /* arc angle — driven by JS */
+    --glow-active: 0;    /* 0 hidden, 1 lit — driven by JS */
+    --glow-times: 5;     /* conic repeats */
+}
+
+@media (hover: hover) and (pointer: fine) {
+    [data-glow]::after {
+        content: "";
+        position: absolute;
+        inset: calc(-1 * var(--glow-bw));
+        border-radius: inherit;
+        border: var(--glow-bw) solid transparent;
+        pointer-events: none;
+        opacity: var(--glow-active);
+        transition: opacity 0.3s ease;
+
+        background:
+            radial-gradient(circle, #FF8E6E 10%, #FF8E6E00 20%),
+            radial-gradient(circle at 40% 40%, #FFC76B 5%, #FFC76B00 15%),
+            radial-gradient(circle at 60% 60%, #8A5BFF 10%, #8A5BFF00 20%),
+            radial-gradient(circle at 40% 60%, #FF5C93 10%, #FF5C9300 20%),
+            repeating-conic-gradient(from 236.84deg at 50% 50%,
+                #FF8E6E 0%,
+                #FFC76B calc(25% / var(--glow-times)),
+                #8A5BFF calc(50% / var(--glow-times)),
+                #FF5C93 calc(75% / var(--glow-times)),
+                #FF8E6E calc(100% / var(--glow-times)));
+        /* Viewport-anchored so all four cards light from one shared field. */
+        background-attachment: fixed;
+
+        /* Two mask layers composited together: the first is fully transparent
+           and clipped to padding-box, which knocks out the card interior; the
+           second is a conic wedge clipped to border-box, which limits what
+           remains to a --glow-spread arc centred on --glow-start. The result
+           is a short glowing segment travelling around the border. */
+        -webkit-mask-image:
+            linear-gradient(#0000, #0000),
+            conic-gradient(from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
+                #00000000 0deg, #fff, #00000000 calc(var(--glow-spread) * 2deg));
+        mask-image:
+            linear-gradient(#0000, #0000),
+            conic-gradient(from calc((var(--glow-start) - var(--glow-spread)) * 1deg),
+                #00000000 0deg, #fff, #00000000 calc(var(--glow-spread) * 2deg));
+        -webkit-mask-clip: padding-box, border-box;
+        mask-clip: padding-box, border-box;
+        -webkit-mask-composite: source-in;
+        mask-composite: intersect;
+    }
+}
+
 .problem-icon {
     width: 50px;
     height: 50px;
@@ -1733,6 +1811,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 
 /* ---------- Age gate ---------- */
 .age-gate {
+    position: relative; /* anchors the visually-hidden input */
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -1743,13 +1822,87 @@ button { font-family: inherit; border: none; cursor: pointer; }
     color: var(--ink-soft);
     cursor: pointer;
 }
+/* The real input is hidden but still focusable and still what screen readers
+   announce — only its appearance is replaced, never its behaviour. */
 .age-gate input {
-    margin-top: 2px;
-    width: 16px;
-    height: 16px;
-    accent-color: var(--pink-deep);
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    pointer-events: none;
+}
+
+.age-box {
+    position: relative;
     flex-shrink: 0;
-    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    border-radius: 7px;
+    border: 1.5px solid rgba(24, 18, 16, 0.18);
+    background: #fff;
+    display: grid;
+    place-items: center;
+    transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.age-gate:hover .age-box { border-color: rgba(24, 18, 16, 0.34); }
+.age-gate:active .age-box { transform: scale(0.92); }
+
+/* The brand fill lives on a pseudo-element rather than the box's own
+   background: gradients can't be transitioned, but opacity and transform can,
+   so this blooms out from the centre instead of snapping. */
+.age-box::before {
+    content: "";
+    position: absolute;
+    inset: -1.5px;
+    border-radius: inherit;
+    background: var(--grad-brand-deep);
+    opacity: 0;
+    transform: scale(0.3);
+    transition: opacity 0.2s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* The tick draws itself: the polyline is ~17 units long, so hiding it behind an
+   equal dash offset and animating that to 0 sweeps it on. The small delay lets
+   the fill land first. */
+.age-box svg {
+    position: relative;
+    width: 13px;
+    height: 13px;
+    stroke: #fff;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    transition: stroke-dashoffset 0.28s cubic-bezier(0.65, 0, 0.35, 1) 0.07s;
+}
+
+.age-gate input:checked + .age-box {
+    border-color: transparent;
+}
+.age-gate input:checked + .age-box::before {
+    opacity: 1;
+    transform: scale(1);
+}
+.age-gate input:checked + .age-box svg {
+    stroke-dashoffset: 0;
+}
+
+/* Keyboard focus moves to the box, matching the site-wide :focus-visible ring.
+   Without this the outline would draw around the 1px hidden input. */
+.age-gate input:focus-visible { outline: none; }
+.age-gate input:focus-visible + .age-box {
+    outline: 3px solid var(--violet-deep);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .age-box,
+    .age-box::before,
+    .age-box svg { transition-duration: 0.01ms; }
 }
 .btn.is-disabled,
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
