@@ -1560,19 +1560,92 @@ button { font-family: inherit; border: none; cursor: pointer; }
     box-shadow: 0 6px 14px -4px rgba(22, 180, 136, 0.55);
 }
 
-/* ---------- Testimonials / honest start ---------- */
+/* ---------- Testimonials ----------
+   A responsive card grid. Flexbox rather than Grid for one specific reason:
+   five cards at three-per-row leaves a remainder row of two, and
+   justify-content centres that remainder under the row above. Grid would peg
+   it to the left edge, which is the one arrangement that looks like a mistake.
+
+   No media queries are needed for the column count. flex: 1 1 300px lets the
+   cards wrap on their own and share out whatever width the row has, so the
+   count per row falls out of the space available — three on a desktop, two on
+   a tablet, one on a phone — and max-width keeps a lone card on the last row
+   from stretching the full width of the container. */
 .testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
     gap: 24px;
 }
 
 .testimonial {
+    flex: 1 1 300px;
+    max-width: 360px;
+    /* A column, so the photo spans the card's full width and the author line
+       can be pushed down to the foot of it. */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     background: var(--glass-strong);
     padding: 32px;
     border-radius: var(--radius-md);
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-sm);
+}
+
+/* Optional progress photo at the head of a card. Reviews without one render
+   exactly as before — the frame only exists where .t-photo does.
+
+   Each file already holds its before and after side by side, so the frame
+   holds one image, and 16/9 matches the shape two of the three arrived in.
+
+   'cover' rather than 'contain', which is safe *because* the panels sit left
+   and right: filling the frame only ever crops top and bottom, which trims
+   both panels equally and leaves the comparison itself intact. Horizontal
+   cropping is what would damage it, and this cannot do that. */
+.t-photo {
+    margin-bottom: 22px;
+}
+
+.t-photo img {
+    display: block;
+    width: 100%;
+    /* height: auto is load-bearing, not tidiness. The width/height attributes
+       on the tag land as presentational hints on the CSS width and height, and
+       'width: 100%' above only overrode the first of them. That left height
+       pinned at the file's own pixel height, which made the box fully definite
+       and so left aspect-ratio with nothing to do: every photo rendered at its
+       native size — Lisa's 680px tall inside a 290px-wide card. Releasing
+       height is what hands the sizing back to aspect-ratio. */
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--radius-sm);
+    /* Holds the frame's shape and tone before the file arrives, so the card
+       does not flash an empty box as it scrolls into view. */
+    background: var(--glass);
+}
+
+.t-photo figcaption {
+    margin-top: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-mute);
+}
+
+/* Every card in a row is as tall as the tallest, so a card carrying a photo
+   sets the height and the text-only ones beside it are left holding the
+   difference as slack. Paired with the auto margin on .t-author below, this
+   splits that slack evenly above and below the quote: the author line still
+   settles on the row's shared baseline, and the quote sits centred in the card
+   rather than stranded at the top of a tall empty box. */
+.testimonial blockquote {
+    margin-top: auto;
 }
 
 .testimonial p {
@@ -1584,7 +1657,59 @@ button { font-family: inherit; border: none; cursor: pointer; }
     margin-bottom: 20px;
 }
 
-.t-author { font-size: 0.9rem; font-weight: 600; color: var(--ink-mute); }
+/* align-items: stretch gives every card in a row the same height, and only
+   three of the five reviews have a photo — so the shorter ones have height to
+   spare. The auto top margin spends it in the one place it reads as deliberate
+   rather than as a gap: every author line in a row settles on one baseline. */
+.t-author {
+    margin-top: auto;
+    /* The name and its badge line now stack, so the flex column keeps them
+       centred on each other rather than relying on the parent's text-align. */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-mute);
+}
+
+/* inline-flex so the check sits on the name's own line and rides with it when
+   the card narrows, instead of being free to wrap onto a line of its own. */
+.t-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+/* The same badge the .check-list bullets use — gradient disc, white tick, no
+   extra markup — at the size a name line can carry. Shrunk to 17px the stroke
+   needs to come up a little to survive, hence 3.6 against the list's 3.2. */
+.t-name::after {
+    content: '';
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
+        var(--grad-fresh);
+    background-size: 9px 9px, cover;
+    background-position: center, center;
+    background-repeat: no-repeat;
+    box-shadow: 0 3px 8px -2px rgba(22, 180, 136, 0.5);
+}
+
+/* Same micro-label treatment as the photo's "Before and after" caption, so the
+   two small lines in a card read as one family — tinted to the check's green
+   to tie the claim to the mark that makes it. */
+.t-verified {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--mint-deep);
+}
 
 /* ---------- Buy ---------- */
 .buy-card {
