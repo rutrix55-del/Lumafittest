@@ -97,10 +97,12 @@ const CHECKOUT_READY = true;
 // the live domain before announcing; that is the only check that proves the
 // link, the success redirect and the delivery email all work end to end.
 //
-// ⚠️ TEMPORARY — $1 END-TO-END TEST LINK IS ACTIVE.
-// While this is deployed every buyer pays $1, not the $15 the page advertises.
-// Restore the line below the moment the test purchase is confirmed:
-//   const CHECKOUT_URL = 'https://buy.stripe.com/14A5kDbHx0hAcme8Pv5Ne00';  // $15 live
+// ⚠️ TEMPORARY — the $1 END-TO-END TEST LINK is active on the line below.
+// Every buyer pays $1, not the $15 the page advertises. To restore normal
+// pricing, put this id back in CHECKOUT_URL (it is the $15 live link):
+//     14A5kDbHx0hAcme8Pv5Ne00
+// Deliberately written as a bare id, not as a second line of code, so there
+// is only ever one `const CHECKOUT_URL` in this file to read.
 const CHECKOUT_URL = 'https://buy.stripe.com/cNi14ncLBggy2LE2r75Ne01'; // $1 live — TEST ONLY
 
 const buyBtn = document.getElementById('buyBtn');
