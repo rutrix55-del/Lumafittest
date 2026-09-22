@@ -206,7 +206,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     height: var(--sale-bar-h);
     max-width: 1160px;
     margin: 0 auto;
-    padding: 0 48px 0 16px; /* right side leaves room for the close button */
+    padding: 0 48px; /* symmetric, so the content centres on the bar, not beside the close button */
     font-size: 0.86rem;
     font-weight: 600;
     white-space: nowrap;
@@ -240,20 +240,19 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 .sale-lbl { font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); }
 
-/* Inverted primary: the bar is already ink, so the button goes white and the
-   brand colour lives in a slow-breathing halo behind it plus a light sweep
-   across its face every few seconds. Both are what makes it read as "press
-   me" against the dark strip; the ink text keeps its contrast. Compact so it
-   sits inside the 42px bar. */
+/* Outlined, not filled: on the ink strip the button reads as a crisp white
+   ring rather than a white slab. The pull comes from a slow-breathing brand
+   halo plus a light sweep across its face; hover fills it just enough to
+   confirm the target. Compact so it sits inside the 42px bar. */
 .btn.sale-cta {
     margin-left: 4px;
-    padding: 7px 16px;
+    padding: 6px 16px;
     font-size: 0.8rem;
     font-weight: 800;
-    background: #fff;
-    color: var(--ink);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
     overflow: hidden; /* clips the sheen to the pill */
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     animation: sale-cta-breathe 2.8s ease-in-out infinite;
 }
 .btn.sale-cta::after {
@@ -262,11 +261,11 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     inset: 0;
     background: linear-gradient(
         115deg,
-        transparent 32%,
-        rgba(255, 142, 110, 0.35) 44%,
-        rgba(255, 255, 255, 0.95) 50%,
-        rgba(138, 91, 255, 0.35) 56%,
-        transparent 68%
+        transparent 34%,
+        rgba(255, 142, 110, 0.4) 46%,
+        rgba(255, 255, 255, 0.55) 50%,
+        rgba(138, 91, 255, 0.4) 54%,
+        transparent 66%
     );
     transform: translateX(-130%);
     animation: sale-cta-sheen 3.8s ease-in-out infinite;
@@ -274,7 +273,9 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 .btn.sale-cta:hover {
     transform: translateY(-1px) scale(1.04);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3), var(--glow-brand);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: #fff;
+    box-shadow: var(--glow-brand);
     animation-play-state: paused;
 }
 .btn.sale-cta:active {
@@ -282,8 +283,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     transition-duration: 0.08s;
 }
 @keyframes sale-cta-breathe {
-    0%, 100% { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(255, 92, 147, 0); }
-    50%      { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 22px 3px rgba(255, 92, 147, 0.55); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 92, 147, 0); }
+    50%      { box-shadow: 0 0 20px 2px rgba(255, 92, 147, 0.5); }
 }
 /* Rests off-pill for most of the cycle, then sweeps once. */
 @keyframes sale-cta-sheen {
@@ -319,18 +320,20 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 /* Narrower screens shed words, never the button: it is the tap target. */
 @media (max-width: 720px) {
-    .sale-inner { gap: 8px; padding: 0 44px 0 12px; font-size: 0.8rem; }
+    .sale-inner { gap: 8px; padding: 0 40px; font-size: 0.8rem; }
     .sale-text-long { display: none; }
     .btn.sale-cta { padding: 5px 12px; font-size: 0.74rem; }
 }
 @media (max-width: 440px) {
     :root { --sale-bar-h: 38px; }
     .sale-text { display: none; }
-    .sale-badge { padding: 3px 8px; font-size: 0.64rem; }
-    .sale-inner { gap: 6px; }
-    .sale-timer { gap: 4px; }
+    .sale-badge { padding: 3px 7px; font-size: 0.6rem; }
+    .sale-inner { gap: 6px; padding: 0 36px; font-size: 0.72rem; }
+    .sale-timer { gap: 3px; }
     .sale-num { padding: 2px 4px; }
-    .btn.sale-cta { margin-left: 0; }
+    .sale-lbl { font-size: 0.6rem; }
+    .sale-close { right: 6px; width: 24px; height: 24px; }
+    .btn.sale-cta { margin-left: 0; padding: 5px 9px; font-size: 0.68rem; }
 }
 
 .nav-inner {
