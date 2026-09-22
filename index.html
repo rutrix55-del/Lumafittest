@@ -25,6 +25,28 @@
     <div class="bg-blob bg-blob-2"></div>
     <div class="bg-blob bg-blob-3"></div>
 
+    <!-- Sale bar. Starts hidden; js/sale-bar.js shows it only while SALE_ENDS
+         is still ahead and it hasn't been dismissed, so an expired sale never
+         flashes on load. The ticking digits are aria-hidden and #saleEndsText
+         carries the deadline as a plain date for screen readers. -->
+    <div class="sale-bar" id="saleBar" role="region" aria-label="Limited-time offer" hidden>
+        <div class="sale-inner">
+            <span class="sale-badge">50% off</span>
+            <span class="sale-text"><span class="sale-text-long">Launch sale </span>ends in</span>
+            <span class="sale-timer" aria-hidden="true">
+                <span class="sale-unit"><span class="sale-num" data-unit="d">00</span><span class="sale-lbl">d</span></span>
+                <span class="sale-unit"><span class="sale-num" data-unit="h">00</span><span class="sale-lbl">h</span></span>
+                <span class="sale-unit"><span class="sale-num" data-unit="m">00</span><span class="sale-lbl">m</span></span>
+                <span class="sale-unit"><span class="sale-num" data-unit="s">00</span><span class="sale-lbl">s</span></span>
+            </span>
+            <span class="sale-sr" id="saleEndsText"></span>
+            <a href="#buy" class="btn sale-cta">Claim it <span class="btn-arrow">→</span></a>
+            <button type="button" class="sale-close" id="saleClose" aria-label="Dismiss offer">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+            </button>
+        </div>
+    </div>
+
     <!-- Nav -->
     <nav class="nav" id="nav">
         <div class="container nav-inner">
@@ -503,6 +525,7 @@
     <script src="js/hover-button.js"></script>
     <script src="js/glow-cards.js"></script>
     <script src="js/nav-cursor.js"></script>
+    <script src="js/sale-bar.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

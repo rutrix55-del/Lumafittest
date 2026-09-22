@@ -161,7 +161,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 /* ---------- Nav (floating glass pill) ---------- */
 .nav {
     position: sticky;
-    top: 16px;
+    top: calc(16px + var(--sale-h));
     z-index: 100;
     margin: 16px auto 0;
     width: calc(100% - 32px);
@@ -172,12 +172,165 @@ button { font-family: inherit; border: none; cursor: pointer; }
     -webkit-backdrop-filter: blur(18px) saturate(160%);
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    transition: top 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.3s ease;
 }
 
 .nav.scrolled {
     background: var(--glass-strong);
     box-shadow: var(--shadow-md);
+}
+
+/* ---------- Sale bar (sticky strip above the nav) ----------
+   The bar and the nav are both sticky, so the nav's offset has to grow by the
+   bar's height or the two stack on top of each other. --sale-h stays 0 until
+   js/sale-bar.js confirms the sale is live and adds body.has-sale; dismissing
+   or expiring removes it and the nav slides back up. */
+:root { --sale-bar-h: 42px; --sale-h: 0px; }
+body.has-sale { --sale-h: var(--sale-bar-h); }
+
+.sale-bar {
+    position: sticky;
+    top: 0;
+    z-index: 101;
+    background: var(--grad-ink);
+    color: #fff;
+}
+.sale-bar[hidden] { display: none; }
+
+.sale-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: var(--sale-bar-h);
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 48px 0 16px; /* right side leaves room for the close button */
+    font-size: 0.86rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.sale-badge {
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--grad-brand);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.sale-text { color: rgba(255, 255, 255, 0.78); }
+
+.sale-timer {
+    display: inline-flex;
+    gap: 6px;
+    font-variant-numeric: tabular-nums;
+}
+.sale-unit { display: inline-flex; align-items: baseline; gap: 2px; }
+.sale-num {
+    min-width: 2ch;
+    padding: 3px 6px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    font-weight: 800;
+    text-align: center;
+}
+.sale-lbl { font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); }
+
+/* Inverted primary: the bar is already ink, so the button goes white and the
+   brand colour lives in a slow-breathing halo behind it plus a light sweep
+   across its face every few seconds. Both are what makes it read as "press
+   me" against the dark strip; the ink text keeps its contrast. Compact so it
+   sits inside the 42px bar. */
+.btn.sale-cta {
+    margin-left: 4px;
+    padding: 7px 16px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    background: #fff;
+    color: var(--ink);
+    overflow: hidden; /* clips the sheen to the pill */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    animation: sale-cta-breathe 2.8s ease-in-out infinite;
+}
+.btn.sale-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        115deg,
+        transparent 32%,
+        rgba(255, 142, 110, 0.35) 44%,
+        rgba(255, 255, 255, 0.95) 50%,
+        rgba(138, 91, 255, 0.35) 56%,
+        transparent 68%
+    );
+    transform: translateX(-130%);
+    animation: sale-cta-sheen 3.8s ease-in-out infinite;
+    pointer-events: none;
+}
+.btn.sale-cta:hover {
+    transform: translateY(-1px) scale(1.04);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3), var(--glow-brand);
+    animation-play-state: paused;
+}
+.btn.sale-cta:active {
+    transform: translateY(0) scale(0.96);
+    transition-duration: 0.08s;
+}
+@keyframes sale-cta-breathe {
+    0%, 100% { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(255, 92, 147, 0); }
+    50%      { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 22px 3px rgba(255, 92, 147, 0.55); }
+}
+/* Rests off-pill for most of the cycle, then sweeps once. */
+@keyframes sale-cta-sheen {
+    0%, 62% { transform: translateX(-130%); }
+    100%    { transform: translateX(130%); }
+}
+.sale-close {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.sale-close svg { width: 14px; height: 14px; }
+.sale-close:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+/* Visually hidden, still read out. */
+.sale-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Narrower screens shed words, never the button: it is the tap target. */
+@media (max-width: 720px) {
+    .sale-inner { gap: 8px; padding: 0 44px 0 12px; font-size: 0.8rem; }
+    .sale-text-long { display: none; }
+    .btn.sale-cta { padding: 5px 12px; font-size: 0.74rem; }
+}
+@media (max-width: 440px) {
+    :root { --sale-bar-h: 38px; }
+    .sale-text { display: none; }
+    .sale-badge { padding: 3px 8px; font-size: 0.64rem; }
+    .sale-inner { gap: 6px; }
+    .sale-timer { gap: 4px; }
+    .sale-num { padding: 2px 4px; }
+    .btn.sale-cta { margin-left: 0; }
 }
 
 .nav-inner {
@@ -2114,7 +2267,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 }
 
 @media (max-width: 440px) {
-    .nav { top: 10px; width: calc(100% - 20px); }
+    .nav { top: calc(10px + var(--sale-h)); width: calc(100% - 20px); }
     .nav-inner { padding: 10px 10px 10px 18px; }
     .logo { font-size: 1.05rem; }
     .btn-xl { padding: 18px 24px; font-size: 1rem; }
