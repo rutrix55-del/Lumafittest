@@ -3,7 +3,7 @@
    Vanilla port of the React GradientWave. The MiniGl / Gradient classes were
    already framework-free — only the React wrapper and the TypeScript types
    needed removing — so this is the same simplex-noise wave shader, themed to
-   LumaFit and washed over the cream base so body text stays readable.
+   LumaFit in greyscale over a light base so body text stays readable.
 
    ON by default. This is an alternative to js/shader-bg.js, not an addition:
    two full-viewport WebGL contexts would fight and drain battery, so exactly
@@ -30,8 +30,11 @@
      layers is the ceiling. The component's own six-colour default overruns
      that vec4 and reads out of bounds. */
   var CONFIG = {
-    base: "#FBF8F5",                              // cream, same as --bg
-    waves: ["#FFC9B4", "#FFB4D0", "#D3BEFF"],     // soft coral → pink → violet
+    // Greyscale on purpose: the waves read by tone alone (graphite, white,
+    // silver) and the volt accents keep all the colour. The last layer paints
+    // on top. Keep base in sync with --bg and the greys with the CSS fallback.
+    base: "#F3F3F2",
+    waves: ["#8A8E92", "#FFFFFF", "#C8CBCD"],
     shadowPower: 6,
     darkenTop: false,   // a light site: no top shadow
     noiseFreq: [0.00012, 0.00028],

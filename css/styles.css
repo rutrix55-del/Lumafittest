@@ -1,9 +1,12 @@
 /* =========================================================================
-   LumaFit — "Aurora Glow" design system
-   Vibrant + fresh + premium. Warm cream base, coral→pink→violet brand
-   gradient, fresh emerald accents, glassmorphism cards, aurora background.
+   LumaFit — "Graphite & Volt" design system
+   Bold + sporty + gender-neutral. A black-and-white base with flowing
+   graphite/silver waves, graphite ink and surfaces, glassmorphism cards, and
+   one electric accent (volt). Volt is only ever a fill, ring, glow or highlight behind dark
+   text, never text on the light ground (it would be ~1.1:1); text accents
+   use --moss.
    Variable + class names are kept stable so the legal / thank-you pages
-   (which reuse them) stay coherent.
+   (which reuse them) stay coherent: the old hue names are aliases below.
    ========================================================================= */
 
 /* ---------- Reset + base ---------- */
@@ -11,38 +14,65 @@
 
 :root {
     /* Surfaces */
-    --bg: #FBF8F5;
-    --bg-soft: #F3EBE3;
-    --ink: #181210;
-    --ink-soft: #564D46;
-    --ink-mute: #6E655C;
-    --line: rgba(24, 18, 16, 0.09);
+    --bg: #F3F3F2;             /* = the wave base in js/gradient-wave.js */
+    --bg-soft: #E6E6E5;
+    --ink: #111314;
+    --ink-soft: #464A4E;
+    --ink-mute: #5D6267;
+    --line: rgba(17, 19, 20, 0.09);
 
-    /* Brand spectrum (vibrant) */
-    --coral: #FF8E6E;
-    --coral-deep: #F2603F;
-    --coral-deeper: #B8431F; /* WCAG-AA link hover/focus (~5:1 on cream); --coral-deep is for large display only */
-    --pink: #FF5C93;
-    --pink-deep: #E0327A;
-    --violet: #8A5BFF;
-    --violet-deep: #7C3AED;
-    --mint: #5FE0B0;
-    --mint-deep: #16B488;
-    --gold: #FFC76B;
-    --sky: #59C2FF;
+    /* Graphite & Volt */
+    --volt: #E6FF55;
+    --lime: #B5F23D;
+    --spring: #4FE3A6;
+    --fresh: #8BE86A;          /* positive marks: the live dot, tick discs */
+    --graphite: #111314;
+    --graphite-2: #1C2620;
+    --graphite-3: #2A3F2C;
+    --moss: #3E6A12;           /* AA text accent on --bg (5.8:1): link hovers, icons, small labels */
+    --moss-deep: #2F6B2A;      /* the "verified" green, AA on --bg (5.8:1) */
+    --on-volt: #111314;        /* text and ticks that sit on volt fills */
 
-    /* Backward-compatible aliases (used by legal / thank-you pages) */
+    /* The wave greys (keep in sync with js/gradient-wave.js), used by the CSS
+       fallback background. */
+    --wave-graphite: #8A8E92;
+    --wave-silver: #C8CBCD;
+    /* Text that sits straight on the waves (no card behind it). Full ink:
+       over the darkest graphite band it still clears AA (5.65:1), where
+       --ink-soft (2.7:1) and --ink-mute (1.9:1) would not. */
+    --ink-on-wave: var(--ink);
+
+    /* Colour channels for rgba(). Glows on the light ground use --glow-rgb, a
+       deeper yellow-green that still reads on stone; on graphite, --volt-rgb. */
+    --volt-rgb: 230, 255, 85;
+    --glow-rgb: 150, 210, 30;
+    --fresh-rgb: 139, 232, 106;
+
+    /* Legacy names, still used by the legal / thank-you pages. Each now points
+       at the Graphite & Volt role that replaced its old hue. */
+    --coral: var(--volt);
+    --coral-deep: var(--moss);
+    --coral-deeper: var(--moss);
+    --pink: var(--lime);
+    --pink-deep: var(--graphite);
+    --violet: var(--spring);
+    --violet-deep: var(--graphite);
+    --mint: var(--fresh);
+    --mint-deep: var(--moss-deep);
+    --gold: var(--graphite-3);  /* only left as a text-gradient stop (thank-you title), so it stays dark */
+    --sky: var(--spring);
     --peach: var(--coral);
     --peach-deep: var(--coral-deep);
 
     /* Signature gradients */
-    --grad-brand: linear-gradient(120deg, #FF8E6E 0%, #FF5C93 48%, #8A5BFF 100%);
-    --grad-brand-deep: linear-gradient(120deg, #F2603F 0%, #E0327A 52%, #7C3AED 100%);
-    --grad-fresh: linear-gradient(135deg, #5FE0B0, #16B488);
-    --grad-ink: linear-gradient(135deg, #1F1813 0%, #2E2218 100%);
-    /* Deep brand gradient for the sliding nav pill — stops chosen dark enough
-       that white tab labels clear WCAG AA (4.5:1) across the whole pill. */
-    --grad-nav-cursor: linear-gradient(120deg, #B8431F 0%, #C81E63 50%, #7C3AED 100%);
+    --grad-brand: linear-gradient(120deg, var(--volt) 0%, var(--lime) 48%, var(--spring) 100%);
+    /* Graphite, not colour: this set carries text (stats, price, eyebrows) and
+       white-on-dark surfaces (cover, tiles, badges), so it has to stay dark. */
+    --grad-brand-deep: linear-gradient(120deg, var(--graphite) 0%, var(--graphite-2) 52%, var(--graphite-3) 100%);
+    --grad-fresh: linear-gradient(135deg, #DDFB52, var(--fresh));
+    --grad-ink: linear-gradient(135deg, #111314 0%, #1F2426 100%);
+    /* Sliding nav pill: white tab labels clear WCAG AA by a wide margin. */
+    --grad-nav-cursor: linear-gradient(120deg, var(--graphite) 0%, var(--graphite-2) 50%, var(--graphite-3) 100%);
 
     /* Glass */
     --glass: rgba(255, 255, 255, 0.72);
@@ -50,10 +80,10 @@
     --glass-border: rgba(255, 255, 255, 0.7);
 
     /* Shadows */
-    --shadow-sm: 0 2px 10px rgba(40, 24, 16, 0.05);
-    --shadow-md: 0 12px 32px rgba(40, 24, 16, 0.10);
-    --shadow-lg: 0 30px 70px rgba(40, 24, 16, 0.16);
-    --glow-brand: 0 18px 50px -12px rgba(226, 60, 110, 0.55);
+    --shadow-sm: 0 2px 10px rgba(17, 19, 20, 0.05);
+    --shadow-md: 0 12px 32px rgba(17, 19, 20, 0.10);
+    --shadow-lg: 0 30px 70px rgba(17, 19, 20, 0.16);
+    --glow-brand: 0 18px 50px -12px rgba(var(--glow-rgb), 0.55);
 
     --radius-sm: 14px;
     --radius-md: 22px;
@@ -77,7 +107,7 @@ ul { list-style: none; }
 button { font-family: inherit; border: none; cursor: pointer; }
 
 :focus-visible {
-    outline: 3px solid var(--violet-deep);
+    outline: 3px solid var(--graphite);
     outline-offset: 3px;
     border-radius: 6px;
 }
@@ -97,10 +127,10 @@ button { font-family: inherit; border: none; cursor: pointer; }
     inset: 0;
     z-index: -3;
     background:
-        radial-gradient(42% 52% at 12% 6%,  rgba(255, 142, 110, 0.40), transparent 62%),
-        radial-gradient(46% 56% at 88% 2%,  rgba(255, 92, 147, 0.30),  transparent 60%),
-        radial-gradient(52% 60% at 84% 96%, rgba(95, 224, 176, 0.34),  transparent 62%),
-        radial-gradient(48% 58% at 8% 92%,  rgba(138, 91, 255, 0.24),  transparent 62%),
+        radial-gradient(42% 52% at 12% 6%,  rgba(138, 142, 146, 0.30), transparent 62%),
+        radial-gradient(46% 56% at 88% 2%,  rgba(255, 255, 255, 0.75), transparent 60%),
+        radial-gradient(52% 60% at 84% 96%, rgba(138, 142, 146, 0.24), transparent 62%),
+        radial-gradient(48% 58% at 8% 92%,  rgba(200, 203, 205, 0.45), transparent 62%),
         var(--bg);
 }
 
@@ -120,19 +150,19 @@ button { font-family: inherit; border: none; cursor: pointer; }
     height: 620px;
     border-radius: 50%;
     filter: blur(130px);
-    opacity: 0.42;
+    opacity: 0.3;
     z-index: -2;
     pointer-events: none;
     animation: float 22s ease-in-out infinite;
 }
 
-.bg-blob-1 { background: var(--coral); top: -240px; left: -200px; }
-.bg-blob-2 { background: var(--mint); bottom: -260px; right: -200px; animation-delay: -11s; }
+.bg-blob-1 { background: var(--wave-graphite); top: -240px; left: -200px; }
+.bg-blob-2 { background: var(--wave-silver); bottom: -260px; right: -200px; animation-delay: -11s; }
 .bg-blob-3 {
-    background: var(--violet);
+    background: var(--wave-graphite);
     top: 38%; left: 56%;
     width: 480px; height: 480px;
-    opacity: 0.26;
+    opacity: 0.2;
     animation-delay: -6s;
 }
 
@@ -196,6 +226,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     color: #fff;
 }
 .sale-bar[hidden] { display: none; }
+/* The site-wide graphite focus ring would vanish on the graphite strip. */
+.sale-bar :focus-visible { outline-color: var(--volt); }
 
 .sale-inner {
     position: relative;
@@ -216,6 +248,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     padding: 4px 10px;
     border-radius: 100px;
     background: var(--grad-brand);
+    color: var(--on-volt);
     font-size: 0.7rem;
     font-weight: 800;
     letter-spacing: 0.06em;
@@ -262,9 +295,9 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     background: linear-gradient(
         115deg,
         transparent 34%,
-        rgba(255, 142, 110, 0.4) 46%,
+        rgba(var(--volt-rgb), 0.45) 46%,
         rgba(255, 255, 255, 0.55) 50%,
-        rgba(138, 91, 255, 0.4) 54%,
+        rgba(79, 227, 166, 0.4) 54%,
         transparent 66%
     );
     transform: translateX(-130%);
@@ -283,8 +316,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     transition-duration: 0.08s;
 }
 @keyframes sale-cta-breathe {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 92, 147, 0); }
-    50%      { box-shadow: 0 0 20px 2px rgba(255, 92, 147, 0.5); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--volt-rgb), 0); }
+    50%      { box-shadow: 0 0 20px 2px rgba(var(--volt-rgb), 0.45); }
 }
 /* Rests off-pill for most of the cycle, then sweeps once. */
 @keyframes sale-cta-sheen {
@@ -352,12 +385,14 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     letter-spacing: -0.02em;
 }
 
+/* Volt disc with a graphite rim: on white glass, volt alone is too pale to
+   hold its shape. */
 .logo-dot {
     width: 16px;
     height: 16px;
     border-radius: 50%;
     background: var(--grad-brand);
-    box-shadow: 0 0 18px rgba(255, 92, 147, 0.6);
+    box-shadow: 0 0 0 2px var(--graphite), 0 0 16px rgba(var(--glow-rgb), 0.6);
 }
 
 .logo-text { font-family: 'Fraunces', serif; font-weight: 700; font-style: italic; }
@@ -402,7 +437,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     transform: translateY(-50%);
     border-radius: 100px;
     background: var(--grad-nav-cursor);
-    box-shadow: 0 8px 22px -6px rgba(200, 30, 99, 0.5);
+    box-shadow: 0 8px 22px -6px rgba(var(--glow-rgb), 0.5);
     opacity: 0;
     pointer-events: none;
     transition: left 0.32s cubic-bezier(0.22, 1, 0.36, 1),
@@ -429,12 +464,12 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 .btn-primary {
     background: var(--grad-ink);
     color: #FFF;
-    box-shadow: 0 10px 26px rgba(24, 18, 16, 0.22);
+    box-shadow: 0 10px 26px rgba(17, 19, 20, 0.22);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(24, 18, 16, 0.28), var(--glow-brand);
+    box-shadow: 0 16px 40px rgba(17, 19, 20, 0.28), var(--glow-brand);
 }
 
 .btn-sm { padding: 10px 18px; font-size: 0.85rem; }
@@ -446,7 +481,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 /* ---------- Glass hover button (ported HoverButton) ----------
    A frosted-glass pill that trails soft, blurred brand-coloured glow dots
-   under the pointer (see js/hover-button.js). Themed to LumaFit: coral→violet
+   under the pointer (see js/hover-button.js). Themed to LumaFit: volt→spring
    glow instead of the component's blue, on a light frosted surface. */
 .hover-btn {
     position: relative;
@@ -456,7 +491,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     gap: 9px;
     padding: 17px 34px;
     border-radius: 24px;
-    /* Crisp coral→violet gradient ring (ties into the glow-dot colours). */
+    /* Crisp volt→spring gradient ring (ties into the glow-dot colours). */
     border: 2px solid transparent;
     font-family: inherit;
     font-weight: 700;
@@ -471,15 +506,15 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     cursor: pointer;
     white-space: nowrap;
     box-shadow:
-        0 8px 22px -6px rgba(40, 24, 16, 0.20),
-        0 16px 44px -14px rgba(226, 60, 110, 0.32);
+        0 8px 22px -6px rgba(17, 19, 20, 0.20),
+        0 16px 44px -14px rgba(var(--glow-rgb), 0.34);
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     /* Glow-dot palette read by the JS (literal hex so it resolves cleanly). */
-    --circle-start: #FF8E6E;
-    --circle-end: #8A5BFF;
+    --circle-start: #E6FF55;
+    --circle-end: #4FE3A6;
 }
 
-/* Inner glass sheen: top highlight + warm bottom glow, on top of the ring. */
+/* Inner glass sheen: top highlight + volt bottom glow, on top of the ring. */
 .hover-btn::before {
     content: '';
     position: absolute;
@@ -489,14 +524,14 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     z-index: 1;
     box-shadow:
         inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
-        inset 0 -7px 16px -6px rgba(255, 142, 110, 0.30);
+        inset 0 -7px 16px -6px rgba(var(--volt-rgb), 0.45);
     transition: transform 0.3s ease;
 }
 
 .hover-btn:hover {
     transform: translateY(-2px);
     box-shadow:
-        0 10px 26px -6px rgba(40, 24, 16, 0.22),
+        0 10px 26px -6px rgba(17, 19, 20, 0.22),
         var(--glow-brand);
 }
 
@@ -552,14 +587,14 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--mint-deep);
-    box-shadow: 0 0 0 4px rgba(22, 180, 136, 0.18);
+    background: var(--fresh);
+    box-shadow: 0 0 0 4px rgba(var(--fresh-rgb), 0.3);
     animation: pulse 2.4s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 4px rgba(22, 180, 136, 0.18); }
-    50% { box-shadow: 0 0 0 8px rgba(22, 180, 136, 0.04); }
+    0%, 100% { box-shadow: 0 0 0 4px rgba(var(--fresh-rgb), 0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(var(--fresh-rgb), 0.06); }
 }
 
 .hero-title {
@@ -572,12 +607,30 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     margin-bottom: 24px;
 }
 
+/* Dark ink on a volt highlighter: volt itself would vanish on the light
+   ground. The deep gradient here is the no-WebGL fallback fill. */
 .hero-title em {
+    position: relative;
     font-style: italic;
-    background: var(--grad-brand);
+    background: var(--grad-brand-deep);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+}
+
+/* The highlighter stroke. A pseudo-element, so neither the text-clipped
+   fallback nor the liquid canvas shares a box with it; z-index -1 drops it
+   behind the glyphs, inside .container's stacking context. */
+.hero-title em::before {
+    content: '';
+    position: absolute;
+    left: -0.05em;
+    right: -0.03em;
+    top: 56%;
+    bottom: 6%;
+    border-radius: 0.05em;
+    background: var(--volt);
+    z-index: -1;
 }
 
 /* A word poured out of the liquid shader (js/liquid-text.js). The gradient
@@ -596,16 +649,16 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
        below — matching lists are what lets the glow interpolate smoothly */
     filter:
         saturate(1) brightness(1)
-        drop-shadow(0 0 0 rgba(224, 50, 122, 0))
-        drop-shadow(0 0 0 rgba(124, 58, 237, 0));
+        drop-shadow(0 0 0 rgba(var(--glow-rgb), 0))
+        drop-shadow(0 0 0 rgba(var(--volt-rgb), 0));
     transition: filter 0.5s ease;
 }
 
 .liquid-word.is-liquid:hover .liquid-canvas {
     filter:
         saturate(1.12) brightness(1.05)
-        drop-shadow(0 0 13px rgba(224, 50, 122, 0.45))
-        drop-shadow(0 0 30px rgba(124, 58, 237, 0.28));
+        drop-shadow(0 0 13px rgba(var(--glow-rgb), 0.45))
+        drop-shadow(0 0 30px rgba(var(--volt-rgb), 0.35));
 }
 
 /* once the shader is clipped to the glyphs, drop the gradient so the two
@@ -729,7 +782,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     border-radius: 100px;
     color: var(--ink-mute);
     background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(24, 18, 16, 0.08);
+    border: 1px solid rgba(17, 19, 20, 0.08);
     white-space: nowrap;
 }
 
@@ -803,7 +856,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     margin-left: -1px;
     pointer-events: none;
     will-change: left;
-    background: linear-gradient(180deg, var(--coral), var(--pink-deep) 55%, var(--violet));
+    background: linear-gradient(180deg, var(--volt), var(--lime) 55%, var(--spring));
 }
 
 .cr-handle {
@@ -819,25 +872,25 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     border-radius: 50%;
     pointer-events: auto;
     cursor: ew-resize;
-    color: var(--pink-deep);
+    color: var(--graphite);
     background: var(--glass-strong);
-    border: 2px solid var(--pink-deep);
+    border: 2px solid var(--graphite);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     box-shadow:
-        0 0 0 6px rgba(224, 50, 122, 0.14),
-        0 8px 24px rgba(40, 24, 16, 0.18);
+        0 0 0 6px rgba(var(--volt-rgb), 0.55),
+        0 8px 24px rgba(17, 19, 20, 0.18);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .cr-handle:hover {
     box-shadow:
-        0 0 0 9px rgba(224, 50, 122, 0.16),
-        0 10px 28px rgba(40, 24, 16, 0.22);
+        0 0 0 9px rgba(var(--volt-rgb), 0.6),
+        0 10px 28px rgba(17, 19, 20, 0.22);
 }
 
 .cr-handle:focus-visible {
-    outline: 3px solid var(--violet-deep);
+    outline: 3px solid var(--graphite);
     outline-offset: 3px;
 }
 
@@ -845,7 +898,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     margin-top: 20px;
     text-align: center;
     font-size: 0.88rem;
-    color: var(--ink-mute);
+    color: var(--ink-on-wave);
 }
 
 @media (max-width: 720px) {
@@ -880,10 +933,11 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 
 /* The explanation: deliberately quieter and set to a narrower measure, so the
-   block tapers and the eye lands on the mantra first. */
+   block tapers and the eye lands on the mantra first. Quieter by size and
+   weight, not by a lighter grey: it sits straight on the moving waves. */
 .hero-sub {
     font-size: clamp(0.98rem, 1.7vw, 1.06rem);
-    color: var(--ink-mute);
+    color: var(--ink-on-wave);
     max-width: 528px;
     margin: 0 auto 38px;
     line-height: 1.6;
@@ -902,7 +956,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     align-items: center;
     gap: 12px;
     font-size: 0.88rem;
-    color: var(--ink-mute);
+    color: var(--ink-on-wave);
 }
 
 .dot-sep { color: var(--ink-mute); opacity: 0.5; }
@@ -947,7 +1001,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     bottom: -2.4cqi;
     height: 5cqi;
     border-radius: 50%;
-    background: radial-gradient(50% 50% at 50% 50%, rgba(40, 24, 16, 0.36), transparent 72%);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(17, 19, 20, 0.36), transparent 72%);
     filter: blur(5px);
     pointer-events: none;
     transition: left 1.15s cubic-bezier(0.22, 0.9, 0.24, 1);
@@ -973,8 +1027,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     border-radius: 0.6cqi 1.4cqi 1.4cqi 0.6cqi;
     background: var(--grad-brand-deep);
     box-shadow:
-        0 36px 64px -20px rgba(40, 24, 16, 0.48),
-        0 6px 16px -6px rgba(40, 24, 16, 0.22),
+        0 36px 64px -20px rgba(17, 19, 20, 0.48),
+        0 6px 16px -6px rgba(17, 19, 20, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.38);
     overflow: hidden;
     /* held a hair behind the flap so the two never z-fight while coplanar */
@@ -1063,7 +1117,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     width: 26%;
     height: 2px;
     margin: 3.4cqi 0;
-    background: var(--grad-brand);
+    background: var(--grad-brand-deep);
     border-radius: 2px;
 }
 
@@ -1088,7 +1142,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     color: #A89684;
     padding-bottom: 1.3cqi;
     margin-bottom: 3cqi;
-    border-bottom: 1px solid rgba(24, 18, 16, 0.10);
+    border-bottom: 1px solid rgba(17, 19, 20, 0.10);
 }
 
 .leaf-eyebrow {
@@ -1096,7 +1150,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--coral-deep);
+    color: var(--moss);
     margin-bottom: 1.1cqi;
 }
 
@@ -1124,7 +1178,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-size: 5.4cqi;
     line-height: 0.82;
     padding: 0.4cqi 1cqi 0 0;
-    color: var(--coral-deep);
+    color: var(--moss);
 }
 
 .leaf-note {
@@ -1132,8 +1186,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-size: 1.85cqi;
     line-height: 1.5;
     padding: 1.9cqi 2.2cqi;
-    border-left: 0.6cqi solid var(--mint);
-    background: rgba(95, 224, 176, 0.14);
+    border-left: 0.6cqi solid var(--lime);
+    background: rgba(var(--volt-rgb), 0.28);
     border-radius: 0 3px 3px 0;
 }
 
@@ -1142,7 +1196,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-size: 1.5cqi;
     letter-spacing: 0.13em;
     text-transform: uppercase;
-    color: var(--mint-deep);
+    color: var(--moss-deep);
     margin-bottom: 0.3cqi;
 }
 
@@ -1176,7 +1230,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     background: var(--grad-brand-deep);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.42),
-        0 18px 34px -14px rgba(40, 24, 16, 0.40);
+        0 18px 34px -14px rgba(17, 19, 20, 0.40);
 }
 
 /* inside of the cover — the title page */
@@ -1231,8 +1285,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     display: block;
     width: 2.7cqi; height: 2.7cqi;
     border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 3cqi rgba(255, 255, 255, 0.85);
+    background: var(--volt);
+    box-shadow: 0 0 3cqi rgba(var(--volt-rgb), 0.85);
     margin-bottom: 3.6cqi;
 }
 
@@ -1254,7 +1308,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.24), 0 2px 10px rgba(0, 0, 0, 0.18);
 }
 
-.cover-art .gc-title em { font-style: italic; }
+.cover-art .gc-title em { font-style: italic; color: var(--volt); }
 
 .cover-art .gc-sub {
     font-size: 2.1cqi;
@@ -1288,7 +1342,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     width: 2.4cqi; height: 2.4cqi;
     border-radius: 50%;
     background: var(--grad-brand);
-    box-shadow: 0 0 2.8cqi rgba(224, 50, 122, 0.45);
+    box-shadow: 0 0 0 0.35cqi var(--graphite), 0 0 2.8cqi rgba(var(--glow-rgb), 0.5);
     margin-bottom: 3.2cqi;
 }
 
@@ -1310,12 +1364,10 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     margin-top: 1.5cqi;
 }
 
+/* The same volt highlighter as the hero's "within." */
 .ebook-page .gc-title em {
     font-style: italic;
-    background: var(--grad-brand);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    background: linear-gradient(transparent 56%, var(--volt) 56%, var(--volt) 90%, transparent 90%);
 }
 
 .ebook-page .gc-sub {
@@ -1346,8 +1398,9 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 .float-pill svg { width: 16px; height: 16px; }
 .float-pill-1 { top: -9%; left: -11%; animation-delay: -2s; }
 .float-pill-2 { bottom: -7%; right: -9%; animation-delay: -4s; }
-.float-pill .fp-ico { color: var(--mint-deep); display: inline-flex; }
-.float-pill-2 .fp-ico { color: var(--pink-deep); }
+.float-pill .fp-ico { color: var(--moss-deep); display: inline-flex; }
+.float-pill-2 .fp-ico { color: var(--graphite); }
+.float-pill-2 .fp-ico svg { fill: var(--volt); }
 
 .hero-stats {
     display: grid;
@@ -1414,7 +1467,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 .section-lead {
     font-size: 1.1rem;
-    color: var(--ink-soft);
+    color: var(--ink-on-wave);
     margin-top: 18px;
 }
 
@@ -1447,7 +1500,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 /* ---------- Glowing border (vanilla port of the React GlowingEffect) --------
    A brand-gradient ring is masked down to the card's border band, then rotated
    to face the pointer by js/glow-cards.js. Colours are the LumaFit spectrum
-   (coral → gold → violet → pink) rather than the original's pink/gold/green.
+   (volt → lime → spring → fresh) rather than the original's pink/gold/green.
 
    Only on fine-pointer devices: the effect is pointer-driven, so on touch it
    would either never fire or stick on. There, cards keep their glass look.
@@ -1473,16 +1526,16 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
         transition: opacity 0.3s ease;
 
         background:
-            radial-gradient(circle, #FF8E6E 10%, #FF8E6E00 20%),
-            radial-gradient(circle at 40% 40%, #FFC76B 5%, #FFC76B00 15%),
-            radial-gradient(circle at 60% 60%, #8A5BFF 10%, #8A5BFF00 20%),
-            radial-gradient(circle at 40% 60%, #FF5C93 10%, #FF5C9300 20%),
+            radial-gradient(circle, #E6FF55 10%, #E6FF5500 20%),
+            radial-gradient(circle at 40% 40%, #B5F23D 5%, #B5F23D00 15%),
+            radial-gradient(circle at 60% 60%, #4FE3A6 10%, #4FE3A600 20%),
+            radial-gradient(circle at 40% 60%, #8BE86A 10%, #8BE86A00 20%),
             repeating-conic-gradient(from 236.84deg at 50% 50%,
-                #FF8E6E 0%,
-                #FFC76B calc(25% / var(--glow-times)),
-                #8A5BFF calc(50% / var(--glow-times)),
-                #FF5C93 calc(75% / var(--glow-times)),
-                #FF8E6E calc(100% / var(--glow-times)));
+                #E6FF55 0%,
+                #B5F23D calc(25% / var(--glow-times)),
+                #4FE3A6 calc(50% / var(--glow-times)),
+                #8BE86A calc(75% / var(--glow-times)),
+                #E6FF55 calc(100% / var(--glow-times)));
         /* Viewport-anchored so all four cards light from one shared field. */
         background-attachment: fixed;
 
@@ -1514,8 +1567,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-    background: linear-gradient(135deg, rgba(255, 142, 110, 0.18), rgba(255, 92, 147, 0.18));
-    color: var(--coral-deep);
+    background: linear-gradient(135deg, var(--volt), var(--lime));
+    color: var(--graphite);
 }
 
 .problem-icon svg { width: 26px; height: 26px; }
@@ -1579,7 +1632,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 .inside-card:hover {
     transform: translateY(-6px);
     box-shadow: var(--shadow-lg);
-    border-color: rgba(255, 92, 147, 0.32);
+    border-color: rgba(var(--glow-rgb), 0.5);
 }
 
 .inside-card:hover::before { transform: scaleX(1); }
@@ -1595,7 +1648,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     align-items: center;
     justify-content: center;
     background: var(--grad-brand-deep);
-    box-shadow: 0 8px 20px -6px rgba(226, 60, 110, 0.5);
+    box-shadow: 0 8px 20px -6px rgba(var(--glow-rgb), 0.5);
     margin-bottom: 18px;
 }
 
@@ -1610,6 +1663,226 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 .inside-card p {
     color: var(--ink-soft);
     font-size: 0.97rem;
+}
+
+/* ---------- Recipes: the locked photo fan ----------
+   Vanilla port of the 21st.dev PhotoGallery (js/photo-gallery.js). At rest
+   the photos sit spread out in a fan, so the section reads without JS and
+   under reduced motion; the script layers the intro on top (stacked, fade
+   in, staggered spring out). The fan's step comes from the gallery's own
+   width in container units, so it tightens on narrow screens instead of
+   spilling off them. Blurred on purpose: the recipes are the paid content,
+   and hover, press or drag shows the way in. */
+
+/* A section title's <em> gets the same volt highlighter as the hero's word. */
+.section-title em {
+    position: relative;
+    font-style: italic;
+    white-space: nowrap;
+}
+
+.section-title em::before {
+    content: '';
+    position: absolute;
+    left: -0.05em;
+    right: -0.03em;
+    top: 56%;
+    bottom: 4%;
+    border-radius: 0.05em;
+    background: var(--volt);
+    z-index: -1;
+}
+
+.pg {
+    --size: 220px;                                    /* photo edge */
+    --step: min(160px, (100cqi - var(--size)) / 4);   /* gap between neighbours in the fan */
+    --lift: 1;                                        /* scales the component's small y offsets */
+    --blur: 10px;
+    position: relative;
+    container-type: inline-size;
+    max-width: 980px;
+    margin: 0 auto 28px;
+}
+
+/* The component's graph-paper backdrop. Faded on every side (the component
+   only fades downward), so it glows behind the fan without a hard top rule. */
+.pg-grid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8%;
+    height: 300px;
+    background-image:
+        linear-gradient(to right, rgba(17, 19, 20, 0.55) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(17, 19, 20, 0.55) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+    opacity: 0.2;
+    -webkit-mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000 40%, transparent 100%);
+    pointer-events: none;
+}
+
+.pg-stage {
+    position: relative;
+    height: calc(var(--size) + 130px);   /* 350px on desktop, as in the component */
+    transition: opacity 0.4s ease-out;
+}
+
+.pg-photo {
+    --x: calc(var(--step) * var(--k));
+    --y: calc(var(--dy) * var(--lift));
+    --rot: var(--r, 0deg);
+    --sc: 1;
+    --drag-x: 0px;
+    --drag-y: 0px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: var(--z);
+    width: var(--size);
+    height: var(--size);
+    margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--bg-soft);
+    box-shadow: 0 1px 2px rgba(17, 19, 20, 0.08), 0 16px 34px -14px rgba(17, 19, 20, 0.45);
+    transform:
+        translate(calc(var(--x) + var(--drag-x)), calc(var(--y) + var(--drag-y)))
+        rotate(var(--rot))
+        scale(var(--sc));
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    cursor: grab;
+    touch-action: pan-y;   /* sideways drags move the photo; vertical swipes still scroll */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* whileHover / whileTap / whileDrag from the component */
+.pg-photo:hover {
+    --sc: 1.1;
+    --rot: calc(var(--r, 0deg) + var(--tilt, 2deg));
+    z-index: 60;
+    box-shadow: 0 1px 2px rgba(17, 19, 20, 0.08), 0 26px 50px -16px rgba(17, 19, 20, 0.55);
+}
+
+.pg-photo:active { --sc: 1.2; }
+
+.pg-photo.is-dragging {
+    --sc: 1.1;
+    z-index: 60;
+    cursor: grabbing;
+    transition: box-shadow 0.3s ease;   /* no transform easing: it tracks the pointer */
+}
+
+.pg-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(var(--blur)) saturate(1.1);
+    transform: scale(1.15);   /* pushes the blur's soft edge outside the frame */
+    transition: filter 0.35s ease;
+    pointer-events: none;
+}
+
+/* The lock says why the photo is blurred; the pill says how to fix that. */
+.pg-lock {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(17, 19, 20, 0.72);
+    color: #fff;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.pg-lock svg { width: 16px; height: 16px; }
+
+.pg-cta {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    background: rgba(17, 19, 20, 0.32);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.pg-cta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: 100px;
+    background: var(--volt);
+    color: var(--on-volt);
+    font-size: 0.95rem;
+    font-weight: 800;
+    white-space: nowrap;
+    box-shadow: 0 10px 26px -8px rgba(var(--volt-rgb), 0.7);
+    transform: translateY(6px) scale(0.94);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pg-cta-pill svg { width: 16px; height: 16px; }
+
+.pg-photo:hover img,
+.pg-photo:active img,
+.pg-photo.is-dragging img { filter: blur(calc(var(--blur) * 0.6)) saturate(1.15); }
+
+.pg-photo:hover .pg-lock,
+.pg-photo:active .pg-lock,
+.pg-photo.is-dragging .pg-lock { opacity: 0; transform: scale(0.8); }
+
+.pg-photo:hover .pg-cta,
+.pg-photo:active .pg-cta,
+.pg-photo.is-dragging .pg-cta { opacity: 1; }
+
+.pg-photo:hover .pg-cta-pill,
+.pg-photo:active .pg-cta-pill,
+.pg-photo.is-dragging .pg-cta-pill { transform: none; }
+
+/* Intro states, set by js/photo-gallery.js */
+.pg.is-instant .pg-stage,
+.pg.is-instant .pg-photo { transition: none; }
+.pg.is-hidden .pg-stage { opacity: 0; }
+.pg.is-stacked .pg-photo { --x: 0px; --y: 0px; --rot: 0deg; }
+.pg.is-spreading .pg-photo {
+    transition-property: transform, box-shadow;
+    transition-duration: 1.2s, 0.3s;
+    /* Fallback for browsers without linear(): a small overshoot. */
+    transition-timing-function: cubic-bezier(0.3, 1.25, 0.5, 1), ease;
+    /* The component's framer-motion spring (stiffness 70, damping 12, mass 1),
+       sampled: ~4% overshoot, settled by 1.2s. */
+    transition-timing-function: linear(0, 0.034, 0.1183, 0.2309, 0.3554, 0.4799, 0.5965, 0.7004, 0.7891, 0.862, 0.9196, 0.9634, 0.995, 1.0166, 1.03, 1.037, 1.0394, 1.0385, 1.0354, 1.0311, 1.0262, 1.0213, 1.0166, 1.0125, 1.0089, 1.0059, 1.0035, 1.0017, 1.0004, 0.9995, 0.9989, 0.9986, 0.9985, 0.9985, 0.9986, 0.9987, 1), ease;
+    transition-delay: calc(0.1s + var(--order) * 0.15s), 0s;
+}
+
+.pg-actions {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 720px) {
+    .pg { --size: 150px; --lift: 0.7; --blur: 8px; }
+    .pg-grid { display: none; }
+    .pg-lock { top: 9px; right: 9px; width: 28px; height: 28px; }
+    .pg-lock svg { width: 14px; height: 14px; }
+    .pg-cta-pill { gap: 5px; padding: 8px 13px; font-size: 0.8rem; }
+    .pg-cta-pill svg { width: 14px; height: 14px; }
+}
+
+@media (max-width: 440px) {
+    .pg { --size: 128px; }
 }
 
 /* ---------- Benefits ---------- */
@@ -1640,9 +1913,9 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-family: 'Fraunces', serif;
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--violet-deep);
+    color: var(--graphite);
     width: 50px; height: 50px;
-    background: linear-gradient(135deg, rgba(138, 91, 255, 0.16), rgba(255, 92, 147, 0.16));
+    background: linear-gradient(135deg, var(--volt), var(--lime));
     border-radius: 50%;
     margin-bottom: 20px;
 }
@@ -1708,12 +1981,12 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     margin-top: 3px;
     border-radius: 50%;
     background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111314' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
         var(--grad-fresh);
     background-size: 14px 14px, cover;
     background-position: center, center;
     background-repeat: no-repeat;
-    box-shadow: 0 6px 14px -4px rgba(22, 180, 136, 0.55);
+    box-shadow: 0 6px 14px -4px rgba(var(--fresh-rgb), 0.55);
 }
 
 /* ---------- Testimonials ----------
@@ -1838,7 +2111,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     gap: 7px;
 }
 
-/* The same badge the .check-list bullets use — gradient disc, white tick, no
+/* The same badge the .check-list bullets use — gradient disc, graphite tick, no
    extra markup — at the size a name line can carry. Shrunk to 17px the stroke
    needs to come up a little to survive, hence 3.6 against the list's 3.2. */
 .t-name::after {
@@ -1848,12 +2121,12 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     height: 17px;
     border-radius: 50%;
     background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111314' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
         var(--grad-fresh);
     background-size: 9px 9px, cover;
     background-position: center, center;
     background-repeat: no-repeat;
-    box-shadow: 0 3px 8px -2px rgba(22, 180, 136, 0.5);
+    box-shadow: 0 3px 8px -2px rgba(var(--fresh-rgb), 0.5);
 }
 
 /* Same micro-label treatment as the photo's "Before and after" caption, so the
@@ -1864,7 +2137,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-weight: 700;
     letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: var(--mint-deep);
+    color: var(--moss-deep);
 }
 
 /* ---------- Buy ---------- */
@@ -1889,7 +2162,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 
 .buy-inner {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 246, 240, 0.5));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(246, 247, 243, 0.5));
     border-radius: calc(var(--radius-lg) - 4px);
     padding: 56px 48px;
     text-align: center;
@@ -1908,7 +2181,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    box-shadow: 0 8px 20px -4px rgba(226, 60, 110, 0.55);
+    box-shadow: 0 8px 20px -4px rgba(var(--glow-rgb), 0.55);
     white-space: nowrap;
 }
 
@@ -1950,8 +2223,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 .price-note {
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--coral-deep);
-    background: rgba(255, 92, 147, 0.14);
+    color: var(--on-volt);
+    background: var(--volt);
     padding: 5px 12px;
     border-radius: 100px;
 }
@@ -1978,7 +2251,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     width: 24px; height: 24px;
     border-radius: 50%;
     background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111314' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
         var(--grad-fresh);
     background-size: 12px 12px, cover;
     background-position: center, center;
@@ -2008,7 +2281,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 .faq-item[open] {
     box-shadow: var(--shadow-md);
-    border-color: rgba(255, 92, 147, 0.3);
+    border-color: rgba(var(--glow-rgb), 0.5);
 }
 
 .faq-item summary {
@@ -2029,7 +2302,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     content: '+';
     font-size: 1.6rem;
     font-weight: 300;
-    color: var(--coral-deep);
+    color: var(--moss);
     transition: transform 0.25s ease;
     line-height: 1;
 }
@@ -2065,11 +2338,11 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-size: 1.1rem;
 }
 
-.footer-note { font-size: 0.9rem; color: var(--ink-soft); }
+.footer-note { font-size: 0.9rem; color: var(--ink-on-wave); }
 
 .footer-disc {
     font-size: 0.78rem;
-    color: var(--ink-mute);
+    color: var(--ink-on-wave);
     max-width: 520px;
 }
 
@@ -2082,13 +2355,13 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 
 .footer-links a {
-    color: var(--ink-mute);
+    color: var(--ink-on-wave);
     font-size: 0.85rem;
     transition: color 0.2s ease;
 }
 
 .footer-links a:hover,
-.footer-links a:focus-visible { color: var(--coral-deeper); }
+.footer-links a:focus-visible { color: var(--moss); }
 
 /* ---------- Age gate ---------- */
 .age-gate {
@@ -2121,14 +2394,14 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     height: 20px;
     margin-top: 1px;
     border-radius: 7px;
-    border: 1.5px solid rgba(24, 18, 16, 0.18);
+    border: 1.5px solid rgba(17, 19, 20, 0.18);
     background: #fff;
     display: grid;
     place-items: center;
     transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.age-gate:hover .age-box { border-color: rgba(24, 18, 16, 0.34); }
+.age-gate:hover .age-box { border-color: rgba(17, 19, 20, 0.34); }
 .age-gate:active .age-box { transform: scale(0.92); }
 
 /* The brand fill lives on a pseudo-element rather than the box's own
@@ -2176,7 +2449,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
    Without this the outline would draw around the 1px hidden input. */
 .age-gate input:focus-visible { outline: none; }
 .age-gate input:focus-visible + .age-box {
-    outline: 3px solid var(--violet-deep);
+    outline: 3px solid var(--graphite);
     outline-offset: 3px;
 }
 
@@ -2187,7 +2460,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 .btn.is-disabled,
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn.is-disabled:hover, .btn:disabled:hover { transform: none; box-shadow: 0 10px 26px rgba(24, 18, 16, 0.22); }
+.btn.is-disabled:hover, .btn:disabled:hover { transform: none; box-shadow: 0 10px 26px rgba(17, 19, 20, 0.22); }
 
 /* ---------- Cascade text reveal (hover) ----------
    Vanilla port of the TextReveal component. Each character carries a copy of
@@ -2229,7 +2502,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 .cascade-ready:hover,
 .cascade-ready:focus-visible {
-    color: var(--cascade-hover, var(--coral-deeper));
+    color: var(--cascade-hover, var(--moss));
 }
 
 .cascade-ready:hover .cascade-char,

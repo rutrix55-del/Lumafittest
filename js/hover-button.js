@@ -22,8 +22,8 @@
 
   function createCircle(btn, x, y, width) {
     var xPos = width ? x / width : 0;
-    var start = readColor(btn, "--circle-start", "#FF8E6E");
-    var end = readColor(btn, "--circle-end", "#8A5BFF");
+    var start = readColor(btn, "--circle-start", "#E6FF55");
+    var end = readColor(btn, "--circle-end", "#4FE3A6");
     var pct = (xPos * 100).toFixed(2) + "%";
 
     var dot = document.createElement("span");

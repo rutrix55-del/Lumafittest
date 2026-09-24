@@ -13,14 +13,14 @@
 
   // ---- Config (LumaFit-themed, mirrors the React component props) --------
   var CONFIG = {
-    colors: ["#FFC76B", "#FF8E6E", "#FF5C93", "#8A5BFF", "#5FE0B0"], // gold→coral→pink→violet→mint
+    colors: ["#E6FF55", "#B5F23D", "#4FE3A6", "#8BE86A", "#E4E7E1"], // volt→lime→spring→fresh→stone
     distortion: 0.9,
     swirl: 0.6,
     speed: 0.4,
     offsetX: 0.08,
     airiness: 0.6,     // 0 = full colour, 1 = pure cream. Keeps it light + fresh.
     renderScale: 0.55, // internal resolution (gradient is soft, so we can go low = fast)
-    cream: "#FBF8F5",
+    cream: "#F3F4F1", // stone, same as --bg (key name kept for the shader code)
   };
 
   // Which background wins. Only one may mount — two full-viewport WebGL

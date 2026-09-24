@@ -300,6 +300,65 @@
         </div>
     </section>
 
+    <!-- Recipes teaser: a fan of blurred, "locked" food photos that springs
+         open when the section scrolls into view (js/photo-gallery.js, a
+         vanilla port of the 21st.dev PhotoGallery). Each photo links to the
+         checkout; they sit outside the tab order and the accessibility tree
+         because the button below does the same job for keyboard and
+         screen-reader users.
+         Photos: Unsplash (photo-1525351484163, -1511690743698, -1512621776951,
+         -1519708227418, -1494390248081), used under the Unsplash License and
+         self-hosted so no visitor data goes to a third party. -->
+    <section class="section recipes" id="recipes" aria-labelledby="recipesTitle">
+        <div class="container">
+            <div class="section-head">
+                <div class="eyebrow">Locked inside the guide</div>
+                <h2 class="section-title" id="recipesTitle">Unlock the <em>cheat-code</em> foods.</h2>
+                <p class="section-lead">The everyday foods that do the most for your skin, plus the healthy recipes that turn them into meals you'll actually want to eat.</p>
+            </div>
+
+            <div class="pg" data-photo-gallery>
+                <div class="pg-grid" aria-hidden="true"></div>
+                <div class="pg-stage">
+                    <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
+                       data-dir="left" style="--k: -2; --dy: 15px; --z: 50; --order: 0; --tilt: -2deg">
+                        <img src="assets/gallery/egg-avocado-toast.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
+                    </a>
+                    <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
+                       data-dir="left" style="--k: -1; --dy: 32px; --z: 40; --order: 1; --tilt: -2deg">
+                        <img src="assets/gallery/spinach-pomegranate-salad.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
+                    </a>
+                    <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
+                       data-dir="right" style="--k: 0; --dy: 8px; --z: 30; --order: 2; --tilt: 2deg">
+                        <img src="assets/gallery/rainbow-bowl.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
+                    </a>
+                    <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
+                       data-dir="right" style="--k: 1; --dy: 22px; --z: 20; --order: 3; --tilt: 2deg">
+                        <img src="assets/gallery/salmon-greens.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
+                    </a>
+                    <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
+                       data-dir="left" style="--k: 2; --dy: 44px; --z: 10; --order: 4; --tilt: -2deg">
+                        <img src="assets/gallery/berry-yogurt-bowl.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                        <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="pg-actions">
+                <a href="#buy" class="btn btn-primary btn-lg">Unlock the recipes <span class="btn-arrow">→</span></a>
+            </div>
+        </div>
+    </section>
+
     <!-- Benefits -->
     <section class="section benefits" id="benefits">
         <div class="container">
@@ -524,6 +583,7 @@
     <script src="js/cascade.js"></script>
     <script src="js/hover-button.js"></script>
     <script src="js/glow-cards.js"></script>
+    <script src="js/photo-gallery.js"></script>
     <script src="js/nav-cursor.js"></script>
     <script src="js/sale-bar.js"></script>
     <script src="js/script.js"></script>

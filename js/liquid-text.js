@@ -19,11 +19,11 @@
 
   // ---- Config (LumaFit-themed, mirrors the React component props) --------
   var CONFIG = {
-    // warm -> cool, echoing --grad-brand-deep (the deep coral/pink/violet
-    // set) with a gold lead-in for the molten highlights. The deep values
-    // are deliberate: the shader background behind the headline is pale
-    // pink-lilac, so the lighter --grad-brand set washes out against it.
-    colors: ["#FFC76B", "#F2603F", "#E0327A", "#7C3AED"],
+    // Dark liquid ink, echoing --grad-brand-deep (graphite into forest) with
+    // a moss lead-in so the flow reads as green-black rather than flat black.
+    // Volt stays out of the glyphs on purpose: the word sits on a volt
+    // highlighter (.hero-title em::before), and volt text would vanish into it.
+    colors: ["#3E5F22", "#111314", "#1B231D", "#2D4424"],
     // Softer warp + gentler swirl make the colours drift rather than churn;
     // the slightly higher speed keeps that drift from feeling sluggish.
     distortion: 0.44, // domain warp — the "liquid" wobble
