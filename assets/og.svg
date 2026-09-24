@@ -1,66 +1,72 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="LumaFit — Glow from within.">
+  <!-- Source for assets/og.png (the link-preview image). Graphite & Volt palette,
+       see the :root tokens in css/styles.css. Re-render og.png after editing. -->
   <defs>
-    <!-- Warm cream base (bg #FDF8F3) -->
+    <!-- Stone base (--bg #F3F3F2 to --bg-soft #E6E6E5) -->
     <linearGradient id="og-base" x1="0" y1="0" x2="0" y2="630" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FDF8F3"/>
-      <stop offset="1" stop-color="#F4EBE0"/>
+      <stop offset="0" stop-color="#F3F3F2"/>
+      <stop offset="1" stop-color="#E6E6E5"/>
     </linearGradient>
-    <!-- Soft peach radial glow (top-left), like the site bg -->
-    <radialGradient id="og-peach" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(180 60) scale(620)">
-      <stop offset="0" stop-color="#FFE5D4" stop-opacity="0.95"/>
-      <stop offset="0.6" stop-color="#FF9B7D" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#FF9B7D" stop-opacity="0"/>
+    <!-- Graphite wave band (bottom-right), like the hero waves -->
+    <radialGradient id="og-wave" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(1120 640) scale(760 420)">
+      <stop offset="0" stop-color="#8A8E92" stop-opacity="0.85"/>
+      <stop offset="0.55" stop-color="#C8CBCD" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#C8CBCD" stop-opacity="0"/>
     </radialGradient>
-    <!-- Soft mint radial glow (bottom-right), like the site bg -->
-    <radialGradient id="og-mint" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(1080 600) scale(640)">
-      <stop offset="0" stop-color="#D9EFDF" stop-opacity="0.95"/>
-      <stop offset="0.6" stop-color="#A8D8B2" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#A8D8B2" stop-opacity="0"/>
+    <!-- Volt glow (top-left) -->
+    <radialGradient id="og-volt" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(160 40) scale(560)">
+      <stop offset="0" stop-color="#E6FF55" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#E6FF55" stop-opacity="0"/>
     </radialGradient>
-    <!-- Logo-dot gradient (peach to gold) -->
+    <!-- Logo-dot gradient, = --grad-brand -->
     <linearGradient id="og-dot" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FF9B7D"/>
-      <stop offset="1" stop-color="#F5C67A"/>
+      <stop offset="0" stop-color="#E6FF55"/>
+      <stop offset="0.48" stop-color="#B5F23D"/>
+      <stop offset="1" stop-color="#4FE3A6"/>
     </linearGradient>
-    <!-- Wordmark accent gradient (peach-deep to gold), matches hero em -->
+    <!-- Wordmark accent, = --grad-brand-deep (matches the hero em) -->
     <linearGradient id="og-word" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#F47A5B"/>
-      <stop offset="1" stop-color="#F5C67A"/>
+      <stop offset="0" stop-color="#111314"/>
+      <stop offset="0.52" stop-color="#1C2620"/>
+      <stop offset="1" stop-color="#2A3F2C"/>
     </linearGradient>
   </defs>
 
   <!-- Background layers -->
   <rect width="1200" height="630" fill="url(#og-base)"/>
-  <rect width="1200" height="630" fill="url(#og-peach)"/>
-  <rect width="1200" height="630" fill="url(#og-mint)"/>
+  <rect width="1200" height="630" fill="url(#og-volt)"/>
+  <rect width="1200" height="630" fill="url(#og-wave)"/>
 
-  <!-- Content within safe margins (~96px) -->
-  <!-- Brand lockup: logo dot + small italic wordmark eyebrow -->
+  <!-- Brand lockup: logo dot (graphite ring) + small italic wordmark -->
   <g transform="translate(100 132)">
-    <circle cx="13" cy="6" r="13" fill="url(#og-dot)"/>
-    <text x="40" y="16" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-style="italic"
-      font-weight="700" font-size="34" fill="#1A1410">LumaFit</text>
+    <circle cx="13" cy="6" r="15" fill="#111314"/>
+    <circle cx="13" cy="6" r="12.5" fill="url(#og-dot)"/>
+    <text x="42" y="16" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-style="italic"
+      font-weight="700" font-size="34" fill="#111314">LumaFit</text>
   </g>
+
+  <!-- Volt highlighter stroke behind "Fit", like .hero-title em::before -->
+  <rect x="498" y="256" width="200" height="60" rx="6" fill="#E6FF55"/>
 
   <!-- Large wordmark -->
   <text x="100" y="320" font-family="Fraunces, Georgia, 'Times New Roman', serif"
-    font-weight="700" font-size="148" letter-spacing="-4" fill="#1A1410">Luma<tspan fill="url(#og-word)" font-style="italic">Fit</tspan></text>
+    font-weight="700" font-size="148" letter-spacing="-4" fill="#111314">Luma<tspan fill="url(#og-word)" font-style="italic">Fit</tspan></text>
 
   <!-- Tagline -->
   <text x="104" y="398" font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
-    font-weight="600" font-size="44" letter-spacing="-0.5" fill="#5A5048">Clear skin. Clean diet. Confident you.</text>
+    font-weight="600" font-size="44" letter-spacing="-0.5" fill="#111314">Clear skin. Clean diet. Confident you.</text>
 
   <!-- Secondary line -->
   <text x="104" y="452" font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
-    font-weight="500" font-size="29" fill="#8A7F75">The $15 glow-up guide &#183; built for ages 13&#8211;30</text>
+    font-weight="500" font-size="29" fill="#464A4E">The $15 glow-up guide &#183; built for ages 13&#8211;30</text>
 
-  <!-- Subtle pill accent, lower area, within safe margin -->
+  <!-- Pill accent -->
   <g transform="translate(104 510)">
-    <rect x="0" y="0" width="296" height="56" rx="28" fill="#FFFFFF" fill-opacity="0.66"/>
-    <circle cx="34" cy="28" r="7" fill="#5FB274"/>
+    <rect x="0" y="0" width="296" height="56" rx="28" fill="#111314"/>
+    <circle cx="34" cy="28" r="7" fill="#8BE86A"/>
     <text x="56" y="36" font-family="Inter, -apple-system, 'Segoe UI', sans-serif"
-      font-weight="600" font-size="23" fill="#5A5048">Glow from within.</text>
+      font-weight="600" font-size="23" fill="#F3F3F2">Glow from within.</text>
   </g>
 </svg>

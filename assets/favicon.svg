@@ -1,20 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="LumaFit">
   <defs>
-    <!-- Brand peach to gold gradient (peach #FF9B7D to gold #F5C67A) -->
-    <linearGradient id="lf-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FF9B7D"/>
-      <stop offset="1" stop-color="#F5C67A"/>
+    <!-- Brand gradient, = --grad-brand (volt #E6FF55, lime #B5F23D, spring #4FE3A6) -->
+    <linearGradient id="lf-grad" x1="14" y1="14" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E6FF55"/>
+      <stop offset="0.48" stop-color="#B5F23D"/>
+      <stop offset="1" stop-color="#4FE3A6"/>
     </linearGradient>
-    <!-- Soft white glow highlight, echoes the site .logo-dot -->
+    <!-- Soft volt glow behind the dot, echoes the site .logo-dot shadow -->
     <radialGradient id="lf-glow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/>
-      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="#96D21E" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#96D21E" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <!-- Rounded square, ~22% radius (14/64) -->
-  <rect x="0" y="0" width="64" height="64" rx="14" ry="14" fill="url(#lf-grad)"/>
-  <!-- Soft glow dot / highlight -->
-  <circle cx="40" cy="24" r="18" fill="url(#lf-glow)"/>
-  <circle cx="40" cy="24" r="6.5" fill="#FFFFFF" fill-opacity="0.95"/>
+  <!-- Graphite rounded square, ~22% radius (14/64): reads on light and dark tabs -->
+  <rect width="64" height="64" rx="14" ry="14" fill="#111314"/>
+  <circle cx="32" cy="32" r="28" fill="url(#lf-glow)"/>
+  <!-- The logo dot -->
+  <circle cx="32" cy="32" r="17" fill="url(#lf-grad)"/>
+  <circle cx="27" cy="26" r="5" fill="#FFFFFF" fill-opacity="0.55"/>
 </svg>
