@@ -1,9 +1,0 @@
-# Cloudflare Pages response headers.
-# HTML is served with max-age=0 by default, but CSS and JS default to a
-# 4-hour browser cache, so a push could leave visitors with new HTML and
-# old styles/scripts. Make CSS and JS revalidate on every load; the ETag
-# keeps that cheap (304 when unchanged).
-/css/*
-  Cache-Control: public, max-age=0, must-revalidate
-/js/*
-  Cache-Control: public, max-age=0, must-revalidate
