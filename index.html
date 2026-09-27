@@ -95,64 +95,74 @@
                 </div>
             </div>
 
-            <!-- Product mockup — the guide as a real book, page one showing
-                 from behind the cover so the buyer sees what they're getting. -->
+            <!-- Product mockup — the guide pulled apart into its layers: the
+                 cover on top, then page one, a recipe and the 30-day plan, so
+                 the buyer sees what's inside before they buy. -->
             <div class="hero-visual">
-                <div class="ebook-wrap">
-                    <div class="ebook" id="ebook" role="img"
-                         aria-label="The LumaFit guide: a 42-page book that opens to its title page and Chapter One: The Skin Reset.">
-                        <div class="ebook-tilt">
+                <div class="stack-wrap">
+                    <div class="stack" id="stack" role="img"
+                         aria-label="The LumaFit guide pulled apart into layers: the cover, Chapter One: The Skin Reset, a recipe page and the 30-day plan.">
+                        <div class="stack-tilt">
+                            <div class="stack-shadow"></div>
 
-                            <!-- The page block, uncovered as the front cover swings open -->
-                            <div class="ebook-board">
-                                <div class="ebook-spread">
-                                    <article class="ebook-page ebook-page-left"></article>
-
-                                    <!-- Page one -->
-                                    <article class="ebook-page ebook-page-right">
-                                        <div class="leaf-head">
-                                            <span>The Skin Reset</span>
-                                            <span>7</span>
-                                        </div>
-                                        <div class="leaf-eyebrow">Chapter one</div>
-                                        <h3 class="leaf-title">The Skin Reset</h3>
-                                        <p class="leaf-body">
-                                            <span class="leaf-drop">Y</span>our skin reacts to what's on
-                                            your plate far more than to what you spend on serums. Seven
-                                            everyday foods do most of the damage, and none of them are
-                                            exotic. Take one out each day this week.
-                                        </p>
-                                        <div class="leaf-note">
-                                            <strong>Day 1 swap</strong>
-                                            Skim milk → unsweetened oat.
-                                        </div>
-                                    </article>
+                            <!-- Bottom layer: the 30-day plan -->
+                            <div class="stack-layer" style="--i: 0">
+                                <div class="sheet">
+                                    <div class="sh-in">
+                                        <div class="sh-head"><span>Your 30-Day Plan</span><span>38</span></div>
+                                        <div class="sh-plan-title">30 days, one box at a time.</div>
+                                        <div class="sh-plan-sub">Tick each day off. Print it or use it on your phone.</div>
+                                        <div class="sh-plan-grid" data-plan-grid></div>
+                                        <div class="sh-plan-foot"><span>Week 2</span><b>9 / 30 done</b></div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- The front cover, hinged on the spine -->
-                            <div class="ebook-flap">
-                                <div class="flap-face flap-front">
-                                    <div class="cover-art">
-                                        <span class="gc-dot"></span>
-                                        <div class="gc-kicker">The Guide · Ages 13–30</div>
-                                        <div class="gc-title">Luma<em>Fit</em></div>
-                                        <p class="gc-sub">Clear skin. Clean diet. Confident you.</p>
-                                        <div class="gc-foot">
-                                            <span>Glow from within</span>
-                                            <span class="gc-badge">42 pages</span>
-                                        </div>
+                            <!-- A recipe page -->
+                            <div class="stack-layer" style="--i: 1">
+                                <div class="sheet sheet-recipe">
+                                    <div class="sh-photo">
+                                        <img src="assets/gallery/rainbow-bowl.jpg" alt="" width="440" height="440" decoding="async">
+                                        <span>Recipe 04</span>
+                                    </div>
+                                    <div class="sh-recipe">
+                                        <div class="sh-recipe-title">Rainbow glow bowl</div>
+                                        <div class="sh-recipe-meta"><span>15 min</span><span>Serves 2</span><span>No cooking</span></div>
+                                        <ul class="sh-recipe-list">
+                                            <li>Chickpeas, rinsed</li>
+                                            <li>Red cabbage, shredded</li>
+                                            <li>Avocado + lemon</li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="flap-face flap-back">
-                                    <article class="ebook-page ebook-page-left">
-                                        <span class="gc-dot"></span>
-                                        <div class="gc-kicker">The Guide · Ages 13–30</div>
-                                        <div class="gc-title">Luma<em>Fit</em></div>
-                                        <span class="title-rule"></span>
-                                        <p class="gc-sub">Clear skin.<br>Clean diet.<br>Confident you.</p>
-                                        <div class="title-foot">42 pages · Glow from within</div>
-                                    </article>
+                            </div>
+
+                            <!-- Page one -->
+                            <div class="stack-layer" style="--i: 2">
+                                <div class="sheet">
+                                    <div class="sh-in">
+                                        <div class="sh-head"><span>The Skin Reset</span><span>7</span></div>
+                                        <div class="sh-eyebrow">Chapter one</div>
+                                        <div class="sh-title">The Skin Reset</div>
+                                        <p class="sh-body">Your skin reacts to what's on your plate far more than to what you spend on serums. Seven everyday foods do most of the damage.</p>
+                                        <div class="sh-note"><b>Day 1 swap</b>Skim milk → unsweetened oat.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Top layer: the cover -->
+                            <div class="stack-layer" style="--i: 3">
+                                <div class="sheet sheet-cover">
+                                    <div class="sh-in">
+                                        <span class="sh-dot"></span>
+                                        <div class="sh-kicker">The Guide · Ages 13–30</div>
+                                        <div class="sh-cover-title">Luma<em>Fit</em></div>
+                                        <p class="sh-cover-sub">Clear skin. Clean diet. Confident you.</p>
+                                        <div class="sh-cover-foot">
+                                            <span>Glow from within</span>
+                                            <span class="sh-badge">42 pages</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

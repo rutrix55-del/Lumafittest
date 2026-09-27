@@ -962,11 +962,12 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 .dot-sep { color: var(--ink-mute); opacity: 0.5; }
 
 /* =========================================================================
-   Hero product mockup — the guide as an actual book.
-   Two planes in one 3D scene: the branded front cover, and page one angled
-   out from behind it so the buyer can read what they're actually getting.
-   All internal sizing is in container units (cqi, 1% of .ebook-wrap's width)
-   so the page keeps true book proportions at every viewport.
+   Hero product mockup — the guide pulled apart into its layers.
+   Four sheets (plan, recipe, page one, cover) stacked flat, seen from an
+   isometric angle; once in view they lift apart in depth so the buyer sees
+   what's inside. The pointer tilts the whole stack a few degrees.
+   Sizing is in container units (cqi, 1% of .stack-wrap's width); each sheet
+   is its own container, so the type inside a sheet is in that sheet's cqi.
    ========================================================================= */
 .hero-visual {
     display: flex;
@@ -974,409 +975,343 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     margin-bottom: 72px;
 }
 
-.ebook-wrap {
+.stack-wrap {
     position: relative;
-    width: min(524px, 92vw);
+    width: min(560px, 92vw);
     container-type: inline-size;
 }
 
-.ebook {
+.stack {
     position: relative;
     width: 100%;
-    aspect-ratio: 100 / 68.8;
-    perspective: 1700px;
-    animation: ebook-float 7s ease-in-out infinite;
+    aspect-ratio: 100 / 84;
+    perspective: 1600px;
+    animation: stack-float 7s ease-in-out infinite;
 }
 
-@keyframes ebook-float {
+@keyframes stack-float {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-13px); }
 }
 
-/* soft contact shadow — widens with the book as it opens */
-.ebook::after {
-    content: '';
+/* Placed so the lifted stack, not the flat footprint, sits centred. */
+.stack-tilt {
     position: absolute;
-    left: 48%; right: 5%;
-    bottom: -2.4cqi;
-    height: 5cqi;
-    border-radius: 50%;
-    background: radial-gradient(50% 50% at 50% 50%, rgba(17, 19, 20, 0.36), transparent 72%);
-    filter: blur(5px);
-    pointer-events: none;
-    transition: left 1.15s cubic-bezier(0.22, 0.9, 0.24, 1);
+    left: 34cqi;
+    top: 30cqi;
+    width: 42cqi;
+    aspect-ratio: 1 / 1.35;
+    transform-style: preserve-3d;
+    transform:
+        rotateX(calc(56deg + var(--tilt-x, 0deg)))
+        rotateZ(calc(-38deg + var(--tilt-z, 0deg)));
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.3, 1);
 }
 
-.ebook.is-open::after { left: 5%; }
+/* soft floor shadow under the whole stack */
+.stack-shadow {
+    position: absolute;
+    inset: 8% -8% -8% -8%;
+    border-radius: 3cqi;
+    background: rgba(17, 19, 20, 0.24);
+    filter: blur(18px);
+    transform: translateZ(-1px);
+}
 
-.ebook-tilt {
+.stack-layer {
     position: absolute;
     inset: 0;
-    transform: rotateX(15deg) rotateZ(-1.1deg);
-    transform-origin: 50% 100%;
-    transform-style: preserve-3d;
+    transform: translateZ(0);
+    transition: transform 1.1s cubic-bezier(0.22, 1, 0.3, 1);
+    transition-delay: calc(var(--i) * 80ms);
 }
 
-/* The page block. Closed, only the right half exists; opening grows it
-   leftward from the spine, which stays put at the centre. */
-.ebook-board {
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: 50cqi;
-    padding: 1.4cqi 1.4cqi 2.6cqi;
-    border-radius: 0.6cqi 1.4cqi 1.4cqi 0.6cqi;
-    background: var(--grad-brand-deep);
+/* each layer rises and slides a little up its own page, so the one below
+   shows a strip of its content */
+.stack.is-live .stack-layer {
+    transform: translate3d(0, calc(var(--i) * -7cqi), calc(var(--i) * 11cqi));
+}
+
+/* ---------- A sheet: one page of the guide ---------- */
+.sheet {
+    container-type: inline-size;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1.35;
+    border-radius: 2.6cqi;
+    overflow: hidden;
+    /* the layers under the cover are frosted, so the ones below read through */
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    color: var(--ink);
     box-shadow:
-        0 36px 64px -20px rgba(17, 19, 20, 0.48),
-        0 6px 16px -6px rgba(17, 19, 20, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.38);
-    overflow: hidden;
-    /* held a hair behind the flap so the two never z-fight while coplanar */
-    transform: translateZ(-1px);
-    transition: width 1.15s cubic-bezier(0.22, 0.9, 0.24, 1),
-                border-radius 1.15s cubic-bezier(0.22, 0.9, 0.24, 1);
+        inset 0 0 0 0.5cqi rgba(var(--volt-rgb), 0.35),
+        0 18px 36px -18px rgba(17, 19, 20, 0.35);
 }
 
-.ebook.is-open .ebook-board {
-    width: 100cqi;
-    border-radius: 1.4cqi;
-}
-
-/* The spread keeps its full open width at all times; the board reveals it. */
-.ebook-spread {
+.sh-in {
     position: absolute;
-    top: 1.4cqi;
-    right: 1.4cqi;
-    bottom: 2.6cqi;
-    width: calc(100cqi - 2.8cqi);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-radius: 0.7cqi;
-    overflow: hidden;
-    box-shadow: inset 0 0 0 1px rgba(60, 42, 30, 0.12);
-}
-
-/* the fore-edge — the stack of pages you see along the bottom */
-.ebook-spread::before {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 2.3cqi;
-    z-index: 3;
-    background:
-        repeating-linear-gradient(180deg,
-            rgba(126, 100, 74, 0.34) 0 0.5px,
-            rgba(255, 253, 248, 0) 0.5px 1.6px),
-        linear-gradient(180deg, #FBF4E9 0%, #EADCC8 55%, #D8C6AC 100%);
-    box-shadow: inset 0 2px 5px rgba(80, 60, 40, 0.22);
-    pointer-events: none;
-}
-
-/* the gutter — where the two pages fall away into the spine */
-.ebook-spread::after {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0; left: 50%;
-    width: 11cqi;
-    z-index: 4;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(60, 42, 30, 0.06) 22%,
-        rgba(60, 42, 30, 0.26) 42%,
-        rgba(44, 30, 20, 0.46) 50%,
-        rgba(60, 42, 30, 0.26) 58%,
-        rgba(60, 42, 30, 0.06) 78%,
-        transparent 100%);
-    pointer-events: none;
-}
-
-.ebook-page {
+    inset: 0;
     display: flex;
     flex-direction: column;
-    padding: 5cqi 4.8cqi;
-    color: #4A403A;
+    padding: 10cqi 9cqi;
     text-align: left;
 }
 
-/* each page bows slightly toward the gutter */
-.ebook-page-left {
-    position: relative;
-    background: linear-gradient(90deg, #FFFDFA 0%, #FCF7F0 68%, #EFE4D5 100%);
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-
-.ebook-page-right {
-    background: linear-gradient(270deg, #FFFDFA 0%, #FCF7F0 68%, #EFE4D5 100%);
-}
-
-/* ---------- Title page (left) ---------- */
-.title-rule {
-    width: 26%;
-    height: 2px;
-    margin: 3.4cqi 0;
-    background: var(--grad-brand-deep);
-    border-radius: 2px;
-}
-
-.title-foot {
-    position: absolute;
-    bottom: 5cqi;
-    font-size: 1.7cqi;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #A89684;
-}
-
-/* ---------- Page one (right) ---------- */
-.leaf-head {
+.sh-head {
     display: flex;
     justify-content: space-between;
-    font-size: 1.5cqi;
+    padding-bottom: 3cqi;
+    border-bottom: 1px solid var(--line);
+    font-size: 3cqi;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #A89684;
-    padding-bottom: 1.3cqi;
-    margin-bottom: 3cqi;
-    border-bottom: 1px solid rgba(17, 19, 20, 0.10);
+    color: var(--ink-mute);
 }
 
-.leaf-eyebrow {
-    font-size: 1.55cqi;
+/* page one */
+.sh-eyebrow {
+    margin-top: 8cqi;
+    font-size: 3.4cqi;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--moss);
-    margin-bottom: 1.1cqi;
-}
-
-.leaf-title {
-    font-family: 'Fraunces', serif;
-    font-weight: 700;
-    font-size: 4.9cqi;
-    line-height: 1.02;
-    letter-spacing: -0.025em;
-    color: #241B16;
-    margin-bottom: 2.4cqi;
-}
-
-.leaf-body {
-    font-size: 2.05cqi;
-    line-height: 1.62;
-    text-align: justify;
-    hyphens: auto;
-}
-
-.leaf-drop {
-    float: left;
-    font-family: 'Fraunces', serif;
-    font-weight: 700;
-    font-size: 5.4cqi;
-    line-height: 0.82;
-    padding: 0.4cqi 1cqi 0 0;
     color: var(--moss);
 }
 
-.leaf-note {
-    margin-top: 2.8cqi;
-    font-size: 1.85cqi;
-    line-height: 1.5;
-    padding: 1.9cqi 2.2cqi;
-    border-left: 0.6cqi solid var(--lime);
-    background: rgba(var(--volt-rgb), 0.28);
-    border-radius: 0 3px 3px 0;
+.sh-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 10.5cqi;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 2.5cqi 0 5cqi;
 }
 
-.leaf-note strong {
+.sh-body {
+    font-size: 4cqi;
+    line-height: 1.6;
+    color: var(--ink-soft);
+}
+
+.sh-note {
+    margin-top: auto;
+    padding: 4cqi 5cqi;
+    border-radius: 3cqi;
+    background: var(--volt);
+    color: var(--on-volt);
+    font-size: 3.8cqi;
+    line-height: 1.35;
+}
+
+.sh-note b {
     display: block;
-    font-size: 1.5cqi;
-    letter-spacing: 0.13em;
+    margin-bottom: 1cqi;
+    font-size: 3cqi;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--moss-deep);
-    margin-bottom: 0.3cqi;
 }
 
-/* ---------- The front cover, hinged on the spine ---------- */
-.ebook-flap {
+/* recipe page */
+.sh-photo {
+    position: relative;
+    height: 50%;
+}
+
+.sh-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sh-photo span {
     position: absolute;
-    top: 1.4cqi;
-    /* stops short of the fore-edge so the page block shows in both states */
-    bottom: 4.9cqi;
-    left: 50cqi;
-    width: calc(50cqi - 1.4cqi);
-    transform-origin: left center;
-    transform-style: preserve-3d;
-    transform: rotateY(0deg);
-    transition: transform 1.25s cubic-bezier(0.38, 0.64, 0.18, 1);
+    left: 7cqi;
+    bottom: -4cqi;
+    padding: 2.2cqi 4cqi;
+    border-radius: 100px;
+    background: var(--graphite);
+    color: var(--volt);
+    font-size: 3.2cqi;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
-.ebook.is-open .ebook-flap { transform: rotateY(-180deg); }
-
-.flap-face {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 0.5cqi 1.1cqi 1.1cqi 0.5cqi;
-}
-
-/* outside of the cover — the branded board */
-.flap-front {
-    background: var(--grad-brand-deep);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.42),
-        0 18px 34px -14px rgba(17, 19, 20, 0.40);
-}
-
-/* inside of the cover — the title page */
-.flap-back {
-    transform: rotateY(180deg);
-    border-radius: 1.1cqi 0.5cqi 0.5cqi 1.1cqi;
-    background: #FFFDFA;
-}
-
-.flap-back .ebook-page {
-    position: absolute;
-    inset: 0;
-}
-
-.cover-art {
-    position: absolute;
-    inset: 0;
+.sh-recipe {
     display: flex;
     flex-direction: column;
-    padding: 5.4cqi 4.8cqi;
-    color: #fff;
+    gap: 3cqi;
+    padding: 9cqi 7cqi 7cqi;
     text-align: left;
 }
 
-/* the bound edge, turning away from the light */
-.cover-art::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0; left: 0;
-    width: 3.4cqi;
-    background: linear-gradient(90deg,
-        rgba(0, 0, 0, 0.32) 0%,
-        rgba(0, 0, 0, 0.13) 46%,
-        rgba(255, 255, 255, 0.12) 80%,
-        transparent 100%);
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* laminate sheen */
-.cover-art::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(62% 42% at 76% 3%, rgba(255, 255, 255, 0.34), transparent 62%),
-        linear-gradient(104deg, transparent 42%, rgba(255, 255, 255, 0.12) 50%, transparent 58%);
-    pointer-events: none;
-}
-
-.cover-art .gc-dot {
-    display: block;
-    width: 2.7cqi; height: 2.7cqi;
-    border-radius: 50%;
-    background: var(--volt);
-    box-shadow: 0 0 3cqi rgba(var(--volt-rgb), 0.85);
-    margin-bottom: 3.6cqi;
-}
-
-.cover-art .gc-kicker {
-    font-size: 1.6cqi;
-    font-weight: 700;
-    letter-spacing: 0.19em;
-    text-transform: uppercase;
-    opacity: 0.88;
-}
-
-.cover-art .gc-title {
+.sh-recipe-title {
     font-family: 'Fraunces', serif;
     font-weight: 700;
     font-size: 8.4cqi;
-    line-height: 0.98;
-    letter-spacing: -0.03em;
-    margin: 1.8cqi 0 1.4cqi;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.24), 0 2px 10px rgba(0, 0, 0, 0.18);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
 }
 
-.cover-art .gc-title em { font-style: italic; color: var(--volt); }
-
-.cover-art .gc-sub {
-    font-size: 2.1cqi;
-    line-height: 1.45;
-    opacity: 0.93;
-    max-width: 88%;
+.sh-recipe-meta {
+    display: flex;
+    gap: 4cqi;
+    font-size: 3.3cqi;
+    font-weight: 600;
+    color: var(--ink-mute);
 }
 
-.cover-art .gc-foot {
-    margin-top: auto;
+.sh-recipe-list {
+    display: grid;
+    gap: 1.6cqi;
+    margin: 1cqi 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 3.7cqi;
+    color: var(--ink-soft);
+}
+
+.sh-recipe-list li {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    font-size: 1.7cqi;
-    font-weight: 600;
-    border-top: 1px solid rgba(255, 255, 255, 0.32);
-    padding-top: 2.4cqi;
-    position: relative;
-    z-index: 3;
+    gap: 2.4cqi;
 }
 
-.cover-art .gc-badge {
-    background: rgba(255, 255, 255, 0.24);
-    border-radius: 100px;
-    padding: 0.8cqi 2.2cqi;
-}
-
-/* ---------- Title page type ---------- */
-.ebook-page .gc-dot {
-    display: block;
-    width: 2.4cqi; height: 2.4cqi;
+.sh-recipe-list li::before {
+    content: '';
+    flex: none;
+    width: 2.2cqi;
+    height: 2.2cqi;
     border-radius: 50%;
-    background: var(--grad-brand);
-    box-shadow: 0 0 0 0.35cqi var(--graphite), 0 0 2.8cqi rgba(var(--glow-rgb), 0.5);
-    margin-bottom: 3.2cqi;
+    background: var(--lime);
 }
 
-.ebook-page .gc-kicker {
-    font-size: 1.55cqi;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #A89684;
-}
-
-.ebook-page .gc-title {
+/* 30-day plan */
+.sh-plan-title {
     font-family: 'Fraunces', serif;
     font-weight: 700;
-    font-size: 7.2cqi;
+    font-size: 9.4cqi;
     line-height: 1;
     letter-spacing: -0.03em;
-    color: #241B16;
-    margin-top: 1.5cqi;
+    margin: 6cqi 0 2cqi;
 }
 
-/* The same volt highlighter as the hero's "within." */
-.ebook-page .gc-title em {
-    font-style: italic;
-    background: linear-gradient(transparent 56%, var(--volt) 56%, var(--volt) 90%, transparent 90%);
+.sh-plan-sub {
+    margin-bottom: 6cqi;
+    font-size: 3.6cqi;
+    color: var(--ink-mute);
 }
 
-.ebook-page .gc-sub {
-    font-size: 2cqi;
-    line-height: 1.75;
-    color: #6E6058;
+.sh-plan-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2cqi;
 }
 
-/* floating accent pills, anchored to the book itself */
+.sh-plan-grid i {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 2cqi;
+    background: var(--bg);
+    font-style: normal;
+    font-size: 3cqi;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-mute);
+}
+
+.sh-plan-grid i.is-done { background: var(--graphite); color: var(--volt); }
+.sh-plan-grid i.is-today { background: var(--volt); color: var(--on-volt); box-shadow: 0 0 0 0.6cqi var(--graphite); }
+
+.sh-plan-foot {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    font-size: 3.4cqi;
+    font-weight: 600;
+    color: var(--ink-soft);
+}
+
+.sh-plan-foot b { color: var(--moss); }
+
+/* ---------- The cover, on top ---------- */
+.sheet-cover {
+    background: var(--grad-brand-deep);
+    border-color: transparent;
+    color: #fff;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 24px 44px -18px rgba(17, 19, 20, 0.5);
+}
+
+/* a little volt light catching the top corner */
+.sheet-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(70% 45% at 80% 0%, rgba(var(--volt-rgb), 0.18), transparent 65%);
+    pointer-events: none;
+}
+
+.sh-dot {
+    display: block;
+    width: 5.5cqi;
+    height: 5.5cqi;
+    margin-bottom: 7cqi;
+    border-radius: 50%;
+    background: var(--volt);
+    box-shadow: 0 0 6cqi rgba(var(--volt-rgb), 0.85);
+}
+
+.sh-kicker {
+    font-size: 3.3cqi;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.sh-cover-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 17cqi;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    margin: 3.5cqi 0 3cqi;
+}
+
+.sh-cover-title em { font-style: italic; color: var(--volt); }
+
+.sh-cover-sub {
+    margin: 0;
+    font-size: 4.4cqi;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.sh-cover-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 5cqi;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    font-size: 3.6cqi;
+    font-weight: 600;
+}
+
+.sh-badge {
+    padding: 1.6cqi 4cqi;
+    border-radius: 100px;
+    background: var(--volt);
+    color: var(--on-volt);
+}
+
+/* floating accent pills, anchored to the stack itself */
 .float-pill {
     position: absolute;
     display: inline-flex;
@@ -1392,7 +1327,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     color: var(--ink);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    animation: ebook-float 6s ease-in-out infinite;
+    animation: stack-float 6s ease-in-out infinite;
 }
 
 .float-pill svg { width: 16px; height: 16px; }
