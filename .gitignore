@@ -25,3 +25,6 @@ _archive/
 # NEVER commit — these are the keys to the paid files and the mail account.
 .dev.vars
 .wrangler/
+
+# Marketing kits (Etsy listing copy, images, inserts). Internal, never a public page.
+marketing/
