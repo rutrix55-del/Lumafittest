@@ -3,7 +3,7 @@
 // email the buyer three short-lived, signed download links. Files live in a PRIVATE
 // R2 bucket (binding: PRODUCT_BUCKET) and are streamed by /api/download — they are
 // never exposed publicly and never shipped with the static site.
-import { FILES, makeToken, verifyStripeSignature, sendViaResend } from '../utils/delivery.js';
+import { mintLinks, verifyStripeSignature, sendViaResend } from '../utils/delivery.js';
 
 const LINK_TTL_SEC = 72 * 60 * 60; // download links valid for 72 hours
 
@@ -42,13 +42,7 @@ export async function onRequestPost({ request, env }) {
 
   // 3. Mint one expiring, signed link per file.
   const origin = env.SITE_ORIGIN || new URL(request.url).origin;
-  const exp = nowSec + LINK_TTL_SEC;
-  const links = await Promise.all(
-    FILES.map(async (file) => ({
-      file,
-      url: `${origin}/api/download?token=${await makeToken(file, exp, env.DOWNLOAD_SECRET)}`,
-    })),
-  );
+  const links = await mintLinks(origin, nowSec + LINK_TTL_SEC, env.DOWNLOAD_SECRET);
 
   // 4. Email them. On failure return 500 so Stripe retries the webhook later.
   const sent = await sendViaResend(env, email, links);

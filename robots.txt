@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /thank-you.html
+
+Sitemap: https://lumafit.org/sitemap.xml

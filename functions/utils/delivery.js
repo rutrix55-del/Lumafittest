@@ -5,6 +5,11 @@
 // The ONLY files a buyer may ever download. An allowlist here means a tampered or
 // hand-crafted token can never reach an arbitrary key in the R2 bucket.
 export const FILES = ['guide.pdf', 'tracker.pdf', 'food-list.pdf'];
+export const FILE_LABELS = {
+  'guide.pdf': 'The LumaFit Guide',
+  'tracker.pdf': 'Your 30-Day Tracker',
+  'food-list.pdf': 'The Skin Reset Food List',
+};
 
 const enc = new TextEncoder();
 
@@ -60,6 +65,27 @@ export async function verifyToken(token, secret, nowSec) {
   return { ok: true, file, exp };
 }
 
+// One signed /api/download link per allowlisted file, all expiring at expSec.
+// Used by the webhook (emailed links) and /api/session-links (thank-you page).
+export async function mintLinks(origin, expSec, secret) {
+  return Promise.all(
+    FILES.map(async (file) => ({
+      file,
+      url: `${origin}/api/download?token=${await makeToken(file, expSec, secret)}`,
+    })),
+  );
+}
+
+// A Checkout Session we are willing to hand files to: a completed one-off
+// payment that is paid (or free via a 100% promo code, which Stripe reports
+// as no_payment_required).
+export function sessionIsPaid(session) {
+  if (!session || typeof session !== 'object') return false;
+  if (session.mode && session.mode !== 'payment') return false;
+  if (session.status !== 'complete') return false;
+  return session.payment_status === 'paid' || session.payment_status === 'no_payment_required';
+}
+
 // ── Stripe webhook signature ─────────────────────────────────────────────────
 // Verifies the `Stripe-Signature` header exactly like stripe.webhooks.constructEvent,
 // but with Web Crypto so it runs in the Workers runtime. Pass the RAW request body.
@@ -84,11 +110,7 @@ export async function verifyStripeSignature(rawBody, sigHeader, secret, nowSec, 
 
 // ── Email ────────────────────────────────────────────────────────────────────
 export function buildEmail(links) {
-  const labels = {
-    'guide.pdf': 'The LumaFit Guide',
-    'tracker.pdf': 'Your 30-Day Tracker',
-    'food-list.pdf': 'The Skin Reset Food List',
-  };
+  const labels = FILE_LABELS;
   const rows = links.map(({ file, url }) => `
     <tr><td style="padding:8px 0;">
       <a href="${url}" style="display:inline-block;background:#1f9d6b;color:#ffffff;text-decoration:none;

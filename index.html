@@ -19,10 +19,86 @@
     <!-- Bump ?v= on every css/ or js/ change. The lumafit.org zone's Browser
          Cache TTL (4h) overrides origin cache headers on CSS/JS, so a new URL
          is the only reliable way to get returning visitors the fresh files. -->
-    <link rel="stylesheet" href="css/styles.css?v=20260927">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/styles.css?v=20260929">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      "name": "LumaFit: The Complete Glow-Up Guide",
+      "description": "A 35-page PDF guide to clear skin, clean eating, body basics and confidence for ages 13 to 30, with a printable 30-day tracker and the Skin Reset food list.",
+      "image": "https://lumafit.org/assets/og.png",
+      "brand": {
+        "@type": "Brand",
+        "name": "LumaFit"
+      },
+      "url": "https://lumafit.org/",
+      "offers": {
+        "@type": "Offer",
+        "price": "15.00",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://lumafit.org/#buy",
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30,
+          "refundType": "https://schema.org/FullRefund",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How fast will I see results?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most readers notice calmer skin within 7 days of following the Skin Reset. Body changes are more noticeable around day 30 when the full system has compounded."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm 14. Can I use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The content is written to be safe and appropriate for ages 13+ and avoids any restrictive dieting. Checkout is for adults: if you are under 18, ask a parent or guardian to buy it for you. If you have a medical condition or allergies, check with a doctor first."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to buy anything else?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Everything in the guide uses common grocery items and drugstore skincare. No supplements, no expensive products."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What format is the guide?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A clean, mobile-friendly PDF. You get download links on the thank-you page right after checkout and a copy in your inbox."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if it doesn't work for me?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Email us within 30 days and we will refund you, no questions asked. You keep the PDF."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
 </head>
 <body>
     <!-- Animated gradient background -->
@@ -125,7 +201,10 @@
                             <div class="stack-layer" style="--i: 1">
                                 <div class="sheet sheet-recipe">
                                     <div class="sh-photo">
-                                        <img src="assets/gallery/rainbow-bowl.jpg" alt="" width="440" height="440" decoding="async">
+                                        <picture>
+                                            <source srcset="assets/gallery/rainbow-bowl.avif" type="image/avif">
+                                            <img src="assets/gallery/rainbow-bowl.jpg" alt="" width="440" height="440" fetchpriority="high" decoding="async">
+                                        </picture>
                                         <span>Recipe 04</span>
                                     </div>
                                     <div class="sh-recipe">
@@ -163,7 +242,7 @@
                                         <p class="sh-cover-sub">Clear skin. Clean diet. Confident you.</p>
                                         <div class="sh-cover-foot">
                                             <span>Glow from within</span>
-                                            <span class="sh-badge">42 pages</span>
+                                            <span class="sh-badge">35 pages</span>
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +267,7 @@
 
             <div class="hero-stats">
                 <div class="stat">
-                    <div class="stat-num">42</div>
+                    <div class="stat-num">35</div>
                     <div class="stat-label">pages of pure value</div>
                 </div>
                 <div class="stat">
@@ -196,8 +275,8 @@
                     <div class="stat-label">day Skin Reset plan inside</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">0</div>
-                    <div class="stat-label">gym or expensive skincare needed</div>
+                    <div class="stat-num">30</div>
+                    <div class="stat-label">day plan with a printable tracker</div>
                 </div>
             </div>
         </div>
@@ -255,19 +334,25 @@
             <div class="compare-reveal cr-photos" data-labels="Before|After" data-position="50">
                 <!-- after: fills the frame -->
                 <div class="cr-side cr-after">
-                    <img class="cr-photo" src="assets/results-after.jpg" width="595" height="672"
+                    <picture>
+                        <source srcset="assets/results-after.avif" type="image/avif">
+                        <img class="cr-photo" src="assets/results-after.jpg" width="595" height="672"
                          draggable="false" alt="After: the same cheek and jaw, clear and even, with the redness gone">
+                    </picture>
                 </div>
 
                 <!-- before: clipped from the left edge to the divider -->
                 <div class="cr-side cr-before">
-                    <img class="cr-photo" src="assets/results-before.jpg" width="604" height="672"
+                    <picture>
+                        <source srcset="assets/results-before.avif" type="image/avif">
+                        <img class="cr-photo" src="assets/results-before.jpg" width="604" height="672"
                          draggable="false" alt="Before: a young man's cheek and jaw with red, inflamed breakouts">
+                    </picture>
                 </div>
             </div>
 
             <p class="compare-note">
-                Now its your turn to see the results.
+                Customer photos, shared with permission. Individual results vary.
             </p>
         </div>
     </section>
@@ -278,7 +363,7 @@
             <div class="section-head">
                 <div class="eyebrow">The guide</div>
                 <h2 class="section-title">What's inside LumaFit</h2>
-                <p class="section-lead">42 pages. Zero fluff. Built to be finished in a weekend and lived every day.</p>
+                <p class="section-lead">35 pages. Zero fluff. Built to be finished in a weekend and lived every day.</p>
             </div>
             <div class="inside-grid">
                 <div class="inside-card">
@@ -337,31 +422,46 @@
                 <div class="pg-stage">
                     <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
                        data-dir="left" style="--k: -2; --dy: 15px; --z: 50; --order: 0; --tilt: -2deg">
-                        <img src="assets/gallery/egg-avocado-toast.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <picture>
+                            <source srcset="assets/gallery/egg-avocado-toast.avif" type="image/avif">
+                            <img src="assets/gallery/egg-avocado-toast.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        </picture>
                         <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                         <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
                     </a>
                     <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
                        data-dir="left" style="--k: -1; --dy: 32px; --z: 40; --order: 1; --tilt: -2deg">
-                        <img src="assets/gallery/spinach-pomegranate-salad.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <picture>
+                            <source srcset="assets/gallery/spinach-pomegranate-salad.avif" type="image/avif">
+                            <img src="assets/gallery/spinach-pomegranate-salad.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        </picture>
                         <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                         <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
                     </a>
                     <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
                        data-dir="right" style="--k: 0; --dy: 8px; --z: 30; --order: 2; --tilt: 2deg">
-                        <img src="assets/gallery/rainbow-bowl.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <picture>
+                            <source srcset="assets/gallery/rainbow-bowl.avif" type="image/avif">
+                            <img src="assets/gallery/rainbow-bowl.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        </picture>
                         <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                         <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
                     </a>
                     <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
                        data-dir="right" style="--k: 1; --dy: 22px; --z: 20; --order: 3; --tilt: 2deg">
-                        <img src="assets/gallery/salmon-greens.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <picture>
+                            <source srcset="assets/gallery/salmon-greens.avif" type="image/avif">
+                            <img src="assets/gallery/salmon-greens.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        </picture>
                         <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                         <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
                     </a>
                     <a class="pg-photo" href="#buy" tabindex="-1" aria-hidden="true" draggable="false"
                        data-dir="left" style="--k: 2; --dy: 44px; --z: 10; --order: 4; --tilt: -2deg">
-                        <img src="assets/gallery/berry-yogurt-bowl.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        <picture>
+                            <source srcset="assets/gallery/berry-yogurt-bowl.avif" type="image/avif">
+                            <img src="assets/gallery/berry-yogurt-bowl.jpg" alt="" width="440" height="440" loading="lazy" decoding="async" draggable="false">
+                        </picture>
                         <span class="pg-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                         <span class="pg-cta"><span class="pg-cta-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Get now</span></span>
                     </a>
@@ -438,9 +538,12 @@
                 </figure>
                 <figure class="testimonial">
                     <figure class="t-photo">
-                        <img src="assets/reviews/lisa.jpg" width="828" height="680"
+                        <picture>
+                            <source srcset="assets/reviews/lisa.avif" type="image/avif">
+                            <img src="assets/reviews/lisa.jpg" width="828" height="680"
                              loading="lazy" decoding="async"
                              alt="Lisa's cheek, before and after: inflamed breakouts and heavily uneven texture on the left, calmer and much smoother skin on the right.">
+                        </picture>
                         <figcaption>Before and after</figcaption>
                     </figure>
                     <blockquote>
@@ -462,9 +565,12 @@
                 </figure>
                 <figure class="testimonial">
                     <figure class="t-photo">
-                        <img src="assets/reviews/daniel.jpg" width="735" height="420"
+                        <picture>
+                            <source srcset="assets/reviews/daniel.avif" type="image/avif">
+                            <img src="assets/reviews/daniel.jpg" width="735" height="420"
                              loading="lazy" decoding="async"
                              alt="Daniel's cheek, before and after: several raised red blemishes along the jaw on the left, noticeably calmer and clearer skin on the right.">
+                        </picture>
                         <figcaption>Before and after</figcaption>
                     </figure>
                     <blockquote>
@@ -477,9 +583,12 @@
                 </figure>
                 <figure class="testimonial">
                     <figure class="t-photo">
-                        <img src="assets/reviews/sophie.jpg" width="728" height="409"
+                        <picture>
+                            <source srcset="assets/reviews/sophie.avif" type="image/avif">
+                            <img src="assets/reviews/sophie.jpg" width="728" height="409"
                              loading="lazy" decoding="async"
                              alt="Sophie's chin and jaw, before and after: red, sore breakouts across the chin on the left, clear and even skin on the right.">
+                        </picture>
                         <figcaption>Before and after</figcaption>
                     </figure>
                     <blockquote>
@@ -504,13 +613,12 @@
                 <p class="buy-sub">One-time payment. Keep it forever. Re-read it every time life gets loud.</p>
 
                 <div class="buy-price">
-                    <span class="price-old">$29</span>
                     <span class="price-now">$15</span>
-                    <span class="price-note">launch price</span>
+                    <span class="price-note">one-time payment</span>
                 </div>
 
                 <ul class="buy-list">
-                    <li>42-page LumaFit PDF guide</li>
+                    <li>35-page LumaFit PDF guide</li>
                     <li>Printable 30-day tracker</li>
                     <li>The Skin Reset food list</li>
                     <li>Lifetime access to updates</li>
@@ -529,6 +637,7 @@
                     </span>
                     <span class="age-text">I'm 18 or older, or a parent/guardian buying for someone younger.</span>
                 </label>
+                <p class="age-hint" id="ageHint" role="status">Tick the box above to continue to secure checkout.</p>
 
                 <button id="buyBtn" class="btn btn-primary btn-xl">
                     Get instant access for $15
@@ -563,7 +672,7 @@
                 </details>
                 <details class="faq-item">
                     <summary>What format is the guide?</summary>
-                    <p>A clean, mobile-friendly PDF. You'll get a download link instantly after checkout and a copy in your inbox.</p>
+                    <p>A clean, mobile-friendly PDF. You get the download links on the thank-you page right after checkout, plus a copy in your inbox.</p>
                 </details>
                 <details class="faq-item">
                     <summary>What if it doesn't work for me?</summary>
@@ -591,16 +700,49 @@
         </div>
     </footer>
 
-    <script src="js/shader-bg.js?v=20260927"></script>
-    <script src="js/gradient-wave.js?v=20260927"></script>
-    <script src="js/liquid-text.js?v=20260927"></script>
-    <script src="js/compare-reveal.js?v=20260927"></script>
-    <script src="js/cascade.js?v=20260927"></script>
-    <script src="js/hover-button.js?v=20260927"></script>
-    <script src="js/glow-cards.js?v=20260927"></script>
-    <script src="js/photo-gallery.js?v=20260927"></script>
-    <script src="js/nav-cursor.js?v=20260927"></script>
-    <script src="js/sale-bar.js?v=20260927"></script>
-    <script src="js/script.js?v=20260927"></script>
+    <!-- Mobile sticky CTA: js/script.js shows it between the hero and the buy card. -->
+    <div class="mobile-cta" id="mobileCta" aria-hidden="true">
+        <span class="mobile-cta-text">The LumaFit guide · $15<small>Instant download · 30-day refund</small></span>
+        <a href="#buy" class="btn btn-primary btn-sm" tabindex="-1">Get it <span class="btn-arrow">→</span></a>
+    </div>
+
+    <script src="js/compare-reveal.js?v=20260929" defer></script>
+    <script src="js/cascade.js?v=20260929" defer></script>
+    <script src="js/hover-button.js?v=20260929" defer></script>
+    <script src="js/glow-cards.js?v=20260929" defer></script>
+    <script src="js/photo-gallery.js?v=20260929" defer></script>
+    <script src="js/nav-cursor.js?v=20260929" defer></script>
+    <script src="js/sale-bar.js?v=20260929" defer></script>
+    <script src="js/script.js?v=20260929" defer></script>
+    <script>
+    // The WebGL backgrounds and the liquid headline are desktop delights. On a
+    // phone they cost seconds of main-thread time before the first paint (the
+    // wave shader alone was ~9s of boot time in Lighthouse), so they load only
+    // on a capable pointer device, and only once the page has finished loading.
+    // ?bg=wave or ?bg=mesh in the URL still forces one, on any device, for testing.
+    (function () {
+        var v = '20260929';
+        var forced = /[?&]bg=(wave|mesh)/i.exec(location.search);
+        var mq = function (q) { return window.matchMedia && window.matchMedia(q).matches; };
+        var capable = mq('(min-width: 900px) and (hover: hover) and (pointer: fine)')
+            && !mq('(prefers-reduced-motion: reduce)')
+            && !(navigator.connection && navigator.connection.saveData)
+            && (navigator.hardwareConcurrency || 4) >= 4;
+        if (!forced && !capable) return;
+        var bg = forced ? forced[1].toLowerCase() : 'wave';
+        function load(name) {
+            var s = document.createElement('script');
+            s.src = 'js/' + name + '.js?v=' + v;
+            document.body.appendChild(s);
+        }
+        function go() {
+            load(bg === 'mesh' ? 'shader-bg' : 'gradient-wave');
+            load('liquid-text');
+        }
+        var idle = window.requestIdleCallback || function (fn) { setTimeout(fn, 250); };
+        if (document.readyState === 'complete') idle(go);
+        else window.addEventListener('load', function () { idle(go); });
+    })();
+    </script>
 </body>
 </html>

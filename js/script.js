@@ -12,9 +12,10 @@ onScroll();
 // Respect users who prefer reduced motion — skip reveal + count-up animations
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Reveal-on-scroll for major elements
+// Reveal-on-scroll for below-the-fold sections. The hero is deliberately not
+// in this list: its entrance is a CSS animation (styles.css, "Hero entrance")
+// so the first paint never waits for this script to run.
 const revealTargets = document.querySelectorAll(
-    '.hero-title, .hero-sub, .hero-cta, .hero-visual, .hero-stats, ' +
     '.problem-card, .problem-lead, .inside-card, .benefit, ' +
     '.for-who-card, .testimonial, .buy-card, .faq-item'
 );
@@ -110,6 +111,29 @@ if (statNums.length && !reduceMotion) {
     statNums.forEach(el => statIO.observe(el));
 }
 
+// ── Where did this visit come from? ──────────────────────────────────
+// First-touch attribution for the session: utm_source/medium/campaign from
+// the landing URL, or the referrer's host. It rides along to Stripe as
+// client_reference_id, so every payment in the Stripe dashboard says which
+// channel produced it. No cookies, nothing sent anywhere but Stripe.
+const SRC_KEY = 'lumafit-src';
+function captureSource() {
+    try {
+        const stored = sessionStorage.getItem(SRC_KEY);
+        if (stored) return stored;
+        const q = new URLSearchParams(location.search);
+        let src = ['utm_source', 'utm_medium', 'utm_campaign']
+            .map((k) => (q.get(k) || '').trim()).filter(Boolean).join('_');
+        if (!src && document.referrer) {
+            const host = new URL(document.referrer).hostname.replace(/^www\./, '');
+            if (host && host !== location.hostname) src = 'ref_' + host;
+        }
+        if (src) sessionStorage.setItem(SRC_KEY, src);
+        return src;
+    } catch (_) { return ''; }
+}
+const visitSource = captureSource();
+
 // ── Stripe checkout ──────────────────────────────────────────────────
 // CHECKOUT_URL is your Stripe Payment Link (https://buy.stripe.com/...).
 // Going live — full walkthrough in STRIPE-SETUP.md:
@@ -131,16 +155,7 @@ const CHECKOUT_URL = 'https://buy.stripe.com/14A5kDbHx0hAcme8Pv5Ne00';
 
 const buyBtn = document.getElementById('buyBtn');
 const ageConfirm = document.getElementById('ageConfirm');
-
-// Buyer must confirm they're 18+/a guardian before the button enables.
-function syncBuyState() {
-    if (!buyBtn) return;
-    const ok = !ageConfirm || ageConfirm.checked;
-    buyBtn.disabled = !ok;
-    buyBtn.classList.toggle('is-disabled', !ok);
-}
-if (ageConfirm) ageConfirm.addEventListener('change', syncBuyState);
-syncBuyState();
+const ageGate = ageConfirm ? ageConfirm.closest('.age-gate') : null;
 
 // Guard so a half-finished config can never send a buyer somewhere they can't
 // pay. A live Payment Link is https://buy.stripe.com/<id>; Stripe's TEST links
@@ -163,16 +178,68 @@ if (CHECKOUT_READY && !checkoutLive) {
     );
 }
 
+// Stripe accepts client_reference_id as a URL parameter on Payment Links:
+// letters, digits, dashes and underscores, up to 200 characters.
+function checkoutHref() {
+    const ref = visitSource.replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+    if (!ref) return CHECKOUT_URL;
+    return CHECKOUT_URL + (CHECKOUT_URL.includes('?') ? '&' : '?') + 'client_reference_id=' + encodeURIComponent(ref);
+}
+
+// The buy button is always live. If the 18+ box is not ticked, the box gets
+// a nudge and focus instead of the button sitting greyed-out.
+function nudgeAgeGate() {
+    if (ageGate) {
+        ageGate.classList.remove('is-nudged');
+        void ageGate.offsetWidth; // restart the animation
+        ageGate.classList.add('is-nudged');
+    }
+    ageConfirm.focus();
+}
+if (ageConfirm && ageGate) {
+    ageConfirm.addEventListener('change', () => {
+        if (ageConfirm.checked) ageGate.classList.remove('is-nudged');
+    });
+}
+
 if (buyBtn) {
     buyBtn.addEventListener('click', () => {
         if (ageConfirm && !ageConfirm.checked) {
-            ageConfirm.focus();
+            nudgeAgeGate();
             return;
         }
         if (checkoutLive) {
-            window.location.href = CHECKOUT_URL;
+            window.location.href = checkoutHref();
         } else {
             alert('Checkout opens soon — LumaFit is launching shortly.');
         }
     });
+}
+
+// ── Mobile sticky CTA ────────────────────────────────────────────────
+// Shown once the hero has scrolled away and until the buy card is on screen.
+// CSS keeps it display:none above 720px, so on desktop none of this is visible.
+const mobileCta = document.getElementById('mobileCta');
+const heroEl = document.querySelector('.hero');
+const buyEl = document.getElementById('buy');
+if (mobileCta && heroEl && buyEl && 'IntersectionObserver' in window) {
+    const ctaLink = mobileCta.querySelector('a');
+    let heroVisible = true;
+    let buyVisible = false;
+    const sync = () => {
+        const on = !heroVisible && !buyVisible;
+        mobileCta.classList.toggle('is-on', on);
+        mobileCta.setAttribute('aria-hidden', on ? 'false' : 'true');
+        if (ctaLink) ctaLink.tabIndex = on ? 0 : -1;
+        document.body.classList.toggle('has-mobile-cta', on);
+    };
+    const ctaIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.target === heroEl) heroVisible = entry.isIntersecting;
+            if (entry.target === buyEl) buyVisible = entry.isIntersecting;
+        });
+        sync();
+    }, { threshold: 0.05 });
+    ctaIO.observe(heroEl);
+    ctaIO.observe(buyEl);
 }

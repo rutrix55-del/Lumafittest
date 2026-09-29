@@ -10,10 +10,7 @@
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="css/styles.css?v=20260927">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css?v=20260929">
     <style>
         /* ---------- Thank-you page scoped layout ---------- */
         .ty-main {
@@ -303,30 +300,33 @@
             <h1 class="ty-title">You're in — welcome to <em>LumaFit.</em></h1>
             <p class="ty-lead">
                 Your order is confirmed and your glow-up starts now. Your guide, tracker, and
-                Skin&nbsp;Reset food list are on their way to the inbox you used at checkout.
+                Skin&nbsp;Reset food list are ready below, and a copy is on its way to the inbox you used at checkout.
             </p>
             <span class="ty-order" id="tyOrder" hidden>Order reference: <strong id="tyOrderRef"></strong></span>
 
-            <!-- Delivery: files are emailed (no public download links on this page) -->
+            <!-- Delivery: /api/session-links checks the Stripe session server-side and
+                 returns signed, expiring links. Until it answers (or if it cannot),
+                 the card falls back to "check your inbox": the webhook email is the
+                 second copy of the same links. -->
             <section class="ty-downloads" aria-labelledby="ty-dl-heading">
-                <h2 id="ty-dl-heading">Check your inbox</h2>
-                <p class="ty-downloads-sub">Your download links are on the way — usually within a few minutes.</p>
+                <h2 id="ty-dl-heading">Your downloads</h2>
+                <p class="ty-downloads-sub" id="tyDlSub">Getting your files ready…</p>
 
-                <div class="ty-dl-list">
+                <div class="ty-dl-list" id="tyDl" aria-live="polite">
                     <div class="ty-dl" style="cursor:default;">
                         <span class="ty-dl-ico" aria-hidden="true" style="color:var(--coral-deep);">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
                         </span>
                         <span class="ty-dl-body">
-                            <strong>One email, everything inside</strong>
-                            <span>The 42-page guide, the 30-day tracker, and the Skin Reset food list — yours to keep forever.</span>
+                            <strong>One moment</strong>
+                            <span>The 35-page guide, the 30-day tracker, and the Skin Reset food list — yours to keep forever.</span>
                         </span>
                     </div>
                 </div>
             </section>
 
             <p class="ty-note">
-                Don't see it? Check your spam or promotions folder. Still nothing after a few minutes —
+                A copy of these links is also in your inbox. Don't see it? Check your spam or promotions folder. Still nothing after a few minutes —
                 email <a href="mailto:lumafitreal@gmail.com">lumafitreal@gmail.com</a> with your order
                 reference (or the email you used at checkout) and we'll send your files straight over.
             </p>
@@ -353,18 +353,52 @@
             <a href="index.html" class="ty-back">← Back to LumaFit</a>
         </div>
     </main>
-    <script src="js/shader-bg.js?v=20260927"></script>
     <script>
         // Stripe Payment Links append ?session_id={CHECKOUT_SESSION_ID} to the
-        // success URL. Show it as the buyer's order reference (read-only, safe).
+        // success URL. Show it as the order reference, then ask our Function to
+        // verify the session and hand back signed download links.
         (function () {
-            try {
-                var sid = new URLSearchParams(location.search).get('session_id');
-                if (!sid) return;
-                var ref = document.getElementById('tyOrderRef');
-                var wrap = document.getElementById('tyOrder');
-                if (ref && wrap) { ref.textContent = sid; wrap.hidden = false; }
-            } catch (e) { /* no-op */ }
+            var sid = null;
+            try { sid = new URLSearchParams(location.search).get('session_id'); } catch (e) { /* no-op */ }
+            var ref = document.getElementById('tyOrderRef');
+            var wrap = document.getElementById('tyOrder');
+            if (sid && ref && wrap) { ref.textContent = sid; wrap.hidden = false; }
+
+            var list = document.getElementById('tyDl');
+            var heading = document.getElementById('ty-dl-heading');
+            var sub = document.getElementById('tyDlSub');
+            if (!list || !heading || !sub) return;
+
+            var ICON_MAIL = '<span class="ty-dl-ico" aria-hidden="true" style="color:var(--coral-deep);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>';
+            var ICON_FILE = '<span class="ty-dl-ico" aria-hidden="true" style="color:var(--coral-deep);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></span>';
+            var ICON_ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg>';
+            function esc(s) {
+                return String(s).replace(/[&<>"]/g, function (c) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+                });
+            }
+            function inbox() {
+                heading.textContent = 'Check your inbox';
+                sub.textContent = 'Your download links are on the way by email, usually within a few minutes.';
+                list.innerHTML = '<div class="ty-dl" style="cursor:default;">' + ICON_MAIL +
+                    '<span class="ty-dl-body"><strong>One email, everything inside</strong>' +
+                    '<span>The 35-page guide, the 30-day tracker, and the Skin Reset food list — yours to keep forever.</span></span></div>';
+            }
+            if (!sid || !window.fetch) { inbox(); return; }
+
+            fetch('/api/session-links?session_id=' + encodeURIComponent(sid), { cache: 'no-store' })
+                .then(function (r) { return r.json(); })
+                .then(function (body) {
+                    if (!body || !body.ok || !Array.isArray(body.links) || !body.links.length) { inbox(); return; }
+                    heading.textContent = 'Your downloads';
+                    sub.textContent = 'These links work for 72 hours. Save the files somewhere you will find them again.';
+                    list.innerHTML = body.links.map(function (l) {
+                        return '<a class="ty-dl" href="' + esc(l.url) + '" download>' + ICON_FILE +
+                            '<span class="ty-dl-body"><strong>' + esc(l.label) + '</strong><span>PDF</span></span>' +
+                            '<span class="ty-dl-action">Download ' + ICON_ARROW + '</span></a>';
+                    }).join('');
+                })
+                .catch(inbox);
         })();
     </script>
 </body>
