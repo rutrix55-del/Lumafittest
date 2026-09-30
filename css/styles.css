@@ -156,6 +156,7 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
+[hidden] { display: none !important; }
 ul { list-style: none; }
 button { font-family: inherit; border: none; cursor: pointer; }
 
@@ -2185,10 +2186,18 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 .buy-price {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: center;
     gap: 12px;
     margin-bottom: 30px;
+}
+
+.price-old {
+    font-size: 1.3rem;
+    color: var(--ink-mute);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
 }
 
 .price-now {
@@ -2203,6 +2212,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 
 .price-note {
+    white-space: nowrap;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--on-volt);
@@ -2471,6 +2481,172 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     .nav-inner { padding: 10px 10px 10px 18px; }
     .logo { font-size: 1.05rem; }
     .btn-xl { padding: 18px 24px; font-size: 1rem; }
+}
+
+/* ---------- Look inside (index.html #look, js/look-inside.js) ----------
+   A portrait stage the width of a phone screen: pages swipe horizontally
+   with native scroll-snap, a segmented bar at the top shows progress and the
+   auto-advance timing, a caption sits on each page like a photo-mode post.
+   cqi units resolve against .look-stage, so everything scales with it. */
+.look { max-width: 440px; margin: 0 auto; }
+.look-wrap { display: grid; grid-template-columns: 1fr; align-items: center; }
+.look-arrow { display: none; }
+
+.look-stage {
+    position: relative;
+    container-type: inline-size;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    background: var(--graphite);
+    overflow: hidden;
+}
+
+.look-track {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+.look-track::-webkit-scrollbar { display: none; }
+
+.look-slide {
+    position: relative;
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+/* The stage clips the corners, so the sheets themselves go square and flat. */
+.look .sheet { border-radius: 0; box-shadow: none; border: 0; }
+.look .sheet:not(.sheet-cover):not(.sheet-cta) { background: #fff; }
+/* The caption carries the cover's page count, so the cover's own footer goes. */
+.look .sh-cover-foot { display: none; }
+/* Leave room top-right for the page counter. */
+.look .sheet .sh-head { padding-right: 15cqi; }
+
+/* Photographed pages: the image is the page. */
+.sheet-photo picture, .sheet-photo img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    display: block;
+}
+
+/* The frost is a gradient plus a lock pill; the real blur is baked into the
+   image files, and on the HTML pages it fades the lower text. */
+.look-frost {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.86) 40%, rgba(255, 255, 255, 0.94) 100%);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 24cqi;
+    pointer-events: none;
+}
+.look-frost-img { height: 60%; background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.55) 100%); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.look-frost-low { height: 34%; }
+.look-lock {
+    display: inline-flex; align-items: center; gap: 1.6cqi;
+    background: var(--ink); color: #fff;
+    border-radius: 100px; padding: 1.8cqi 3.4cqi;
+    font-size: 3cqi; font-weight: 600; letter-spacing: 0.02em;
+    box-shadow: 0 6px 18px rgba(17, 19, 20, 0.25);
+}
+.look-lock svg { width: 3.2cqi; height: 3.2cqi; stroke: currentColor; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Caption on the page, photo-mode style. */
+.look-cap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 18cqi 6cqi 6cqi;
+    background: linear-gradient(180deg, rgba(17, 19, 20, 0) 0%, rgba(17, 19, 20, 0.72) 55%, rgba(17, 19, 20, 0.86) 100%);
+    color: #fff;
+    pointer-events: none;
+}
+.look-cap b {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 6cqi;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+.look-cap span { display: block; margin-top: 1.6cqi; font-size: 3.5cqi; color: rgba(255, 255, 255, 0.82); }
+
+/* Progress segments and the page counter. */
+.look-bar {
+    position: absolute; top: 3.2cqi; left: 3.6cqi; right: 3.6cqi; z-index: 3;
+    display: flex; gap: 1.2cqi;
+}
+.look-bar i {
+    flex: 1; height: 3px; border-radius: 2px;
+    background: rgba(17, 19, 20, 0.22);
+    position: relative; overflow: hidden;
+}
+.look-bar i::after { content: ''; position: absolute; inset: 0; width: 0; background: var(--ink); }
+.look-bar i.is-done::after { width: 100%; }
+.look-bar i.is-active::after { animation: look-fill var(--look-ms, 3800ms) linear forwards; }
+.look.is-paused .look-bar i.is-active::after { animation-play-state: paused; }
+.look.on-dark .look-bar i { background: rgba(255, 255, 255, 0.32); }
+.look.on-dark .look-bar i::after { background: #fff; }
+@keyframes look-fill { from { width: 0; } to { width: 100%; } }
+
+.look-count {
+    position: absolute; top: 6.4cqi; right: 3.6cqi; z-index: 3;
+    font-size: 3cqi; font-weight: 600; letter-spacing: 0.04em;
+    color: #fff; background: rgba(17, 19, 20, 0.62);
+    padding: 1cqi 2.4cqi; border-radius: 100px;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.look-count b { font-weight: 800; }
+
+/* Page mockups used only here. */
+.sh-toc { list-style: none; margin-top: 4cqi; display: grid; gap: 3.2cqi; }
+.sh-toc li { display: grid; grid-template-columns: 8cqi 1fr auto; gap: 2.5cqi; align-items: baseline; font-size: 3.7cqi; }
+.sh-toc li span:first-child { font-family: 'Fraunces', serif; font-weight: 700; color: var(--moss); }
+.sh-toc li span:last-child { color: var(--ink-mute); font-size: 3.2cqi; }
+.sh-toc li b { font-weight: 600; }
+.sh-list { list-style: none; margin-top: 3cqi; display: grid; gap: 2cqi; }
+.sh-list li { display: flex; gap: 3cqi; font-size: 3.6cqi; color: var(--ink-soft); line-height: 1.35; }
+.sh-list b { font-family: 'Fraunces', serif; color: var(--moss); flex: 0 0 6cqi; }
+
+/* The last page is the offer. */
+.look .sheet-cta { background: var(--grad-ink); color: #fff; }
+.sheet-cta .sh-in { justify-content: center; }
+.sheet-cta .sh-kicker { color: rgba(255, 255, 255, 0.7); }
+.look-cta-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 10cqi; line-height: 1.02; letter-spacing: -0.03em; margin: 3cqi 0 6cqi; }
+.look-cta-title em { font-style: italic; color: var(--volt); }
+.look-cta-list { list-style: none; display: grid; gap: 2.4cqi; }
+.look-cta-list li { display: flex; align-items: center; gap: 3cqi; font-size: 3.9cqi; color: rgba(255, 255, 255, 0.88); }
+.look-cta-list li::before { content: ''; width: 4.2cqi; height: 4.2cqi; border-radius: 50%; background: var(--volt); flex: 0 0 auto; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / 62% no-repeat, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / 62% no-repeat, linear-gradient(#000 0 0); mask-composite: exclude; }
+.look-cta-price { margin-top: 7cqi; font-family: 'Fraunces', serif; font-weight: 700; font-size: 11cqi; letter-spacing: -0.03em; line-height: 1; }
+.look-cta-price s { font-size: 5.5cqi; color: rgba(255, 255, 255, 0.45); text-decoration-thickness: 2px; margin-right: 1cqi; }
+.look-cta-price small { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 3.4cqi; color: rgba(255, 255, 255, 0.7); letter-spacing: 0; margin-left: 1.5cqi; }
+.look-cta-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 2cqi;
+    margin-top: 5cqi; padding: 4.2cqi 7cqi;
+    border-radius: 100px;
+    background: var(--volt); color: var(--on-volt);
+    font-weight: 700; font-size: 4.2cqi;
+    box-shadow: 0 10px 30px rgba(var(--volt-rgb), 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.look-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(var(--volt-rgb), 0.45); }
+.look-cta-fine { margin-top: 3.6cqi; font-size: 3cqi; color: rgba(255, 255, 255, 0.62); }
+
+/* Wider screens: the stage stays phone-sized, arrows flank it. */
+@media (min-width: 720px) {
+    .look { max-width: none; }
+    .look-wrap { grid-template-columns: 52px minmax(0, 440px) 52px; justify-content: center; gap: 22px; }
+    .look-arrow {
+        display: grid; place-items: center;
+        width: 52px; height: 52px; border-radius: 50%;
+        background: var(--glass-strong); border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .look-arrow svg { width: 20px; height: 20px; stroke: var(--ink); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .look-arrow:hover { transform: scale(1.06); }
+    .look.is-first [data-look-prev], .look.is-last [data-look-next] { opacity: 0.35; pointer-events: none; }
 }
 
 /* ---------- Mobile sticky CTA ----------

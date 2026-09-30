@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="LumaFit: the no-BS guide to clear skin, a healthier body, and unshakeable confidence. Built for ages 13 to 30.">
     <meta property="og:title" content="LumaFit: Glow from within.">
-    <meta property="og:description" content="Clear skin. Clean diet. Confident you. The €9.99 guide built for 13–30.">
+    <meta property="og:description" content="Clear skin. Clean diet. Confident you. The no-BS guide built for 13–30.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lumafit.org/">
     <meta property="og:image" content="https://lumafit.org/assets/og.png">
@@ -21,7 +21,7 @@
          is the only reliable way to get returning visitors the fresh files. -->
     <link rel="preload" href="assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="css/styles.css?v=2026093002">
+    <link rel="stylesheet" href="css/styles.css?v=2026093003">
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,6 +39,7 @@
       "offers": {
         "@type": "Offer",
         "price": "9.99",
+        "priceValidUntil": "2026-10-03",
         "priceCurrency": "EUR",
         "availability": "https://schema.org/InStock",
         "url": "https://lumafit.org/#buy",
@@ -164,7 +165,7 @@
             </p>
             <div class="hero-cta">
                 <a href="#buy" class="hover-btn" data-hover-btn>
-                    Get the guide for €9.99
+                    <span>Get the guide for <span data-price>€9.99</span></span>
                     <span class="btn-arrow">→</span>
                 </a>
                 <div class="hero-trust">
@@ -357,44 +358,158 @@
         </div>
     </section>
 
-    <!-- What's inside -->
+    <!-- Look inside: a swipeable, auto-advancing slideshow of real pages
+         (js/look-inside.js). Native scroll-snap does the swiping, so it works
+         with JS off. The two photographed pages are served pre-frosted from
+         assets/inside/: the readable part is what this page already quotes,
+         the rest is blurred into the file itself, so no CSS stands between a
+         visitor and the product. -->
     <section class="section inside" id="inside">
         <div class="container">
             <div class="section-head">
-                <div class="eyebrow">The guide</div>
-                <h2 class="section-title">What's inside LumaFit</h2>
-                <p class="section-lead">35 pages. Zero fluff. Built to be finished in a weekend and lived every day.</p>
+                <div class="eyebrow">Look inside</div>
+                <h2 class="section-title">See what you're buying.</h2>
+                <p class="section-lead">Real pages from the guide. Swipe through them like you're holding it.</p>
             </div>
-            <div class="inside-grid">
-                <div class="inside-card">
-                    <div class="inside-num">01</div>
-                    <h3>The Skin Reset</h3>
-                    <p>The 7 foods quietly causing your breakouts, plus the 5 cheap swaps that calm your skin fast.</p>
-                </div>
-                <div class="inside-card">
-                    <div class="inside-num">02</div>
-                    <h3>The Clean Plate</h3>
-                    <p>A flexible eating framework for teens and young adults. No counting calories, no banned foods.</p>
-                </div>
-                <div class="inside-card">
-                    <div class="inside-num">03</div>
-                    <h3>Face Care, Simplified</h3>
-                    <p>The 4-step routine dermatologists agree on. Everything else is marketing.</p>
-                </div>
-                <div class="inside-card">
-                    <div class="inside-num">04</div>
-                    <h3>Body Basics</h3>
-                    <p>Posture, hydration, sleep, and 10-minute home movement that actually changes how you look.</p>
-                </div>
-                <div class="inside-card">
-                    <div class="inside-num">05</div>
-                    <h3>The Confidence Stack</h3>
-                    <p>Small daily habits that compound into the version of you that walks into a room differently.</p>
-                </div>
-                <div class="inside-card">
-                    <div class="inside-num">06</div>
-                    <h3>Your 30-Day Plan</h3>
-                    <p>A printable day-by-day tracker so you never have to guess what's next.</p>
+
+            <div class="look is-first" id="look" data-interval="3800">
+                <div class="look-wrap">
+                    <button type="button" class="look-arrow" data-look-prev aria-label="Previous page">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+                    </button>
+
+                    <div class="look-stage" role="region" aria-roledescription="carousel" aria-label="Look inside the guide">
+                        <div class="look-bar" aria-hidden="true"></div>
+                        <div class="look-count" aria-hidden="true"><b data-look-current>1</b>/<span data-look-total>7</span></div>
+
+                        <div class="look-track" data-look-track>
+                            <!-- 1 · Cover -->
+                            <div class="look-slide" data-tone="dark" role="group" aria-label="Page 1 of 7: the cover">
+                                <div class="sheet sheet-cover">
+                                    <div class="sh-in">
+                                        <span class="sh-dot"></span>
+                                        <div class="sh-kicker">The Guide · Ages 13–30</div>
+                                        <div class="sh-cover-title">Luma<em>Fit</em></div>
+                                        <p class="sh-cover-sub">Clear skin. Clean diet. Confident you.</p>
+                                        <div class="sh-cover-foot">
+                                            <span>Glow from within</span>
+                                            <span class="sh-badge">35 pages</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="look-cap"><b>35 pages. Six chapters. One 30-day plan.</b><span>Swipe to look inside.</span></div>
+                            </div>
+
+                            <!-- 2 · Contents -->
+                            <div class="look-slide" role="group" aria-label="Page 2 of 7: the contents">
+                                <div class="sheet">
+                                    <div class="sh-in">
+                                        <div class="sh-head"><span>Contents</span><span>2</span></div>
+                                        <div class="sh-eyebrow">Six chapters</div>
+                                        <ul class="sh-toc">
+                                            <li><span>01</span><b>The Skin Reset</b><span>1 week</span></li>
+                                            <li><span>02</span><b>The Clean Plate</b><span>1 week</span></li>
+                                            <li><span>03</span><b>Face Care, Simplified</b><span>1 week</span></li>
+                                            <li><span>04</span><b>Body Basics</b><span>1 week</span></li>
+                                            <li><span>05</span><b>The Confidence Stack</b><span>1 week</span></li>
+                                            <li><span>06</span><b>Your 30-Day Plan</b><span>tracker</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="look-cap"><b>Six short chapters, one week each.</b><span>Finish it in a weekend. Live it for 30 days.</span></div>
+                            </div>
+
+                            <!-- 3 · Chapter one opens -->
+                            <div class="look-slide" role="group" aria-label="Page 3 of 7: chapter one opens">
+                                <div class="sheet">
+                                    <div class="sh-in">
+                                        <div class="sh-head"><span>Chapter 01</span><span>The Skin Reset</span></div>
+                                        <div class="sh-eyebrow">Start here</div>
+                                        <div class="sh-title">The Skin Reset</div>
+                                        <p class="sh-body">You've tried the creams. The serums. The "miracle" stuff some 22-year-old swore by on TikTok at 2am. And your skin is still doing whatever it wants.</p>
+                                        <ul class="sh-list">
+                                            <li><b>1</b>Why food touches your skin at all, in 90 seconds.</li>
+                                            <li><b>2</b>The 7 foods most worth cutting back on.</li>
+                                            <li><b>3</b>The 5 swaps that replace them.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="look-frost"><span class="look-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Inside the guide</span></div>
+                                </div>
+                                <div class="look-cap"><b>Chapter 1 starts on your plate, not your face.</b><span>The 7 foods behind most breakouts, and the swaps.</span></div>
+                            </div>
+
+                            <!-- 4 · The food list (pre-frosted render) -->
+                            <div class="look-slide" role="group" aria-label="Page 4 of 7: the Skin Reset food list">
+                                <div class="sheet sheet-photo">
+                                    <picture>
+                                        <source srcset="assets/inside/food-list.avif" type="image/avif">
+                                        <img src="assets/inside/food-list.jpg" alt="The Skin Reset food list: seven foods to dial down and five cheap swaps" width="900" height="1273" loading="lazy" decoding="async">
+                                    </picture>
+                                    <div class="look-frost look-frost-img"><span class="look-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Inside the guide</span></div>
+                                </div>
+                                <div class="look-cap"><b>The fridge-door food list.</b><span>7 to dial down, 5 cheap swaps. Printable.</span></div>
+                            </div>
+
+                            <!-- 5 · A recipe -->
+                            <div class="look-slide" role="group" aria-label="Page 5 of 7: a recipe">
+                                <div class="sheet sheet-recipe">
+                                    <div class="sh-photo">
+                                        <picture>
+                                            <source srcset="assets/gallery/rainbow-bowl.avif" type="image/avif">
+                                            <img src="assets/gallery/rainbow-bowl.jpg" alt="" width="440" height="440" loading="lazy" decoding="async">
+                                        </picture>
+                                        <span>Recipe 04</span>
+                                    </div>
+                                    <div class="sh-recipe">
+                                        <div class="sh-recipe-title">Rainbow glow bowl</div>
+                                        <div class="sh-recipe-meta"><span>15 min</span><span>Serves 2</span><span>No cooking</span></div>
+                                        <ul class="sh-recipe-list">
+                                            <li>Chickpeas, rinsed</li>
+                                            <li>Red cabbage, shredded</li>
+                                            <li>Avocado + lemon</li>
+                                        </ul>
+                                    </div>
+                                    <div class="look-frost look-frost-low"><span class="look-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Inside the guide</span></div>
+                                </div>
+                                <div class="look-cap"><b>Recipes you'll actually make.</b><span>15 minutes, a student budget, no cooking skills.</span></div>
+                            </div>
+
+                            <!-- 6 · The tracker (pre-frosted render) -->
+                            <div class="look-slide" role="group" aria-label="Page 6 of 7: the 30-day tracker">
+                                <div class="sheet sheet-photo">
+                                    <picture>
+                                        <source srcset="assets/inside/tracker.avif" type="image/avif">
+                                        <img src="assets/inside/tracker.jpg" alt="The 30-day tracker: one habit added per day, with photo check-in days" width="900" height="1273" loading="lazy" decoding="async">
+                                    </picture>
+                                    <div class="look-frost look-frost-img"><span class="look-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Inside the guide</span></div>
+                                </div>
+                                <div class="look-cap"><b>One small add a day, for 30 days.</b><span>The printable tracker, with photo check-ins.</span></div>
+                            </div>
+
+                            <!-- 7 · The offer -->
+                            <div class="look-slide" data-tone="dark" role="group" aria-label="Page 7 of 7: get the guide">
+                                <div class="sheet sheet-cta">
+                                    <div class="sh-in">
+                                        <span class="sh-dot"></span>
+                                        <div class="sh-kicker">The whole system</div>
+                                        <div class="look-cta-title">Yours in the next <em>minute.</em></div>
+                                        <ul class="look-cta-list">
+                                            <li>The 35-page guide</li>
+                                            <li>The printable 30-day tracker</li>
+                                            <li>The Skin Reset food list</li>
+                                        </ul>
+                                        <div class="look-cta-price"><s data-sale-only>€19.99</s> <span data-price>€9.99</span> <small data-sale-only>50% off</small><small data-regular-only hidden>one-time</small></div>
+                                        <a href="#buy" class="look-cta-btn">Get the guide <span class="btn-arrow">→</span></a>
+                                        <div class="look-cta-fine"><span data-sale-only>Launch price until 3 October · </span>Instant download · 30-day refund</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="look-arrow" data-look-next aria-label="Next page">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -613,8 +728,10 @@
                 <p class="buy-sub">One-time payment. Keep it forever. Re-read it every time life gets loud.</p>
 
                 <div class="buy-price">
-                    <span class="price-now">€9.99</span>
-                    <span class="price-note">one-time payment</span>
+                    <span class="price-old" data-sale-only>€19.99</span>
+                    <span class="price-now" data-price>€9.99</span>
+                    <span class="price-note" data-sale-only>50% off until 3 Oct</span>
+                    <span class="price-note" data-regular-only hidden>one-time payment</span>
                 </div>
 
                 <ul class="buy-list">
@@ -626,7 +743,7 @@
                 </ul>
 
                 <button id="buyBtn" class="btn btn-primary btn-xl">
-                    Get instant access for €9.99
+                    <span>Get instant access for <span data-price>€9.99</span></span>
                     <span class="btn-arrow">→</span>
                 </button>
 
@@ -692,18 +809,19 @@
 
     <!-- Mobile sticky CTA: js/script.js shows it between the hero and the buy card. -->
     <div class="mobile-cta" id="mobileCta" aria-hidden="true">
-        <span class="mobile-cta-text">The LumaFit guide · €9.99<small>Instant download · 30-day refund</small></span>
+        <span class="mobile-cta-text">The LumaFit guide · <span data-price>€9.99</span><small>Instant download · 30-day refund</small></span>
         <a href="#buy" class="btn btn-primary btn-sm" tabindex="-1">Get it <span class="btn-arrow">→</span></a>
     </div>
 
-    <script src="js/compare-reveal.js?v=2026093002" defer></script>
-    <script src="js/cascade.js?v=2026093002" defer></script>
-    <script src="js/hover-button.js?v=2026093002" defer></script>
-    <script src="js/glow-cards.js?v=2026093002" defer></script>
-    <script src="js/photo-gallery.js?v=2026093002" defer></script>
-    <script src="js/nav-cursor.js?v=2026093002" defer></script>
-    <script src="js/sale-bar.js?v=2026093002" defer></script>
-    <script src="js/script.js?v=2026093002" defer></script>
+    <script src="js/compare-reveal.js?v=2026093003" defer></script>
+    <script src="js/cascade.js?v=2026093003" defer></script>
+    <script src="js/hover-button.js?v=2026093003" defer></script>
+    <script src="js/glow-cards.js?v=2026093003" defer></script>
+    <script src="js/photo-gallery.js?v=2026093003" defer></script>
+    <script src="js/look-inside.js?v=2026093003" defer></script>
+    <script src="js/nav-cursor.js?v=2026093003" defer></script>
+    <script src="js/sale-bar.js?v=2026093003" defer></script>
+    <script src="js/script.js?v=2026093003" defer></script>
     <script>
     // The WebGL backgrounds and the liquid headline are desktop delights. On a
     // phone they cost seconds of main-thread time before the first paint (the
@@ -711,7 +829,7 @@
     // on a capable pointer device, and only once the page has finished loading.
     // ?bg=wave or ?bg=mesh in the URL still forces one, on any device, for testing.
     (function () {
-        var v = '2026093002';
+        var v = '2026093003';
         var forced = /[?&]bg=(wave|mesh)/i.exec(location.search);
         var mq = function (q) { return window.matchMedia && window.matchMedia(q).matches; };
         var capable = mq('(min-width: 900px) and (hover: hover) and (pointer: fine)')

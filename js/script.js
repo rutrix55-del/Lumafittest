@@ -145,16 +145,36 @@ const visitSource = captureSource();
 // A Payment Link URL is public and safe to ship in client JS. NEVER put a
 // Stripe SECRET key (sk_live_… / sk_test_…) anywhere in this file.
 const CHECKOUT_READY = true;
-// Live €9.99 Payment Link, created 2026-09-30 (plink_1ULQWlImD5UPqxzVQjjfLeQA):
-// EUR 9.99 tax-inclusive, redirects to /thank-you?session_id=…, requires the
-// terms / 18+ / withdrawal-waiver checkbox, accepts promotion codes.
+
+// Two live Payment Links, both EUR and tax-inclusive, both redirecting to
+// /thank-you?session_id=…, both requiring the terms / 18+ / withdrawal-waiver
+// checkbox and accepting promotion codes:
+//   sale     €9.99   plink_1ULQWlImD5UPqxzVQjjfLeQA   the 50%-off launch price
+//   regular  €19.99  plink_1ULSPWImD5UPqxzVF610yZV2
+// SALE_ENDS is defined in js/sale-bar.js, which loads first. While it is ahead
+// the page shows €19.99 struck through and €9.99 live and sends buyers to the
+// sale link; once it passes, every price on the page and the checkout link
+// switch to €19.99 on their own, so the "was" price is one we really charge.
+// Retired links: …cme8Pv5Ne00 (€15, never redirected) and …3vb5Ne02 (€10, one hour).
 //
-// The redirect → webhook → delivery email → R2 download path was proved end to
-// end on 2026-09-22 with a live €1 purchase on a separate test link. THIS link has
-// not had a real purchase yet: make one (and refund it) before announcing.
-// Earlier links are retired: …cme8Pv5Ne00 charged €15 and never redirected, and
-// …3vb5Ne02 was the short-lived €10 link.
-const CHECKOUT_URL = 'https://buy.stripe.com/28E6oHh1R1lEeum8Pv5Ne03';
+// The redirect → webhook → email → R2 download path was proved end to end on
+// 2026-09-22 with a live €1 purchase on a test link and the thank-you download
+// endpoint was verified against that paid session on 2026-09-30. Neither live
+// link has had a real purchase yet.
+const OFFERS = {
+    sale:    { amount: '€9.99',  url: 'https://buy.stripe.com/28E6oHh1R1lEeum8Pv5Ne03' },
+    regular: { amount: '€19.99', url: 'https://buy.stripe.com/7sYaEXbHxggy0Dw0iZ5Ne04' },
+};
+const saleOn = typeof SALE_ENDS !== 'undefined' && SALE_ENDS instanceof Date &&
+    !Number.isNaN(SALE_ENDS.getTime()) && SALE_ENDS.getTime() > Date.now();
+const offer = saleOn ? OFFERS.sale : OFFERS.regular;
+const CHECKOUT_URL = offer.url;
+
+// Every price on the page follows the offer, so nothing needs editing by hand
+// when the sale ends. The HTML ships in the sale state for no-JS visitors.
+document.querySelectorAll('[data-price]').forEach((el) => { el.textContent = offer.amount; });
+document.querySelectorAll('[data-sale-only]').forEach((el) => { el.hidden = !saleOn; });
+document.querySelectorAll('[data-regular-only]').forEach((el) => { el.hidden = saleOn; });
 
 const buyBtn = document.getElementById('buyBtn');
 
