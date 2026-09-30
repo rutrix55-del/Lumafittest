@@ -144,17 +144,16 @@ const visitSource = captureSource();
 //   5. Replace the test link with your LIVE link and redeploy.
 // A Payment Link URL is public and safe to ship in client JS. NEVER put a
 // Stripe SECRET key (sk_live_… / sk_test_…) anywhere in this file.
-// PRICE CHANGE IN PROGRESS: the page now says €10, but CHECKOUT_URL below is still the old
-// $15 Payment Link. Checkout stays off until it is the new €10 link, so nobody can be
-// charged more than the page advertises. Then set this back to true.
-const CHECKOUT_READY = false;
-// Live Payment Link (live mode — no `test_`). Verify with one real purchase on
-// the live domain before announcing; that is the only check that proves the
-// link, the success redirect and the delivery email all work end to end.
+const CHECKOUT_READY = true;
+// Live €10 Payment Link, created 2026-09-30 (plink_1ULPwxImD5UPqxzV3QTHTdDZ):
+// EUR 10.00 tax-inclusive, redirects to /thank-you?session_id=…, requires the
+// terms / 18+ / withdrawal-waiver checkbox, accepts promotion codes.
 //
-// Proved end to end on 2026-09-22 with a $1 live purchase: button → Stripe →
-// success redirect → webhook → delivery email → all three R2 downloads.
-const CHECKOUT_URL = 'https://buy.stripe.com/14A5kDbHx0hAcme8Pv5Ne00';
+// The redirect → webhook → delivery email → R2 download path was proved end to
+// end on 2026-09-22 with a live €1 purchase on a separate test link. THIS link has
+// not had a real purchase yet: make one (and refund it) before announcing.
+// The previous link (…cme8Pv5Ne00) charged €15 and never redirected; it is retired.
+const CHECKOUT_URL = 'https://buy.stripe.com/3cI8wPbHx6FYae63vb5Ne02';
 
 const buyBtn = document.getElementById('buyBtn');
 const ageConfirm = document.getElementById('ageConfirm');
