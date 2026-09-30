@@ -156,8 +156,6 @@ const CHECKOUT_READY = true;
 const CHECKOUT_URL = 'https://buy.stripe.com/3cI8wPbHx6FYae63vb5Ne02';
 
 const buyBtn = document.getElementById('buyBtn');
-const ageConfirm = document.getElementById('ageConfirm');
-const ageGate = ageConfirm ? ageConfirm.closest('.age-gate') : null;
 
 // Guard so a half-finished config can never send a buyer somewhere they can't
 // pay. A live Payment Link is https://buy.stripe.com/<id>; Stripe's TEST links
@@ -188,28 +186,11 @@ function checkoutHref() {
     return CHECKOUT_URL + (CHECKOUT_URL.includes('?') ? '&' : '?') + 'client_reference_id=' + encodeURIComponent(ref);
 }
 
-// The buy button is always live. If the 18+ box is not ticked, the box gets
-// a nudge and focus instead of the button sitting greyed-out.
-function nudgeAgeGate() {
-    if (ageGate) {
-        ageGate.classList.remove('is-nudged');
-        void ageGate.offsetWidth; // restart the animation
-        ageGate.classList.add('is-nudged');
-    }
-    ageConfirm.focus();
-}
-if (ageConfirm && ageGate) {
-    ageConfirm.addEventListener('change', () => {
-        if (ageConfirm.checked) ageGate.classList.remove('is-nudged');
-    });
-}
-
+// Age and withdrawal-right consent is collected by Stripe Checkout itself (the
+// Payment Link requires the terms checkbox), so nothing stands between this
+// button and the payment page.
 if (buyBtn) {
     buyBtn.addEventListener('click', () => {
-        if (ageConfirm && !ageConfirm.checked) {
-            nudgeAgeGate();
-            return;
-        }
         if (checkoutLive) {
             window.location.href = checkoutHref();
         } else {

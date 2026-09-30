@@ -625,26 +625,16 @@
                     <li>30-day money-back guarantee</li>
                 </ul>
 
-                <!-- The native input stays in the DOM (it is what the JS reads
-                     and what assistive tech announces); it is just visually
-                     replaced by .age-box so the check can be animated. -->
-                <label class="age-gate" for="ageConfirm">
-                    <input type="checkbox" id="ageConfirm">
-                    <span class="age-box" aria-hidden="true">
-                        <svg viewBox="0 0 20 20" fill="none">
-                            <polyline points="4.5 10.5 8.5 14.5 15.5 6"/>
-                        </svg>
-                    </span>
-                    <span class="age-text">I'm 18 or older, or a parent/guardian buying for someone younger.</span>
-                </label>
-                <p class="age-hint" id="ageHint" role="status">Tick the box above to continue to secure checkout.</p>
-
                 <button id="buyBtn" class="btn btn-primary btn-xl">
                     Get instant access for €10
                     <span class="btn-arrow">→</span>
                 </button>
 
                 <p class="buy-fine">Secure checkout • Instant download, also emailed to you</p>
+                <p class="buy-eligibility">
+                    Buyers confirm they're 18+, or a parent buying for their teen, on the payment page.
+                    Under 18? Send this page to a parent.
+                </p>
                 </div>
             </div>
         </div>

@@ -2345,123 +2345,12 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 .footer-links a:hover,
 .footer-links a:focus-visible { color: var(--moss); }
 
-/* ---------- Age gate ---------- */
-.age-gate {
-    position: relative; /* anchors the visually-hidden input */
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    max-width: 420px;
-    margin: 0 auto 18px;
-    text-align: left;
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    cursor: pointer;
-}
-/* The real input is hidden but still focusable and still what screen readers
-   announce — only its appearance is replaced, never its behaviour. */
-.age-gate input {
-    position: absolute;
-    opacity: 0;
-    width: 1px;
-    height: 1px;
-    margin: 0;
-    pointer-events: none;
-}
-
-.age-box {
-    position: relative;
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    margin-top: 1px;
-    border-radius: 7px;
-    border: 1.5px solid rgba(17, 19, 20, 0.18);
-    background: #fff;
-    display: grid;
-    place-items: center;
-    transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.age-gate:hover .age-box { border-color: rgba(17, 19, 20, 0.34); }
-.age-gate:active .age-box { transform: scale(0.92); }
-
-/* The brand fill lives on a pseudo-element rather than the box's own
-   background: gradients can't be transitioned, but opacity and transform can,
-   so this blooms out from the centre instead of snapping. */
-.age-box::before {
-    content: "";
-    position: absolute;
-    inset: -1.5px;
-    border-radius: inherit;
-    background: var(--grad-brand-deep);
-    opacity: 0;
-    transform: scale(0.3);
-    transition: opacity 0.2s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* The tick draws itself: the polyline is ~17 units long, so hiding it behind an
-   equal dash offset and animating that to 0 sweeps it on. The small delay lets
-   the fill land first. */
-.age-box svg {
-    position: relative;
-    width: 13px;
-    height: 13px;
-    stroke: #fff;
-    stroke-width: 2.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 18;
-    stroke-dashoffset: 18;
-    transition: stroke-dashoffset 0.28s cubic-bezier(0.65, 0, 0.35, 1) 0.07s;
-}
-
-.age-gate input:checked + .age-box {
-    border-color: transparent;
-}
-.age-gate input:checked + .age-box::before {
-    opacity: 1;
-    transform: scale(1);
-}
-.age-gate input:checked + .age-box svg {
-    stroke-dashoffset: 0;
-}
-
-/* Keyboard focus moves to the box, matching the site-wide :focus-visible ring.
-   Without this the outline would draw around the 1px hidden input. */
-.age-gate input:focus-visible { outline: none; }
-.age-gate input:focus-visible + .age-box {
-    outline: 3px solid var(--graphite);
-    outline-offset: 3px;
-}
-
-/* Clicking Buy without ticking the box nudges the box. The button itself is
-   never disabled: a greyed-out buy button reads as "checkout is broken". */
-.age-gate.is-nudged .age-box {
-    border-color: var(--moss);
-    animation: age-nudge 0.4s ease;
-}
-.age-gate.is-nudged .age-text { color: var(--ink); }
-@keyframes age-nudge {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
-}
-.age-hint {
-    display: none;
-    max-width: 420px;
-    margin: -8px auto 16px;
-    text-align: left;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--moss-deep);
-}
-.age-gate.is-nudged + .age-hint { display: block; }
-
-@media (prefers-reduced-motion: reduce) {
-    .age-box,
-    .age-box::before,
-    .age-box svg { transition-duration: 0.01ms; }
+.buy-eligibility {
+    max-width: 440px;
+    margin: 10px auto 0;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: var(--ink-mute);
 }
 .btn.is-disabled,
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
