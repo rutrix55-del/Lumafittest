@@ -137,14 +137,17 @@ const visitSource = captureSource();
 // ── Stripe checkout ──────────────────────────────────────────────────
 // CHECKOUT_URL is your Stripe Payment Link (https://buy.stripe.com/...).
 // Going live — full walkthrough in STRIPE-SETUP.md:
-//   1. Create a $15 Payment Link in Stripe — in TEST mode first.
+//   1. Create a €10 Payment Link in Stripe — in TEST mode first.
 //   2. Set its after-payment success URL to  .../thank-you.html?session_id={CHECKOUT_SESSION_ID}
 //   3. Paste the link below, set CHECKOUT_READY = true, redeploy.
 //   4. Pay with test card 4242 4242 4242 4242 and confirm the redirect works.
 //   5. Replace the test link with your LIVE link and redeploy.
 // A Payment Link URL is public and safe to ship in client JS. NEVER put a
 // Stripe SECRET key (sk_live_… / sk_test_…) anywhere in this file.
-const CHECKOUT_READY = true;
+// PRICE CHANGE IN PROGRESS: the page now says €10, but CHECKOUT_URL below is still the old
+// $15 Payment Link. Checkout stays off until it is the new €10 link, so nobody can be
+// charged more than the page advertises. Then set this back to true.
+const CHECKOUT_READY = false;
 // Live Payment Link (live mode — no `test_`). Verify with one real purchase on
 // the live domain before announcing; that is the only check that proves the
 // link, the success redirect and the delivery email all work end to end.
