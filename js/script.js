@@ -137,7 +137,7 @@ const visitSource = captureSource();
 // ── Stripe checkout ──────────────────────────────────────────────────
 // CHECKOUT_URL is your Stripe Payment Link (https://buy.stripe.com/...).
 // Going live — full walkthrough in STRIPE-SETUP.md:
-//   1. Create a €10 Payment Link in Stripe — in TEST mode first.
+//   1. Create a €9.99 Payment Link in Stripe — in TEST mode first.
 //   2. Set its after-payment success URL to  .../thank-you.html?session_id={CHECKOUT_SESSION_ID}
 //   3. Paste the link below, set CHECKOUT_READY = true, redeploy.
 //   4. Pay with test card 4242 4242 4242 4242 and confirm the redirect works.
@@ -145,15 +145,16 @@ const visitSource = captureSource();
 // A Payment Link URL is public and safe to ship in client JS. NEVER put a
 // Stripe SECRET key (sk_live_… / sk_test_…) anywhere in this file.
 const CHECKOUT_READY = true;
-// Live €10 Payment Link, created 2026-09-30 (plink_1ULPwxImD5UPqxzV3QTHTdDZ):
-// EUR 10.00 tax-inclusive, redirects to /thank-you?session_id=…, requires the
+// Live €9.99 Payment Link, created 2026-09-30 (plink_1ULQWlImD5UPqxzVQjjfLeQA):
+// EUR 9.99 tax-inclusive, redirects to /thank-you?session_id=…, requires the
 // terms / 18+ / withdrawal-waiver checkbox, accepts promotion codes.
 //
 // The redirect → webhook → delivery email → R2 download path was proved end to
 // end on 2026-09-22 with a live €1 purchase on a separate test link. THIS link has
 // not had a real purchase yet: make one (and refund it) before announcing.
-// The previous link (…cme8Pv5Ne00) charged €15 and never redirected; it is retired.
-const CHECKOUT_URL = 'https://buy.stripe.com/3cI8wPbHx6FYae63vb5Ne02';
+// Earlier links are retired: …cme8Pv5Ne00 charged €15 and never redirected, and
+// …3vb5Ne02 was the short-lived €10 link.
+const CHECKOUT_URL = 'https://buy.stripe.com/28E6oHh1R1lEeum8Pv5Ne03';
 
 const buyBtn = document.getElementById('buyBtn');
 
