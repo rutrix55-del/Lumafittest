@@ -5,7 +5,7 @@
 // itself for everyone at once — never a per-visitor timer that quietly
 // restarts. Once it passes the bar simply never shows; the price in the buy
 // card is separate and stays whatever index.html says.
-const SALE_ENDS = new Date('2026-10-03T23:59:59Z');
+const SALE_ENDS = new Date('2026-12-31T23:59:59Z');
 
 // Dismissal is per tab (sessionStorage), so a closed bar stays closed while
 // the visitor reads but comes back on their next visit.
