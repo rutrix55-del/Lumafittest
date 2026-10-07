@@ -6,11 +6,12 @@
     <meta name="description" content="LumaFit Terms of Service — who we are, what you're buying, your license, and the rules of use.">
     <meta name="robots" content="index, follow">
     <title>Terms of Service — LumaFit</title>
-    <link rel="icon" href="/favicon.ico" sizes="48x48">
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="css/styles.css?v=2026100701">
+    <link rel="icon" href="/favicon.ico?v=2026100702" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2026100702">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2026100702">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png?v=2026100702">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2026100702">
+    <link rel="stylesheet" href="css/styles.css?v=2026100702">
     <style>
         /* ---------- Legal page layout (scoped, self-contained) ---------- */
         .legal-bar {
@@ -30,7 +31,6 @@
             justify-content: space-between;
             padding: 18px 24px;
         }
-        .legal-bar .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; }
         .legal-back {
             font-size: 0.9rem;
             font-weight: 500;
@@ -131,9 +131,12 @@
         }
 
         .legal-footer {
-            border-top: 1px solid var(--line);
             margin-top: 24px;
-            padding: 40px 24px 56px;
+            padding: 52px 24px 60px;
+            color: rgba(255, 255, 255, 0.72);
+            background:
+                radial-gradient(60% 90% at 50% 0%, rgba(var(--volt-rgb), 0.12), transparent 70%),
+                var(--graphite);
         }
         .legal-footer-inner {
             max-width: 720px;
@@ -144,12 +147,12 @@
             align-items: center;
             gap: 14px;
         }
-        .legal-footer-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.05rem; }
+        .legal-footer-brand img { display: block; height: 44px; width: auto; }
         .legal-footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; font-size: 0.9rem; }
-        .legal-footer-links a { color: var(--ink-soft); transition: color 0.2s ease; }
+        .legal-footer-links a { color: rgba(255, 255, 255, 0.74); transition: color 0.2s ease; }
         .legal-footer-links a:hover,
-        .legal-footer-links a:focus-visible { color: var(--coral-deeper); }
-        .legal-footer-note { font-size: 0.82rem; color: var(--ink-mute); max-width: 540px; line-height: 1.6; }
+        .legal-footer-links a:focus-visible { color: var(--volt); }
+        .legal-footer-note { font-size: 0.82rem; color: rgba(255, 255, 255, 0.55); max-width: 540px; line-height: 1.6; }
 
         @media (max-width: 440px) {
             .legal-bar-inner { padding: 14px 20px; }
@@ -166,9 +169,8 @@
     <!-- Top bar -->
     <header class="legal-bar">
         <div class="legal-bar-inner">
-            <a href="index.html" class="logo">
-                <span class="logo-dot"></span>
-                <span class="logo-text">LumaFit</span>
+            <a href="index.html" class="brand" aria-label="LumaFit home">
+                <img src="assets/brand/logo.webp?v=2026100702" alt="LumaFit" width="640" height="172" decoding="async">
             </a>
             <a href="index.html" class="legal-back">← Back to home</a>
         </div>
@@ -297,8 +299,7 @@
     <footer class="legal-footer">
         <div class="legal-footer-inner">
             <div class="legal-footer-brand">
-                <span class="logo-dot"></span>
-                <span class="logo-text">LumaFit</span>
+                <img src="assets/brand/logo.webp?v=2026100702" alt="LumaFit" width="640" height="172" loading="lazy" decoding="async">
             </div>
             <nav class="legal-footer-links">
                 <a href="index.html" data-cascade>Home</a>

@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Source of assets/og.png, the 1200x630 link-preview image. Re-render after editing:
+     chrome --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1
+            --window-size=1200,630 --virtual-time-budget=10000 --allow-file-access-from-files
+            --screenshot=assets/og.png file:///.../assets/og-source.html -->
+<html lang="en"><head><meta charset="utf-8"><title>LumaFit OG source</title>
+<style>
+@font-face { font-family: 'Fraunces'; font-style: italic; font-weight: 600; src: url(fonts/fraunces-italic-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 900; src: url(fonts/inter-latin.woff2) format('woff2'); }
+html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+body { position: relative; background: #0C0E0D; font-family: Inter, sans-serif; color: #F3F3F2; -webkit-font-smoothing: antialiased; }
+.glow { position: absolute; inset: 0; background:
+    radial-gradient(52% 70% at 50% 34%, rgba(230, 255, 85, 0.20), rgba(230, 255, 85, 0) 70%),
+    radial-gradient(40% 50% at 18% 100%, rgba(79, 227, 166, 0.12), transparent 70%); }
+.grid { position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 60px 60px;
+    -webkit-mask-image: radial-gradient(60% 60% at 50% 45%, #000 30%, transparent 100%); mask-image: radial-gradient(60% 60% at 50% 45%, #000 30%, transparent 100%); }
+.wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 4px; }
+.wrap img { width: 640px; display: block; }
+.tag { margin: 10px 0 0; font-family: Fraunces, serif; font-style: italic; font-weight: 600; font-size: 46px; letter-spacing: -0.01em; line-height: 1.1; }
+.sub { margin: 16px 0 0; font-size: 21px; font-weight: 500; color: rgba(255, 255, 255, 0.62); }
+.url { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center; font-size: 17px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(230, 255, 85, 0.9); }
+.bar { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: linear-gradient(90deg, #E6FF55, #B5F23D 48%, #4FE3A6); }
+</style></head>
+<body>
+<div class="glow"></div><div class="grid"></div>
+<div class="wrap">
+    <img src="brand/logo.webp" alt="LumaFit">
+    <p class="tag">Glow from within.</p>
+    <p class="sub">The 30-day guide to clear skin, clean eating and real confidence</p>
+</div>
+<div class="url">lumafit.org</div>
+<div class="bar"></div>
+</body></html>

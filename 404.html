@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
     <title>Page not found — LumaFit</title>
-    <link rel="icon" href="/favicon.ico" sizes="48x48">
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.ico?v=2026100702" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2026100702">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2026100702">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2026100702">
     <!-- Absolute path: Cloudflare Pages serves this file for any missing URL,
          including nested ones, so relative paths would break. -->
-    <link rel="stylesheet" href="/css/styles.css?v=2026100701">
+    <link rel="stylesheet" href="/css/styles.css?v=2026100702">
     <style>
         .nf-main {
             min-height: 100vh;
@@ -21,15 +22,7 @@
             text-align: center;
         }
         .nf-wrap { position: relative; z-index: 1; max-width: 560px; }
-        .nf-logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 1.15rem;
-            letter-spacing: -0.02em;
-            margin-bottom: 36px;
-        }
+        .nf-logo { margin-bottom: 36px; }
         .nf-code {
             font-family: 'Fraunces', serif;
             font-size: clamp(4rem, 18vw, 7rem);
@@ -69,9 +62,8 @@
 
     <main class="nf-main">
         <div class="nf-wrap">
-            <a href="/" class="nf-logo">
-                <span class="logo-dot"></span>
-                <span class="logo-text">LumaFit</span>
+            <a href="/" class="brand nf-logo" aria-label="LumaFit home">
+                <img src="/assets/brand/logo.webp?v=2026100702" alt="LumaFit" width="640" height="172" decoding="async">
             </a>
             <div class="nf-code" aria-hidden="true">404</div>
             <h1 class="nf-title">That page isn't here.</h1>

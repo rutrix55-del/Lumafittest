@@ -427,29 +427,33 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 14px 12px 22px;
+    padding: 10px 10px 10px 12px;
 }
 
-.logo {
-    display: flex;
+/* ---------- Brand lockup ----------
+   assets/brand/logo.webp is the banner logo with its black ground turned into
+   alpha, so the white wordmark and the neon glow need a dark surface behind
+   them: a graphite pill wherever the page is light (nav, legal bar, thank-you,
+   404), and the graphite footer band itself. */
+.brand {
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
+    flex: none;
+    height: 40px;
+    padding: 0 15px 0 9px;
+    border-radius: 100px;
+    background: var(--grad-ink);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 8px 22px rgba(17, 19, 20, 0.18);
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
 }
 
-/* Volt disc with a graphite rim: on white glass, volt alone is too pale to
-   hold its shape. */
-.logo-dot {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--grad-brand);
-    box-shadow: 0 0 0 2px var(--graphite), 0 0 16px rgba(var(--glow-rgb), 0.6);
-}
+.brand img { display: block; height: 27px; width: auto; }
 
-.logo-text { font-family: 'Fraunces', serif; font-weight: 700; font-style: italic; }
+a.brand:hover,
+a.brand:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 12px 28px rgba(17, 19, 20, 0.22), var(--glow-brand);
+}
 
 /* Sliding-pill nav (ported NavHeader). A gradient "cursor" slides behind the
    hovered/focused tab; see js/nav-cursor.js. */
@@ -2309,9 +2313,12 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 /* ---------- Footer ---------- */
 .footer {
-    padding: 56px 0;
-    border-top: 1px solid var(--line);
     margin-top: 40px;
+    padding: 64px 0 52px;
+    color: rgba(255, 255, 255, 0.72);
+    background:
+        radial-gradient(60% 90% at 50% 0%, rgba(var(--volt-rgb), 0.12), transparent 70%),
+        var(--graphite);
 }
 
 .footer-inner {
@@ -2322,19 +2329,13 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     gap: 16px;
 }
 
-.footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 1.1rem;
-}
+.footer-brand img { display: block; height: 48px; width: auto; }
 
-.footer-note { font-size: 0.9rem; color: var(--ink-on-wave); }
+.footer-note { font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); }
 
 .footer-disc {
     font-size: 0.78rem;
-    color: var(--ink-on-wave);
+    color: rgba(255, 255, 255, 0.5);
     max-width: 520px;
 }
 
@@ -2347,13 +2348,13 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 }
 
 .footer-links a {
-    color: var(--ink-on-wave);
+    color: rgba(255, 255, 255, 0.74);
     font-size: 0.85rem;
     transition: color 0.2s ease;
 }
 
 .footer-links a:hover,
-.footer-links a:focus-visible { color: var(--moss); }
+.footer-links a:focus-visible { color: var(--volt); }
 
 .buy-eligibility {
     max-width: 440px;
@@ -2461,7 +2462,6 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
        static blur alone keeps the look. */
     .bg-blob { animation: none; }
     .bg-blob-3 { display: none; }
-    .mobile-cta { display: flex; }
     body.has-mobile-cta { padding-bottom: 88px; }
     .section { padding: 76px 0; }
     .hero { padding: 60px 0 64px; }
@@ -2478,8 +2478,9 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
 
 @media (max-width: 440px) {
     .nav { top: calc(10px + var(--sale-h)); width: calc(100% - 20px); }
-    .nav-inner { padding: 10px 10px 10px 18px; }
-    .logo { font-size: 1.05rem; }
+    .nav-inner { padding: 8px 8px 8px 9px; }
+    .brand { height: 36px; padding: 0 13px 0 8px; }
+    .brand img { height: 24px; }
     .btn-xl { padding: 18px 24px; font-size: 1rem; }
 }
 
@@ -2659,7 +2660,7 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     right: 12px;
     bottom: 12px;
     z-index: 90;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
@@ -2676,6 +2677,10 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     transition: transform 0.35s ease, opacity 0.35s ease;
 }
 .mobile-cta.is-on { transform: none; opacity: 1; }
+.mobile-cta:not(.is-on) { pointer-events: none; }
+/* Desktop never shows the bar. This sits after the base rule on purpose: the
+   earlier max-width rule used to lose to the base display value by source order. */
+@media (min-width: 721px) { .mobile-cta { display: none; } }
 .mobile-cta-text {
     font-size: 0.92rem;
     font-weight: 700;
@@ -2688,6 +2693,8 @@ body.has-sale { --sale-h: var(--sale-bar-h); }
     font-weight: 500;
     color: var(--ink-mute);
 }
+.mobile-cta-lead { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.mobile-cta-mark { width: 32px; height: 32px; flex: none; }
 .mobile-cta .btn { white-space: nowrap; }
 
 /* ---------- Reduced motion ---------- */
