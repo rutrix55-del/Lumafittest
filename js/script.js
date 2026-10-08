@@ -35,7 +35,7 @@ if (!reduceMotion) {
     revealTargets.forEach(el => io.observe(el));
 }
 
-// The 30-day plan sheet: nine days ticked off, today is day 10.
+// The hero showcase's 30-day grid: nine days ticked off, today is day 10.
 const planGrid = document.querySelector('[data-plan-grid]');
 if (planGrid) {
     for (let day = 1; day <= 30; day++) {
@@ -44,42 +44,6 @@ if (planGrid) {
         if (day < 10) cell.className = 'is-done';
         if (day === 10) cell.className = 'is-today';
         planGrid.appendChild(cell);
-    }
-}
-
-// The hero guide arrives as a flat stack and lifts apart into its layers
-// once it's properly in view; after that the pointer tilts it a little.
-const stack = document.getElementById('stack');
-if (stack) {
-    const liftStack = () => stack.classList.add('is-live');
-
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-        liftStack();
-    } else {
-        const stackIO = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                stackIO.unobserve(entry.target);
-                // hold it flat for a beat so the lift reads as a moment
-                setTimeout(liftStack, 240);
-            });
-        }, { threshold: 0.55 });
-        stackIO.observe(stack);
-
-        const tilt = stack.querySelector('.stack-tilt');
-        if (window.matchMedia('(hover: hover)').matches) {
-            stack.addEventListener('pointermove', (e) => {
-                const r = stack.getBoundingClientRect();
-                const x = (e.clientX - r.left) / r.width - 0.5;
-                const y = (e.clientY - r.top) / r.height - 0.5;
-                tilt.style.setProperty('--tilt-x', `${(-y * 12).toFixed(2)}deg`);
-                tilt.style.setProperty('--tilt-z', `${(x * 14).toFixed(2)}deg`);
-            });
-            stack.addEventListener('pointerleave', () => {
-                tilt.style.removeProperty('--tilt-x');
-                tilt.style.removeProperty('--tilt-z');
-            });
-        }
     }
 }
 
