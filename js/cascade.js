@@ -64,6 +64,10 @@
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return; // leave links as plain, fully readable text
 
+    // It is a hover effect. Touch devices keep the plain links and skip a
+    // compositor layer per character (each span carries will-change).
+    if (window.matchMedia && !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
     var els = document.querySelectorAll("[data-cascade]");
     for (var i = 0; i < els.length; i++) build(els[i]);
   }
