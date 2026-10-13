@@ -725,257 +725,6 @@ a.brand:focus-visible {
     background: none;
 }
 
-/* =========================================================================
-   Compare reveal — before/after slider (js/compare-reveal.js)
-   ========================================================================= */
-.compare-reveal {
-    position: relative;
-    width: 100%;
-    max-width: 880px;
-    margin: 0 auto;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-lg);
-    background: var(--bg-soft);
-    cursor: ew-resize;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: pan-y; /* keep vertical scrolling on touch */
-}
-
-.cr-side {
-    position: absolute;
-    inset: 0;
-}
-
-/* photo variant — portrait crops, so the frame goes portrait too */
-.compare-reveal.cr-photos {
-    aspect-ratio: 4 / 5;
-    max-width: 470px;
-    background: var(--bg-soft);
-}
-
-.cr-photo {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    -webkit-user-drag: none;
-    user-select: none;
-}
-
-.cr-before {
-    will-change: clip-path;
-}
-
-.cr-panel {
-    height: 100%;
-    width: 100%;
-    /* generous top padding so content clears the corner chips */
-    padding: clamp(58px, 7vw, 88px) clamp(26px, 4.4vw, 52px) clamp(26px, 4.4vw, 52px);
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.cr-panel-before {
-    background: linear-gradient(150deg, #F3EBE3 0%, #E8DED4 100%);
-    color: var(--ink-soft);
-}
-
-/* The two sides overlap exactly, so their content must live in opposite
-   halves — otherwise the clipped "before" layer sits straight on top of the
-   "after" copy and hides it. Left panel reads left, right panel reads right. */
-.cr-panel-after {
-    background: var(--grad-brand-deep);
-    color: #fff;
-    align-items: flex-end;
-    text-align: right;
-}
-
-.cr-panel-after .cr-steps {
-    align-items: flex-end;
-}
-
-/* Each side owns half the frame, so its content must never cross the middle
-   — otherwise it collides with the other panel's copy at the divider. */
-.cr-panel > * {
-    /* 50% would sit flush against the divider; the shortfall is the gutter */
-    max-width: min(47%, 360px);
-}
-
-.cr-count {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(2.4rem, 6vw, 3.6rem);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    margin: 10px 0 clamp(14px, 2.4vw, 24px);
-    white-space: nowrap;
-}
-
-.cr-count span {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    opacity: 0.75;
-    margin-left: 6px;
-}
-
-/* the clutter side: many small muted chips */
-.cr-clutter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-}
-
-.cr-clutter li {
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 5px 11px;
-    border-radius: 100px;
-    color: var(--ink-mute);
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(17, 19, 20, 0.08);
-    white-space: nowrap;
-}
-
-/* the routine side: four clean numbered steps */
-.cr-steps {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(7px, 1.2vw, 12px);
-}
-
-.cr-steps li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-    font-weight: 600;
-    padding: clamp(7px, 1.1vw, 11px) 16px;
-    border-radius: 100px;
-    background: rgba(255, 255, 255, 0.17);
-    border: 1px solid rgba(255, 255, 255, 0.26);
-    white-space: nowrap;
-}
-
-.cr-num {
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    opacity: 0.72;
-}
-
-.cr-foot {
-    margin-top: auto;
-    padding-top: 16px;
-    font-size: 0.86rem;
-    font-weight: 600;
-    opacity: 0.8;
-}
-
-/* corner chips */
-.cr-chip {
-    position: absolute;
-    top: 16px;
-    z-index: 8;
-    padding: 6px 13px;
-    border-radius: 100px;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink);
-    background: var(--glass-strong);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    white-space: nowrap;
-}
-
-.cr-chip-left { left: 16px; }
-.cr-chip-right { right: 16px; }
-
-/* the rule carries no semantics — the interactive handle lives inside it,
-   so it must not be aria-hidden */
-.cr-divider {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 10;
-    width: 2px;
-    margin-left: -1px;
-    pointer-events: none;
-    will-change: left;
-    background: linear-gradient(180deg, var(--volt), var(--lime) 55%, var(--spring));
-}
-
-.cr-handle {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: grid;
-    place-items: center;
-    width: 46px;
-    height: 46px;
-    padding: 0;
-    border-radius: 50%;
-    pointer-events: auto;
-    cursor: ew-resize;
-    color: var(--graphite);
-    background: var(--glass-strong);
-    border: 2px solid var(--graphite);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow:
-        0 0 0 6px rgba(var(--volt-rgb), 0.55),
-        0 8px 24px rgba(17, 19, 20, 0.18);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.cr-handle:hover {
-    box-shadow:
-        0 0 0 9px rgba(var(--volt-rgb), 0.6),
-        0 10px 28px rgba(17, 19, 20, 0.22);
-}
-
-.cr-handle:focus-visible {
-    outline: 3px solid var(--graphite);
-    outline-offset: 3px;
-}
-
-.compare-note {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 0.88rem;
-    color: var(--ink-on-wave);
-}
-
-@media (max-width: 720px) {
-    .compare-reveal { aspect-ratio: 4 / 5; }
-    .cr-panel { padding: 46px 15px 18px; }
-    .cr-chip { font-size: 0.58rem; padding: 4px 9px; letter-spacing: 0.08em; top: 10px; }
-    .cr-chip-left { left: 10px; }
-    .cr-chip-right { right: 10px; }
-    .cr-count { font-size: 1.9rem; margin: 6px 0 12px; }
-    .cr-count span { font-size: 0.72rem; margin-left: 4px; }
-    .cr-clutter { gap: 5px; }
-    .cr-clutter li { font-size: 0.64rem; padding: 3px 8px; }
-    .cr-steps { gap: 6px; }
-    .cr-steps li { font-size: 0.76rem; gap: 7px; padding: 6px 10px; }
-    .cr-num { font-size: 0.58rem; }
-    .cr-foot { font-size: 0.68rem; padding-top: 10px; }
-    .cr-handle { width: 38px; height: 38px; }
-}
-
 /* The mantra: the three-beat line people actually repeat. Weight, size and
    full-strength ink separate it from the explanation below, and the negative
    tracking is what stops Inter reading as a default UI font. */
@@ -1021,12 +770,15 @@ a.brand:focus-visible {
 
 /* =========================================================================
    Hero showcase (index.html #show, js/hero-show.js)
-   One glass card, three frames that swap on a timer: the result (the before
-   and after photos side by side, an arrow pointing at the after), the guide
-   (the food list page, week one ticked off) and the system (the tracker
-   page, day 10 of 30). Every frame sits in the same grid cell, so the card
-   is as tall as its tallest frame and never jumps while swapping. The
-   .sheet / .sh-* page mockups further down are the Look-inside slideshow's.
+   One card, three frames that move on by themselves: the result (the
+   before and after photos side by side, a hand-drawn arrow pointing at
+   the after), the guide (the food list page, week one ticked off) and the
+   system (the tracker page, day 10 of 30). Every frame sits in the same
+   grid cell, so the card is as tall as its tallest frame and never jumps.
+   Each part of a frame animates on its own, staggered, so a swap reads as
+   content moving on rather than a slide changing; the photos and pages
+   drift very slowly while they're up. The .sheet / .sh-* page mockups
+   further down are the Look-inside slideshow's.
    ========================================================================= */
 .hero-visual {
     display: flex;
@@ -1037,35 +789,47 @@ a.brand:focus-visible {
 .show {
     position: relative;
     width: min(620px, 100%);
-    padding: 26px 26px 16px;
+    padding: 28px 28px 18px;
     border-radius: var(--radius-lg);
-    background: var(--glass-strong);
+    background: rgba(255, 255, 255, 0.8);
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     text-align: center;
 }
 
 .show-frames { display: grid; }
 
-/* All frames share one cell; the inactive ones fade out and leave the
-   accessibility tree and tab order (visibility), after the fade. */
+/* Only the active frame and the one on its way out are rendered; the rest
+   are out of sight, the accessibility tree and the tab order. */
 .show-frame {
     grid-area: 1 / 1;
     display: grid;
     gap: 18px;
-    opacity: 0;
     visibility: hidden;
-    transform: translateY(10px);
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s linear 0.5s;
+    pointer-events: none;
 }
 
-.show-frame.is-active {
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s, visibility 0s;
+.show-frame.is-active { visibility: visible; pointer-events: auto; }
+.show-frame.is-leaving { visibility: visible; }
+
+/* The parts (text, stage, note) rise in one after the other, and lift out
+   the same way; an outgoing frame overlaps the incoming one for a beat. */
+.show-frame > * { opacity: 0; }
+.show-frame.is-active > * { animation: show-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.show-frame.is-active > :nth-child(2) { animation-delay: 0.1s; }
+.show-frame.is-active > :nth-child(3) { animation-delay: 0.2s; }
+.show-frame.is-leaving > * { animation: show-out 0.4s cubic-bezier(0.4, 0, 0.6, 1) both; }
+.show-frame.is-leaving > :nth-child(2) { animation-delay: 0.05s; }
+.show-frame.is-leaving > :nth-child(3) { animation-delay: 0.1s; }
+@keyframes show-in {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes show-out {
+    from { opacity: 1; transform: none; }
+    to { opacity: 0; transform: translateY(-14px); }
 }
 
 .show-kicker {
@@ -1103,25 +867,33 @@ a.brand:focus-visible {
     position: relative;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    border-radius: var(--radius-md);
-    background:
-        radial-gradient(60% 55% at 72% 18%, rgba(var(--volt-rgb), 0.38), transparent 70%),
-        var(--bg-soft);
+    border-radius: 22px;
+    background: linear-gradient(180deg, #F0F0EF 0%, #E4E5E3 100%);
+    box-shadow: inset 0 0 0 1px rgba(17, 19, 20, 0.05);
 }
 
 .show-note {
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     line-height: 1.45;
     color: var(--ink-mute);
 }
 
+/* While a page frame is up, its page scrolls very slowly for the length of
+   the interval; a hold pauses it with the timer. */
+.show.is-paused .page img { animation-play-state: paused; }
+
 /* ---------- Frame 1: before → after ---------- */
+/* The one stage that keeps the volt glow. The photos sit either side of a
+   hand-drawn arrow that draws itself toward the after, which then pops. */
 .show-proof {
     display: grid;
     grid-template-columns: 1fr minmax(64px, 0.42fr) 1fr;
     align-items: center;
     gap: 6px;
     padding: 6%;
+    background:
+        radial-gradient(60% 55% at 72% 18%, rgba(var(--volt-rgb), 0.38), transparent 70%),
+        var(--bg-soft);
 }
 
 .proof {
@@ -1201,12 +973,15 @@ a.brand:focus-visible {
     color: var(--ink-soft);
 }
 
-/* The arrow draws itself and the after pops, each time the frame comes in. */
+/* The arrow draws itself and the after pops, each time the frame comes in;
+   on the way out they hold their finished state under the frame's fade. */
 .proof-arrow-line { stroke-dasharray: 120; stroke-dashoffset: 120; }
 .proof-arrow-head { opacity: 0; }
-.show-frame.is-active .proof-arrow-line { animation: arrow-draw 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s forwards; }
-.show-frame.is-active .proof-arrow-head { animation: arrow-head 0.25s ease 0.9s forwards; }
-.show-frame.is-active .proof-after { animation: proof-pop 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.7s both; }
+.show-frame.is-active .proof-arrow-line { animation: arrow-draw 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s forwards; }
+.show-frame.is-active .proof-arrow-head { animation: arrow-head 0.25s ease 1s forwards; }
+.show-frame.is-active .proof-after { animation: proof-pop 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.8s both; }
+.show-frame.is-leaving .proof-arrow-line { stroke-dashoffset: 0; }
+.show-frame.is-leaving .proof-arrow-head { opacity: 1; }
 @keyframes arrow-draw { to { stroke-dashoffset: 0; } }
 @keyframes arrow-head { to { opacity: 1; } }
 @keyframes proof-pop {
@@ -1214,21 +989,21 @@ a.brand:focus-visible {
     to { transform: scale(1.04); }
 }
 
-/* ---------- Frames 2 and 3: a real page, with a card over it ---------- */
+/* ---------- Frames 2 and 3: a real page, with a card beside it ---------- */
 /* The page is taller than the stage on purpose: the readable top shows, the
-   pre-blurred bottom (baked into the file) is what gets cropped. */
+   pre-blurred bottom (baked into the file) is what gets cropped, and the
+   slow drift scrolls a little more of it into view. */
 .page {
     position: absolute;
     left: 5%;
-    top: 7%;
-    width: 56%;
+    top: 6%;
+    width: 50%;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 8px;
     background: #fff;
     box-shadow:
-        0 18px 40px -16px rgba(17, 19, 20, 0.38),
+        0 24px 48px -20px rgba(17, 19, 20, 0.45),
         0 0 0 1px rgba(17, 19, 20, 0.06);
-    transform: rotate(-2.5deg);
 }
 
 .page picture,
@@ -1238,10 +1013,16 @@ a.brand:focus-visible {
     height: auto;
 }
 
+.show-frame.is-active .page img { animation: page-drift var(--show-ms, 4000ms) linear both; }
+@keyframes page-drift {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5%); }
+}
+
 .page-tag {
     position: absolute;
-    left: 12px;
-    bottom: 12px;
+    left: 5%;
+    bottom: 6%;
     padding: 5px 10px;
     border-radius: 100px;
     font-size: 0.62rem;
@@ -1249,23 +1030,23 @@ a.brand:focus-visible {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     white-space: nowrap;
-    color: var(--volt);
-    background: var(--graphite);
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 2px 8px rgba(17, 19, 20, 0.12);
 }
 
 .show-card {
     position: absolute;
     right: 5%;
-    bottom: 8%;
-    width: 50%;
-    padding: 13px 15px 12px;
+    top: 50%;
+    width: 47%;
+    padding: 14px 16px 12px;
     border-radius: 16px;
     text-align: left;
-    background: var(--glass-strong);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-md);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: #fff;
+    border: 1px solid rgba(17, 19, 20, 0.06);
+    box-shadow: 0 22px 44px -18px rgba(17, 19, 20, 0.4);
+    transform: translateY(-50%);
 }
 
 .show-card-head {
@@ -1274,23 +1055,31 @@ a.brand:focus-visible {
     align-items: baseline;
     gap: 8px;
     margin-bottom: 8px;
-    font-size: 0.62rem;
+}
+
+.show-card-head b {
+    font-size: 0.8rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+}
+
+.show-card-head span {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-mute);
 }
-
-.show-card-head b { font-size: 0.72rem; color: var(--ink); }
 
 /* week one: the day numbers are the point, so they stay numbers */
 .week-list li {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     padding: 6px 0;
     border-top: 1px solid var(--line);
-    font-size: 0.76rem;
+    font-size: 0.75rem;
     font-weight: 600;
     line-height: 1.25;
     color: var(--ink-soft);
@@ -1344,29 +1133,28 @@ a.brand:focus-visible {
 .show-foot {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 18px;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .show-tabs {
     display: flex;
     flex: 1;
-    gap: 8px;
+    gap: 10px;
 }
 
 .show-tabs button {
     flex: 1;
     display: grid;
-    gap: 7px;
-    padding: 6px 2px 0;
-    border-radius: 8px;
+    gap: 8px;
+    padding: 4px 2px 0;
+    border-radius: 6px;
     background: none;
-    font-size: 0.64rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
     color: var(--ink-mute);
-    transition: color 0.2s ease;
+    transition: color 0.25s ease;
 }
 
 .show-tabs button:hover,
@@ -1375,10 +1163,10 @@ a.brand:focus-visible {
 .show-tabs i {
     position: relative;
     display: block;
-    height: 3px;
+    height: 2px;
     overflow: hidden;
     border-radius: 2px;
-    background: rgba(17, 19, 20, 0.16);
+    background: rgba(17, 19, 20, 0.12);
 }
 
 .show-tabs i::after {
@@ -1390,7 +1178,7 @@ a.brand:focus-visible {
 }
 
 .show-tabs .is-done i::after { width: 100%; }
-.show-tabs .is-active i::after { animation: show-fill var(--show-ms, 3600ms) linear forwards; }
+.show-tabs .is-active i::after { animation: show-fill var(--show-ms, 4000ms) linear forwards; }
 .show.is-paused .show-tabs .is-active i::after { animation-play-state: paused; }
 @keyframes show-fill { from { width: 0; } to { width: 100%; } }
 
@@ -1398,18 +1186,20 @@ a.brand:focus-visible {
     flex: none;
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    color: var(--ink);
-    background: var(--glass-strong);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-sm);
+    background: none;
+    color: var(--ink-mute);
+    opacity: 0.7;
+    transition: opacity 0.2s ease, background 0.2s ease;
 }
 
+.show-pause:hover { opacity: 1; background: rgba(17, 19, 20, 0.06); }
+
 .show-pause svg {
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
     fill: none;
     stroke: currentColor;
     stroke-width: 2.6;
@@ -1426,34 +1216,32 @@ a.brand:focus-visible {
     .show {
         padding: 20px 16px 12px;
         border-radius: var(--radius-md);
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.92);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
     }
     .show-frame { gap: 14px; }
     .show-title { font-size: clamp(1.35rem, 6.4vw, 1.75rem); }
-    .show-stage { aspect-ratio: 4 / 3; border-radius: 18px; }
+    .show-stage { aspect-ratio: 1; border-radius: 16px; }
     .show-note { font-size: 0.78rem; }
     .show-proof { grid-template-columns: 1fr 46px 1fr; gap: 4px; padding: 4%; }
     .proof { border-radius: 12px; }
     .proof figcaption { left: 6px; bottom: 6px; padding: 4px 8px; font-size: 0.56rem; letter-spacing: 0.08em; }
     .proof-arrow span { font-size: 0.54rem; letter-spacing: 0.08em; }
-    .page { width: 62%; left: 4%; }
-    /* the card sits low and wide here, so the tag moves up out of its way
-       and the head keeps only its title */
-    .page-tag { left: 10px; top: 10px; bottom: auto; font-size: 0.56rem; }
-    .show-card { right: 4%; bottom: 6%; width: 60%; padding: 11px 12px 10px; border-radius: 14px; }
-    .show-card-head { font-size: 0.56rem; margin-bottom: 6px; }
-    .show-card-head span { display: none; }
-    .show-card-head b { font-size: 0.64rem; }
-    .week-list li { gap: 6px; padding: 5px 0; font-size: 0.68rem; }
-    .week-list i { width: 17px; height: 17px; font-size: 0.54rem; }
-    .show-grid { gap: 3px; }
-    .show-grid i { font-size: 0.52rem; border-radius: 5px; }
-    .show-foot { gap: 10px; margin-top: 14px; }
+    /* the tag gets the top band to itself, the page sits centred under it,
+       and the card runs full width along the bottom */
+    .page { left: 13%; top: 13%; width: 74%; }
+    .page-tag { left: 4%; top: 4%; bottom: auto; font-size: 0.54rem; letter-spacing: 0.08em; }
+    .show-card { left: 4%; right: 4%; top: auto; bottom: 4%; width: auto; padding: 11px 13px 10px; border-radius: 14px; transform: none; }
+    .show-card-head b { font-size: 0.74rem; }
+    .show-card-head span { font-size: 0.56rem; }
+    .week-list li { gap: 8px; padding: 5px 0; font-size: 0.7rem; }
+    .week-list i { width: 18px; height: 18px; font-size: 0.56rem; }
+    .show-grid { grid-template-columns: repeat(10, 1fr); gap: 3px; }
+    .show-grid i { font-size: 0.54rem; border-radius: 5px; }
+    .show-foot { gap: 8px; margin-top: 14px; }
     .show-tabs { gap: 6px; }
-    .show-tabs button { font-size: 0.56rem; letter-spacing: 0.06em; gap: 6px; }
-    .show-pause { width: 30px; height: 30px; }
+    .show-tabs button { gap: 6px; font-size: 0.66rem; }
 }
 
 /* =========================================================================
@@ -2219,65 +2007,6 @@ a.brand:focus-visible {
 
 .benefit p { color: var(--ink-soft); line-height: 1.6; }
 
-/* ---------- For who ---------- */
-.for-who-card {
-    background: var(--glass-strong);
-    border-radius: var(--radius-lg);
-    padding: 56px;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    max-width: 760px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-}
-
-.for-who-card::before {
-    content: '';
-    position: absolute;
-    top: -40%; right: -20%;
-    width: 320px; height: 320px;
-    background: var(--grad-brand);
-    opacity: 0.12;
-    filter: blur(60px);
-    border-radius: 50%;
-}
-
-.for-who-card .section-title { text-align: center; margin-bottom: 36px; position: relative; }
-
-.check-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    position: relative;
-}
-
-.check-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    font-size: 1.05rem;
-    color: var(--ink-soft);
-}
-
-.check-list li::before {
-    content: '';
-    flex-shrink: 0;
-    width: 26px;
-    height: 26px;
-    margin-top: 3px;
-    border-radius: 50%;
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111314' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"),
-        var(--grad-fresh);
-    background-size: 14px 14px, cover;
-    background-position: center, center;
-    background-repeat: no-repeat;
-    box-shadow: 0 6px 14px -4px rgba(var(--fresh-rgb), 0.55);
-}
-
 /* ---------- Testimonials ----------
    A responsive card grid. Flexbox rather than Grid for one specific reason:
    five cards at three-per-row leaves a remainder row of two, and
@@ -2400,9 +2129,9 @@ a.brand:focus-visible {
     gap: 7px;
 }
 
-/* The same badge the .check-list bullets use — gradient disc, graphite tick, no
-   extra markup — at the size a name line can carry. Shrunk to 17px the stroke
-   needs to come up a little to survive, hence 3.6 against the list's 3.2. */
+/* A verified badge — gradient disc, graphite tick, no extra markup — at the
+   size a name line can carry. At 17px the stroke needs to come up a little
+   to survive, hence 3.6. */
 .t-name::after {
     content: '';
     flex-shrink: 0;
@@ -2763,7 +2492,6 @@ a.brand:focus-visible {
         gap: 26px;
         padding: 30px 24px;
     }
-    .for-who-card { padding: 40px 26px; }
     .buy-inner { padding: 48px 28px; }
     .section-head { margin-bottom: 48px; }
 }
@@ -2929,17 +2657,26 @@ a.brand:focus-visible {
 /* Wider screens: the stage stays phone-sized, arrows flank it. */
 @media (min-width: 720px) {
     .look { max-width: none; }
-    .look-wrap { grid-template-columns: 52px minmax(0, 440px) 52px; justify-content: center; gap: 22px; }
+    .look-wrap { grid-template-columns: 56px minmax(0, 440px) 56px; justify-content: center; gap: 22px; }
+    /* Graphite discs with a volt chevron, like the primary button: the old
+       white-glass discs vanished against the light waves. */
     .look-arrow {
         display: grid; place-items: center;
-        width: 52px; height: 52px; border-radius: 50%;
-        background: var(--glass-strong); border: 1px solid var(--glass-border);
-        box-shadow: var(--shadow-sm);
-        transition: transform 0.2s ease, opacity 0.2s ease;
+        width: 56px; height: 56px; border-radius: 50%;
+        background: var(--graphite); border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow:
+            0 12px 26px -10px rgba(17, 19, 20, 0.5),
+            0 0 0 3px rgba(var(--volt-rgb), 0.4);
+        transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
     }
-    .look-arrow svg { width: 20px; height: 20px; stroke: var(--ink); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-    .look-arrow:hover { transform: scale(1.06); }
-    .look.is-first [data-look-prev], .look.is-last [data-look-next] { opacity: 0.35; pointer-events: none; }
+    .look-arrow svg { width: 22px; height: 22px; stroke: var(--volt); fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    .look-arrow:hover {
+        transform: scale(1.08);
+        box-shadow:
+            0 16px 32px -10px rgba(17, 19, 20, 0.55),
+            0 0 0 5px rgba(var(--volt-rgb), 0.55);
+    }
+    .look.is-first [data-look-prev], .look.is-last [data-look-next] { opacity: 0.3; pointer-events: none; }
 }
 
 /* ---------- Mobile sticky CTA ----------

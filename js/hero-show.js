@@ -1,13 +1,15 @@
 // LumaFit — hero showcase (index.html #show).
 //
-// Three frames that swap on a timer: the result (before and after), the
-// guide (the food list, week one), the system (the tracker). The first frame
-// is active in the markup and the others share its grid cell, so the hero
-// paints without this file. This adds the swapping, the segmented progress
-// bar under the tab labels, the pause button, and the holds: a finger down
-// on the card or a keyboard-focused control keeps the current frame up. It
-// only runs while the card is on screen and the tab is visible, loops, and
-// never auto-advances for reduced-motion users (the tabs still work).
+// Three frames that move on by themselves: the result (before and after),
+// the guide (the food list, week one), the system (the tracker). The first
+// frame is active in the markup and the others share its grid cell, so the
+// hero paints without this file. This adds the swapping (the outgoing frame
+// is marked is-leaving for the length of its exit animation, so the two
+// overlap for a beat), the progress bars under the tab labels, the pause
+// button, and the holds: a finger down on the card or a keyboard-focused
+// control keeps the current frame up. It only runs while the card is on
+// screen and the tab is visible, loops, and never auto-advances for
+// reduced-motion users (the tabs still work).
 (() => {
     const root = document.getElementById('show');
     if (!root) return;
@@ -16,12 +18,14 @@
     const pauseBtn = root.querySelector('[data-show-pause]');
     if (frames.length < 2 || tabs.length !== frames.length) return;
 
-    const interval = parseInt(root.dataset.interval, 10) || 3600;
+    const interval = parseInt(root.dataset.interval, 10) || 4000;
+    const LEAVE_MS = 650; // a little longer than the exit animation in styles.css
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     root.style.setProperty('--show-ms', interval + 'ms');
 
     let index = Math.max(0, frames.findIndex((f) => f.classList.contains('is-active')));
     let timer = 0;
+    let leaveTimer = 0;
     let inView = false;
     let held = false;      // a finger down on the card, or a control focused by keyboard
     let stopped = reduce;  // the pause button; always on under reduced motion
@@ -57,7 +61,15 @@
     }
 
     function go(i) {
-        index = (i + frames.length) % frames.length;
+        const next = (i + frames.length) % frames.length;
+        if (next !== index) {
+            const leaving = frames[index];
+            frames.forEach((f) => f.classList.remove('is-leaving'));
+            leaving.classList.add('is-leaving');
+            clearTimeout(leaveTimer);
+            leaveTimer = setTimeout(() => leaving.classList.remove('is-leaving'), LEAVE_MS);
+            index = next;
+        }
         schedule();
     }
 

@@ -17,7 +17,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 // so the first paint never waits for this script to run.
 const revealTargets = document.querySelectorAll(
     '.problem-card, .problem-lead, .inside-card, .benefit, ' +
-    '.for-who-card, .testimonial, .buy-card, .faq-item'
+    '.testimonial, .buy-card, .faq-item'
 );
 
 if (!reduceMotion) {
