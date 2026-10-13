@@ -6,10 +6,16 @@
 // hero paints without this file. This adds the swapping (the outgoing frame
 // is marked is-leaving for the length of its exit animation, so the two
 // overlap for a beat), the progress bars under the tab labels, the pause
-// button, and the holds: a finger down on the card or a keyboard-focused
-// control keeps the current frame up. It only runs while the card is on
-// screen and the tab is visible, loops, and never auto-advances for
-// reduced-motion users (the tabs still work).
+// button and the stage buttons.
+//
+// The clock only ever restarts when a frame changes. Everything else is a
+// freeze in place: scrolling the card off screen, hiding the tab, the pause
+// button and keyboard focus on a control all stop the clock where it is and
+// let it carry on from there, with the bar frozen alongside (styles.css
+// pauses the fill under .is-paused). A finger on the card does nothing, so
+// a swipe never touches the timeline. Pressing a stage shows that frame and
+// stops the auto-advance; the pause button becomes play and resumes it.
+// Reduced-motion users never auto-advance (the stages still work).
 (() => {
     const root = document.getElementById('show');
     if (!root) return;
@@ -27,8 +33,11 @@
     let timer = 0;
     let leaveTimer = 0;
     let inView = false;
-    let held = false;      // a finger down on the card, or a control focused by keyboard
-    let stopped = reduce;  // the pause button; always on under reduced motion
+    let held = false;         // a control focused by keyboard
+    let stopped = reduce;     // the pause button or a stage press; always on under reduced motion
+    let remaining = interval; // ms left on the current frame's clock
+    let startedAt = 0;        // wall time the clock last started (fallback accounting only)
+    let running = false;
 
     const playing = () => !stopped && !held && inView && !document.hidden;
 
@@ -43,23 +52,46 @@
         root.classList.toggle('is-paused', !playing());
     }
 
-    // The fill animation lives on the active tab's bar, so dropping and
-    // re-adding the class is what restarts it from zero, in step with the timer.
-    function restartFill() {
+    // How far the active tab's bar has got, in ms of the interval, read from
+    // the fill animation itself. The bar is the one source of truth for
+    // progress: a CSS animation starts on the next rendered frame, not when
+    // the class lands, so a wall clock would run ahead of it.
+    function shown() {
+        const bar = tabs[index].querySelector('i');
+        if (!bar || !bar.getAnimations) return null;
+        const a = bar.getAnimations({ subtree: true }).find((x) => x.animationName === 'show-fill');
+        const p = a && a.effect.getComputedTiming().progress;
+        return p == null ? null : p * interval;
+    }
+
+    // Start the active tab's fill from the clock's position: a fresh animation
+    // (the class is dropped and re-added) with a negative delay equal to the
+    // time already spent, so a resume carries on exactly where the bar froze.
+    function startFill() {
+        root.style.setProperty('--show-offset', (remaining - interval) + 'ms');
         const tab = tabs[index];
         tab.classList.remove('is-active');
         void tab.offsetWidth;
         tab.classList.add('is-active');
     }
 
-    function schedule() {
-        clearTimeout(timer);
+    // Run the clock if we may, else freeze it where the bar is.
+    function sync() {
         paint();
-        if (!playing()) return;
-        restartFill();
-        timer = setTimeout(() => go(index + 1), interval);
+        if (playing() && !running) {
+            startFill();
+            running = true;
+            startedAt = performance.now();
+            timer = setTimeout(() => go(index + 1), remaining);
+        } else if (!playing() && running) {
+            running = false;
+            clearTimeout(timer);
+            const done = shown();
+            remaining = Math.max(0, done == null ? remaining - (performance.now() - startedAt) : interval - done);
+        }
     }
 
+    // A frame change: the clock and the bar start over.
     function go(i) {
         const next = (i + frames.length) % frames.length;
         if (next !== index) {
@@ -70,47 +102,48 @@
             leaveTimer = setTimeout(() => leaving.classList.remove('is-leaving'), LEAVE_MS);
             index = next;
         }
-        schedule();
+        clearTimeout(timer);
+        running = false;
+        remaining = interval;
+        root.style.setProperty('--show-offset', '0ms'); // a paused new tab shows an empty bar
+        sync();
     }
 
-    tabs.forEach((t, i) => t.addEventListener('click', () => go(i)));
+    function setStopped(on) {
+        stopped = on;
+        if (!pauseBtn) return;
+        pauseBtn.setAttribute('aria-pressed', String(on));
+        pauseBtn.setAttribute('aria-label', on ? 'Play' : 'Pause');
+    }
+
+    // A stage press is the one deliberate stop: show that frame and hold it.
+    tabs.forEach((t, i) => t.addEventListener('click', () => { setStopped(true); go(i); }));
 
     if (pauseBtn) {
         if (reduce) pauseBtn.hidden = true;
-        pauseBtn.addEventListener('click', () => {
-            stopped = !stopped;
-            pauseBtn.setAttribute('aria-pressed', String(stopped));
-            pauseBtn.setAttribute('aria-label', stopped ? 'Play' : 'Pause');
-            schedule();
-        });
+        pauseBtn.addEventListener('click', () => { setStopped(!stopped); sync(); });
     }
 
-    // A finger on the card holds the frame; lifting it lets the timer run again.
-    const hold = () => { held = true; schedule(); };
-    const release = () => { held = false; schedule(); };
-    const touchOnly = (fn) => (e) => { if (e.pointerType !== 'mouse') fn(); };
-    root.addEventListener('pointerdown', touchOnly(hold), { passive: true });
-    root.addEventListener('pointerup', touchOnly(release), { passive: true });
-    root.addEventListener('pointercancel', touchOnly(release), { passive: true });
-
-    // Keyboard focus holds too, so a tab or the pause button can be read and
-    // used; a mouse click's focus does not, or "play" could never resume.
+    // Keyboard focus freezes the clock so a control can be read and used; a
+    // mouse click's focus does not, or "play" could never resume.
     root.addEventListener('focusin', (e) => {
-        if (e.target.matches && e.target.matches(':focus-visible')) hold();
+        if (e.target.matches && e.target.matches(':focus-visible')) { held = true; sync(); }
     });
-    root.addEventListener('focusout', release);
+    root.addEventListener('focusout', () => { held = false; sync(); });
 
-    // Only play while the card is actually on screen and the tab is visible.
+    // Run while a fair part of the card is on screen and the tab is visible.
+    // A quarter is enough: on a phone the card starts below the fold, and it
+    // should already be moving by the time the eye reaches it.
     if ('IntersectionObserver' in window) {
         new IntersectionObserver((entries) => {
             inView = entries.some((e) => e.isIntersecting);
-            schedule();
-        }, { threshold: 0.5 }).observe(root);
+            sync();
+        }, { threshold: 0.25 }).observe(root);
     } else {
         inView = true;
-        schedule();
+        sync();
     }
-    document.addEventListener('visibilitychange', schedule);
+    document.addEventListener('visibilitychange', sync);
 
     paint();
 })();

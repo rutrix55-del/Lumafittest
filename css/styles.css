@@ -1209,7 +1209,10 @@ a.brand:focus-visible {
 }
 
 .show-tabs .is-done i::after { transform: scaleX(1); }
-.show-tabs .is-active i::after { animation: show-fill var(--show-ms, 4000ms) linear forwards; }
+.show-tabs .is-active i::after {
+    animation: show-fill var(--show-ms, 4000ms) linear forwards;
+    animation-delay: var(--show-offset, 0ms); /* negative on a resume: hero-show.js restarts the fill from the clock */
+}
 .show.is-paused .show-tabs .is-active i::after { animation-play-state: paused; }
 @keyframes show-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
