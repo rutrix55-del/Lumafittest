@@ -132,13 +132,13 @@
     root.addEventListener('focusout', () => { held = false; sync(); });
 
     // Run while a fair part of the card is on screen and the tab is visible.
-    // A quarter is enough: on a phone the card starts below the fold, and it
+    // A fifth is enough: on a phone the card starts below the fold, and it
     // should already be moving by the time the eye reaches it.
     if ('IntersectionObserver' in window) {
         new IntersectionObserver((entries) => {
             inView = entries.some((e) => e.isIntersecting);
             sync();
-        }, { threshold: 0.25 }).observe(root);
+        }, { threshold: 0.2 }).observe(root);
     } else {
         inView = true;
         sync();

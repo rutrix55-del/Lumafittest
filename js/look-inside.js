@@ -2,10 +2,14 @@
 //
 // Native horizontal scroll with snap does the swiping, so it works without
 // this file. This adds the photo-mode feel: a segmented progress bar, a page
-// counter, arrows for mouse users, and auto-advance that starts when the
-// slideshow scrolls into view, pauses while a finger is down, keeps going
-// after a manual swipe, and stops on the last page (the offer) instead of
-// looping. Reduced-motion users get no auto-advance at all.
+// counter, arrows (beside the stage on wide screens, under it on phones),
+// and auto-advance that starts when the slideshow scrolls into view, pauses
+// while a finger is down, keeps going after a manual swipe, and stops on the
+// last page (the offer) instead of looping. Two hints that the pages go
+// sideways: the pages nudge once, a peek at page two, when the show first
+// comes into view (is-nudging, styles.css), and the cover's "swipe" pill
+// stays until the first page change (has-moved). Reduced-motion users get
+// no auto-advance and no nudge.
 (() => {
     const root = document.getElementById('look');
     if (!root) return;
@@ -51,6 +55,7 @@
 
     function go(i, smooth = true) {
         i = Math.max(0, Math.min(slides.length - 1, i));
+        settle();
         clearTimeout(programmatic);
         programmatic = setTimeout(() => { programmatic = 0; }, 800);
         track.scrollTo({ left: i * track.clientWidth, behavior: smooth && !reduce ? 'smooth' : 'auto' });
@@ -75,13 +80,28 @@
             const i = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
             if (i === index) return;
             index = i;
+            settle();
+            root.classList.add('has-moved');
             if (index < slides.length - 1) ended = false; // swiping back re-arms auto-advance
             schedule();
         });
     }, { passive: true });
 
+    // One nudge of the pages the first time the show is in view on the cover.
+    // Any page move cancels it (a finger down, an arrow, the auto-advance):
+    // the moved slides shift the snap points, and a scroll that ends while
+    // they are still moving snaps back to where it started.
+    let nudged = reduce;
+    function nudge() {
+        if (nudged || index !== 0) return;
+        nudged = true;
+        root.classList.add('is-nudging');
+    }
+    function settle() { nudged = true; root.classList.remove('is-nudging'); }
+    track.addEventListener('animationend', (e) => { if (e.animationName === 'look-nudge') root.classList.remove('is-nudging'); });
+
     // A finger on the slideshow holds it; lifting it lets the timer run again.
-    const hold = () => { root.classList.add('is-paused'); clearTimeout(timer); paint(); };
+    const hold = () => { root.classList.add('is-paused'); settle(); clearTimeout(timer); paint(); };
     const release = () => { root.classList.remove('is-paused'); schedule(); };
     track.addEventListener('pointerdown', hold, { passive: true });
     track.addEventListener('pointerup', release, { passive: true });
@@ -94,6 +114,7 @@
     if ('IntersectionObserver' in window) {
         new IntersectionObserver((entries) => {
             inView = entries.some((e) => e.isIntersecting);
+            if (inView) nudge();
             schedule();
         }, { threshold: 0.6 }).observe(root);
     } else {
